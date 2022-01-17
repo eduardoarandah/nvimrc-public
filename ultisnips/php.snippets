@@ -1,0 +1,1505 @@
+extends html
+
+snippet php "PHP <?php ?>" i
+<?php $0 ?>
+endsnippet
+
+snippet fun "PHP Function" i
+function $1($2){
+	$0
+}
+endsnippet
+
+snippet ddd "Dump and die"
+echo "<pre>";
+var_export(\$${1:this});
+echo "</pre>";
+die();
+endsnippet
+
+snippet kv "key=>value" i
+'${1}' => ${2},$0
+endsnippet
+
+snippet st "Strip Tags"
+\$${1:var} = strip_tags($0, '<strong><br>');
+endsnippet
+
+snippet pad "String padding" i
+str_pad($1, 2, '0', STR_PAD_LEFT);
+endsnippet
+
+###############
+#  Wordpress  #
+###############
+
+snippet bodyclass "Add class to body"
+add_filter('body_class', function (\$classes) {
+	return array_merge(\$classes, array('${1:class}'));
+});
+endsnippet
+
+snippet wpenqueuescripts "Wordpress enqueue scripts/styles"
+function ${1:namespace}_register_scripts()
+{
+	// scripts
+	// get_template_directory_uri()
+	\$script_url = plugins_url('dist/bundle.js', __FILE__);
+	wp_enqueue_script('$1', \$script_url, [], '0.1.0', true);
+
+	// sage 
+	wp_enqueue_script('sage/app.js', asset('scripts/app.js')->uri(), ['jquery'], null, true);
+
+	// styles
+	\$style_url = plugins_url('dist/styles.css', __FILE__);
+	wp_enqueue_style('$1', \$style_url, [], '0.1.0', 'screen');
+
+	// sage
+	wp_enqueue_style('sage/app.css', asset('styles/app.css')->uri(), false, null);
+
+
+	// localize
+	wp_localize_script('sage/app.js', 'globalSettings', [
+			'ajaxUrl' => admin_url('admin-ajax.php'),
+	]);
+}
+
+add_action('wp_enqueue_scripts', '$1_register_scripts');
+endsnippet
+
+snippet wplocalizescript "Wordpress localize scripts"
+function ${1:namespace}_register_scripts()
+{
+	// localize
+	wp_localize_script('sage/app.js', 'globalSettings', [
+			'ajaxUrl' => admin_url('admin-ajax.php'),
+	]);
+}
+add_action('wp_enqueue_scripts', '$1_register_scripts');
+endsnippet
+
+snippet wpquerysimple "Wordpress query, post object" 
+// https://developer.wordpress.org/reference/classes/wp_query/ 
+\$query_args = [
+	'post_type'     => 'post',
+	'posts_per_page'=> '-1',
+	'cat'=>\$cat,
+	'tag_id'=>\$tag,
+	'meta_query'    =>[
+		'relation'      =>'and',
+		[
+			'key'           =>'event_date',
+			'value'         =>'2018-01-01',
+			'compare'       =>'>',
+		],
+	],
+	//order by meta
+	'meta_key'      => 'event_date',
+	'orderby'       => 'meta_value',
+	'order'         => 'ASC'
+];
+\$the_query = new \WP_Query(\$query_args);
+
+
+\$posts = []; 
+\$blog_default_image = get_field('blog_default_image', 'option');
+foreach (\$the_query->posts as \$post) {
+
+	// image
+	\$image = get_the_post_thumbnail(\$post, 'thumbnail', [ 'class' => 'w-full' ]);
+	if (empty(\$image) && !empty(\$blog_default_image)) {
+		\$image = wp_get_attachment_image( \$blog_default_image['id'], 'thumbnail', false, ['class' => 'w-full']);
+	}
+
+	\$posts[] = [
+		'id'=>\$post->ID,
+		'title' => \$post->post_title,
+		'image'=>\$image, 
+		'author'=>\$post->post_author;
+		'date'=>\$post->post_date;
+		'content'=>\$post->post_content;
+		'excerpt'=>\$post->post_excerpt;
+	];
+}
+endsnippet
+
+snippet wpquery "Wordpress Query"
+
+\$number=get_field('number') ?? -1;
+\$cat=get_field('cat');
+\$tag=get_field('tag');
+
+// The Query
+\$the_query = new WP_Query([
+	'post_type'     => 'post',
+	'posts_per_page'=>$number,
+	'cat'=>\$cat,
+	'tag_id'=>\$tag,
+	'meta_query'    =>[
+		'relation'      =>'and',
+		[
+			'key'           =>'event_date',
+			'value'         =>'2018-01-01',
+			'compare'       =>'>',
+		],
+
+		"relation" => "and",
+		[
+				"key" => "video",
+				"value" => "",
+				"compare" => "!=", // checar que campo exista
+		],
+	],
+	//order by meta
+	'meta_key'      => 'event_date',
+	'orderby'       => 'meta_value',
+	'order'         => 'ASC'
+]);
+
+// The Loop
+\$posts=[];
+if (\$the_query->have_posts()) {
+
+	\$blog_default_image = get_field('blog_default_image', 'option');
+
+	while (\$the_query->have_posts()) {
+		\$the_query->the_post();
+
+		// Image
+		\$image=get_the_post_thumbnail(null, '${1:thumbnail}', ['class'=>'img-fluid']);
+		if (empty(\$image) && !empty(\$blog_default_image)) {
+			\$image='<img src="'.\$blog_default_image['sizes']['$1'].'" alt="'.\$blog_default_image['alt'].'" class="img-fluid"/>';
+		}
+
+		\$posts[]=[
+			'image'=>\$image,
+			'title'=>get_the_title(),
+			'date'=>get_the_date(),
+			'datetime'=>get_post_time('c', true),
+			'link'=>get_the_permalink(),
+			//'event_date'=>get_field('event_date', get_the_ID()) , //ACF
+
+		];
+	}
+	wp_reset_postdata();
+}
+
+// Debug SQL
+//echo \$the_query->request;
+
+@if (!empty(\$posts))
+<div class="{{ \$ns }}__posts">
+@foreach (\$posts as \$post)
+@php
+extract(\$post);
+@endphp
+	<div class="{{ \$ns }}__post">
+			<div class="{{ \$ns }}__image">
+				<a href="{!! \$link !!}">
+					{!! \$image !!}
+				</a>
+			</div>
+			<h3 class="{{ \$ns }}__title">
+				<a href="{!! \$link !!}">
+					{!! \$title !!}
+				</a>
+			</h3>
+		<time class="{{ \$ns }}__date" datetime="{!! \$datetime !!}">{!! \$date !!}</time>
+	</div>
+@endforeach
+</div>
+@endif
+
+'posts'=>$posts,
+
+endsnippet
+
+snippet wpfilter "Add wordpress filter"
+function $1_$2( \$var1 ) {
+	return \$var1;
+}
+add_filter( '${1:filter}', '${2:action}' );
+endsnippet
+
+#########
+#  ACF  #
+#########
+
+snippet acff "ACF Function"
+public function ${1:name}() {
+	return get_field('$1');
+}
+endsnippet
+
+snippet acffo "ACF Function Option"
+public function option_${1:name}() {
+	return get_field('$1', 'option');
+}
+endsnippet
+
+snippet acfblock "ACF Block"
+<?php
+add_action('acf/init', function () {
+  if (function_exists('acf_register_block')) {
+    acf_register_block([
+      'name' => '${1:block-name}',
+      'title' => __('${2:block title}', 'sage'),
+      'category' => 'sections',
+      'icon' => 'screenoptions',
+      'render_callback' => function (\$block) { 
+        // sage 9:echo \App\template('blocks.${1:block-name}', [
+        echo Roots\view('blocks.${1:block-name}', [ 
+          'class' => \$block['className'] ?? '',
+          'header' => get_field('header'),
+          'text' => get_field('text'),
+          'image' => get_field('image'),
+        ]);
+      },
+    ]);
+  }
+});
+endsnippet
+
+snippet gf "ACF Get Field" i
+get_field('${1}')
+endsnippet
+
+snippet gfa "ACF Get Field, assign" i
+$1 = get_field('${1}');
+endsnippet
+
+snippet gfo "ACF Get Field Option" i
+get_field('${1}','option')
+endsnippet
+
+snippet gfoa "ACF Get Field Option assign" i
+$1 = get_field('${1}','option');
+endsnippet
+
+
+
+snippet acffielddescription "Acf Field description"
+// types: wysiwyg
+if (function_exists('acf_add_local_field_group')) {
+  acf_add_local_field_group([
+    'key' => 'group_$1',
+    'title' => 'Block $1',
+    'fields' => [
+      [
+        'key' => 'field_$1-title',
+        'label' => 'Title',
+        'name' => 'title',
+        'type' => 'text',
+        'instructions' => '',
+        'required' => 0,
+        'default_value' => '',
+        'placeholder' => '',
+      ],
+      [
+        'key' => 'field_$1-text',
+        'label' => 'Text',
+        'name' => 'text',
+        'type' => 'wysiwyg',
+        'instructions' => '',
+        'required' => 0,
+        'default_value' => '',
+        'placeholder' => '',
+      ],
+    ],
+    'location' => [
+      [
+        [
+          'param' => 'block',
+          'operator' => '==',
+          'value' => 'acf/$1',
+        ],
+      ],
+    ],
+  ]);
+}
+endsnippet
+
+snippet wpimg "Wordpress Image with fallback"
+// Image with fallback
+\$image=get_the_post_thumbnail(\$${1:post}->ID, '${1:thumbnail}', ['class'=>'img-fluid']);
+if (empty(\$image)) {
+	\$default_$1_image = get_field('default_$1_image', 'option');
+	if (\$default_$1_image) {
+		\$image='<img src="'.\$default_$1_image['sizes']['$1'].'" alt="'.\$default_$1_image['alt'].'" class="img-fluid"/>';
+	}
+}
+endsnippet
+
+snippet wpimgfromid "Image from image id"
+wp_get_attachment_image(\$image['id'], 'full', false, ['class' => 'w-full h-auto']) 
+endsnippet
+
+snippet acfrepeat "ACF Repeat"
+// Repeater field
+\$$1=[];
+while (have_rows('${1:items}')) {
+	the_row();
+	\$$1[]=[
+	'${3:title}' => get_sub_field('$3'),
+	];
+}
+
+'$1' => \$$1,${0}
+
+endsnippet
+
+snippet fore "Foreach"
+foreach(\$$1 as \$$2){
+	$0 
+} 
+endsnippet
+
+###############
+#  Gutenberg  #
+###############
+
+snippet gut "Gutenberg block"
+<?php
+add_action('acf/init', function () {
+	if (function_exists('acf_register_block')) {
+		\$ns='${1:block-name}';
+		acf_register_block([
+			'name'              => \$ns,
+			'title'             => __('`!p snip.rv = t[1].replace("-"," ").title()`', 'sage'),
+			'category'          => 'sections',
+			'icon'              => 'screenoptions',
+			'render_callback'   => function (\$block) use (\$ns) {
+				echo \App\template("blocks.\$ns", [
+
+					// Block atts
+					'class'           => \$block['className'] ?? "",
+					'ns'              => \$ns,
+
+					// Fields
+					'header'            => get_field('header'),
+					'text'              => get_field('text'),
+					'link'              => get_field('link'),
+					'image'             => get_field('image'),
+
+				]);
+			}
+		]);
+	}
+});
+endsnippet
+
+###########
+#  Sage9  #
+###########
+
+snippet sgmenu "Sage Menu"
+public function ${1:footer_menu}() {
+	if (!has_nav_menu('$1')) {
+		return null;
+	}
+	$args = [
+		'theme_location' => '$1',
+		'echo'           => false,
+		'menu_class'     => 'navbar-nav',
+		'walker'         => new wp_bootstrap4_navwalker(),
+	];
+	return wp_nav_menu($args);
+}
+
+{{-- navigation --}}
+@if (\$$1)
+<nav class="navbar navbar-expand-lg navbar-dark">
+	<div class="{{ $ns }}__menu `!p snip.rv = t[1].replace("_","-")` collapse navbar-collapse justify-content-end animated fadeIn">
+		{!! \$$1 !!}
+	</div>
+</nav>
+@endif
+{{-- navigation --}}
+endsnippet
+
+snippet funpar "Function partial"
+public function ${1:partial_name}()
+{
+	return \App\template("partials/$1", [
+		'${2:var}' => \$$2,
+	]);
+}
+endsnippet
+snippet acfwidget "Widget ACF"
+<?php
+class `!p snip.rv = t[1].replace("-","_")` extends WP_Widget {
+
+	function __construct() {
+		// Instantiate the parent object
+		parent::__construct( false, '`!p snip.rv = t[1].replace("-"," ").title()`' );
+	}
+
+	// Output
+	function widget( \$args, \$instance ) {
+		// Widget ID for ACF
+		if ( ! isset( \$args['widget_id'] ) ) {
+			\$args['widget_id'] = \$this->id;
+		}
+		\$widget_id = 'widget_' . \$args['widget_id'];
+		\$title= get_field('title',\$widget_id);
+		if(\$title){
+			\$title=\$args['before_title']. htmlspecialchars($title).\$args['after_title'];
+		}
+
+		@if (!empty(\$title))
+			{!! \$title !!}
+		@endif
+
+		echo \$args['before_widget'];
+		echo \App\template("partials/$1", [
+			'ns'=>'${1:widget-name}',
+			'title'=>\$title,
+		]);
+		echo \$args['after_widget'];
+	}
+
+	function update( \$new_instance, \$old_instance ) {
+		// Save widget options
+	}
+
+	function form( \$instance ) {
+		// Output admin widget options form
+	}
+}
+
+add_action( 'widgets_init',function () {
+	register_widget( '`!p snip.rv = t[1].replace("-","_")`' );
+} );
+
+endsnippet
+
+snippet __ "Translation"
+__('$1', 'sage9')
+endsnippet
+
+snippet log "PHP log to file"
+file_put_contents(__DIR__."/log.txt", print_r($1, true), FILE_APPEND);
+endsnippet
+
+#################
+#  acf builder  #
+#################
+
+snippet acfbi "ACF builder image"
+->addImage('$1',[
+	'label' => esc_html__('`!p snip.rv = t[1].replace("_"," ").title()`','sage'),
+	'default_value' => '',
+])
+endsnippet
+
+snippet acfbt "ACF builder text"
+->addText('$1',[
+	'label' => esc_html__('`!p snip.rv = t[1].replace("_"," ").title()`','sage'),
+	'default_value' => '',
+])
+endsnippet
+
+snippet acfbn "ACF builder number"
+->addNumber('$1',[
+	'label' => esc_html__('`!p snip.rv = t[1].replace("_"," ").title()`','sage'),
+	'default_value' => 6,
+])
+endsnippet
+
+snippet acfbl "ACF builder link"
+->addLink('$1',[
+	'label' => esc_html__('`!p snip.rv = t[1].replace("_"," ").title()`','sage'),
+])
+endsnippet
+
+snippet acfbw "ACF builder wyswig"
+->addWysiwyg('$1',[
+	'label' => esc_html__('`!p snip.rv = t[1].replace("_"," ").title()`','sage'),
+	'media_upload' => 0,
+	'default_value' => '',
+])
+endsnippet
+
+snippet acfbs "ACF builder select"
+->addSelect('$1')
+->addChoice('$2--normal','Normal')
+endsnippet
+
+snippet acfbtab "ACF builder tab"
+->addTab('$1',[
+	'label' => esc_html__('`!p snip.rv = t[1].replace("_"," ").title()`','sage'),
+])
+endsnippet
+
+snippet acfbg "ACF builder group"
+->addGroup('$1', [
+	'label' => esc_html__('`!p snip.rv = t[1].replace("_"," ").title()`','sage'),
+])
+$0
+->endGroup();
+endsnippet
+
+snippet acfbr "ACF builder repeater"
+->addRepeater('$1',[
+	'label' => esc_html__('`!p snip.rv = t[1].replace("_"," ").title()`','sage'),
+	'layout' => 'row',
+])
+$0
+->endRepeater()
+endsnippet
+
+###############
+#  wordpress  #
+###############
+
+snippet wpaction "wordpress action hook"
+add_action(
+    '$1', // hook_name
+    function(){
+        echo '<div class="dummy">$0</div>';
+    },
+    10, // priority (lower first)
+    1 // accepted args in function
+);
+endsnippet
+
+snippet wpfilter "wordpress filter"
+// https://developer.wordpress.org/reference/functions/add_filter/
+add_filter('$1', function () {
+return $0
+}, 10);
+endsnippet
+
+#############
+#  laravel  #
+#############
+
+snippet cachegetstore "Description"
+Cache::remember("$2", ${3:60}, fn() => $1);
+// use Illuminate\Support\Facades\Cache;
+endsnippet
+
+snippet belongsTo "Laravel model relation belongs to"
+public function ${1:model}()
+{
+	return \$this->belongsTo(App\\$2\\::class);
+}
+endsnippet
+
+snippet hasMany "Laravel model relation has many"
+public function ${1:model}s()
+{
+	return \$this->hasMany(App\\$2\\::class);
+}
+endsnippet
+
+snippet migraupdate "Migration update"
+Schema::table('$1', function (Blueprint \$table) {
+		\$table->$2('$3');
+});
+endsnippet
+
+snippet migraprimarykey "Schema:primarykey"
+\$table->id();
+endsnippet
+
+snippet migraforeignkey "Schema:foreign key"
+\$table->unsignedBigInteger('${1:table}_id');
+\$table->foreign('$1_id')->references('id')->on('$1')->onDelete('cascade');
+endsnippet
+
+snippet migrainteger "Schema:integer"
+\$table->integer('${1:name}')${2:->nullable()};
+endsnippet
+
+snippet migrastring "Schema:string"
+\$table->string('${1:name}')${2:->nullable()};
+endsnippet
+
+snippet migratext "Schema:text"
+\$table->text('${1:name}')${2:->nullable()};
+endsnippet
+
+snippet migrahemamodify "Schema modify"
+Schema::table('$1', function (Blueprint \$table) {
+    \$table->string('email');
+}); 
+endsnippet
+
+snippet migradrop "Migration drop table"
+Schema::drop('$1')
+endsnippet
+
+snippet mutator "Model: mutator"
+public function set`!p snip.rv = t[1].replace("_"," ").title().replace(" ","")`Attribute($value)
+{
+		\$this->attributes['${1:field_name}'] = \$value;
+}
+endsnippet
+
+snippet roget "Route::get"
+Route::get('${1:name}', '`!p snip.rv = t[1].replace("/"," ").replace("-"," ").replace("{","").replace("}"," ").title().replace(" ","")`Controller@index')->name('`!p snip.rv = t[1].replace("/",".").replace("{","").replace("}"," ")`');
+endsnippet
+
+snippet routeresource "Route::resource"
+Route::resource('$1', '$2Controller')->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+
+Route::get('$1', '$2Controller@index')->name('$1.index');
+Route::get('$1/create', '$2Controller@create')->name('$1.create');
+Route::post('$1', '$2Controller@store')->name('$1.store');
+Route::get('$1/{$1}', '$2Controller@show')->name('$1.show');
+Route::get('$1/{$1}/edit', '$2Controller@edit')->name('$1.edit');
+Route::put('$1/{$1}', '$2Controller@update')->name('$1.update');
+Route::delete('$1/{$1}', '$2Controller@destroy')->name('$1.destroy');
+endsnippet
+
+##############
+#  backpack  #
+##############
+
+snippet bkstring "Backpack String"
+[
+		'name' => '${1:field_name}',
+		'label' => '`!p snip.rv = t[1].replace("_"," ").title()`',
+		'type' => 'text'
+],
+endsnippet
+snippet bkselect "Backpack: select"
+[
+'label' => "`!p snip.rv = t[1].replace("_"," ").title()`",
+'type' => "select",
+'entity' => '${1:entity}',
+'name' => '$1_id',
+'attribute' => "name",
+'model' => "App\\`!p snip.rv = t[1].replace("_"," ").title().replace(" ","")`",
+],
+endsnippet
+snippet bkdate "Backpack Date"
+[
+		'name' => '${1:field_name}',
+		'label' => '`!p snip.rv = t[1].replace("_"," ").title()`',
+		'type' => 'date'
+],
+endsnippet
+
+snippet bknumber "Backpack Number"
+[
+	'name' => '${1:field_name}',
+	'label' => '`!p snip.rv = t[1].replace("_"," ").title()`',
+	'type' => 'number',
+	// optionals
+	// 'attributes' => ["step" => "any"], // allow decimals
+	// 'prefix' => "$",
+	// 'suffix' => ".00",
+],
+
+endsnippet
+
+snippet bkcheck "Backpack Checkbox"
+[
+	'name' => '${1:field_name}',
+	'label' => '`!p snip.rv = t[1].replace("_"," ").title()`',
+	'type' => 'checkbox'
+],
+endsnippet
+
+snippet bkradio "Backpack Radio"
+[
+	'name'        => '${1:field_name}',
+	'label'       => '`!p snip.rv = t[1].replace("_"," ").title()`',
+	'type'        => 'radio',
+	'options'     => [
+			0 => "Draft",
+			1 => "Published"
+	],
+	'inline'      => false,
+]
+endsnippet
+
+snippet bktextarea "Backpack Textarea"
+[
+	'name'        => '${1:field_name}',
+	'label'       => '`!p snip.rv = t[1].replace("_"," ").title()`',
+	'type' => 'textarea'
+],
+endsnippet
+
+snippet atr "Constructor attribute"
+public \$${1:name};
+\$$1,
+\$this->$1=\$$1;
+endsnippet
+
+snippet returnview "Return view"
+return view('$1', compact('$2'));
+endsnippet
+
+snippet returnredirect "Return redirect"
+return redirect()->route('$1')->with(['flash' => '$2']); 
+endsnippet
+
+snippet constructorargs "Constructor args"
+public \$$1;
+\$$1
+\$this->$1 = \$$1;
+endsnippet
+
+snippet constructor "Constructor"
+public function __construct($0)
+{ 
+
+} 
+endsnippet
+
+snippet rein "request->input" i
+\$request->input("$1")
+endsnippet
+
+snippet routegroup "Route Group" 
+Route::group(
+		[
+		'prefix' => 'v1',
+		'middleware' => ['auth:api'],
+		],
+		function () {
+		$0
+		}
+);
+endsnippet
+
+snippet res "Laravel resource"
+Route::resource('$1','$2Controller')->only($0); 
+endsnippet
+
+snippet fun "Function"
+function($1){
+	$0;
+} 
+endsnippet
+
+snippet scope "Laravel scope" b
+public function scopeActive($query){
+	return $query->where('status', '1');
+} 
+endsnippet
+	
+
+snippet validationcustom "Custom validation rule"
+function ($attribute, $value, $fail) {
+	if ($value === 'foo') {
+		$fail($attribute.' is invalid.');
+	}
+}, 
+endsnippet
+
+snippet modelaccessor "Laravel field accesor"
+public function get$1Attribute()
+{
+	return \$this->$0;
+} 
+endsnippet
+
+snippet validatorrequest "Custom validator in request"
+public function getValidatorInstance()
+{
+// get route params
+\$raffle = \$this->route()->parameter('raffle');
+	return parent::getValidatorInstance()
+		->after(function (\$validator) {
+				\$validator->errors()->add('dates', "You can't do that");
+				});
+} 
+endsnippet
+snippet validatorfield "Custom field validator"
+function (\$attribute, \$value, \$fail) {
+	if (\$value <= \$this->input('start')) {
+		\$fail(\$attribute . ' is invalid.');
+	}
+},
+endsnippet
+
+snippet dbquery "Database raw query" 
+\$start = new Carbon('first day of last month');
+\$end = new Carbon('last day of this month');
+\$query = "select
+month(fecha) as mes,
+	sum(abono)-sum(cargo) as cantidad
+	from movimiento
+	where
+	year(fecha)= :anio
+group by month(fecha)
+	order by month(fecha)";
+
+\$results = DB::select(DB::raw(\$query), array(
+		'start' => \$start->toDateString(),
+		'end' => \$end->toDateString(),
+			)); 
+
+dd(\$results);
+endsnippet
+
+snippet configsettings "Config snippet" i
+config('settings.$1','$2') 
+endsnippet
+
+snippet validatorcustom "Validator custom"
+use Illuminate\Support\Facades\Validator;
+\$data = Validator::make($request->all(), [
+'email' => ['required', 'email:rfc,dns', 'max:255', 'unique:users,id,' . $this->route('user')->id],
+])->validate(); 
+endsnippet 
+
+snippet crudcontroller "Controller crud functions" 
+
+namespace App\Http\Controllers\\$3;
+
+use App\Http\Controllers\Controller;
+use App\\${1:Model};
+use Exception;
+use Illuminate\Http\Request;
+
+class $1Controller extends Controller
+{
+
+	public function index()
+	{
+		\$$2s = $1::paginate(25);
+		return view('$4.$2.index', compact('$2s'));
+	}
+
+	public function create()
+	{
+		return view('$4.$2.create');
+	}
+
+	public function show(\$id)
+	{
+		\$$2 = $1::findOrFail(\$id);
+		return view('$4.$2.show', compact('$2'));
+	}
+
+	public function edit(\$id)
+	{
+		\$$2 = $1::findOrFail(\$id);
+		return view('$4.$2.edit', compact('$2'));
+	}
+
+	public function store(Request \$request)
+	{
+		\$data = \$request->validate([ ]);
+
+		try {
+			$1::create(\$data);
+			return redirect()->route('$4.$2.index')->with('success', '$1 saved');
+		} catch (Exception \$exception) {
+			return back()->withInput()->withErrors(['error' => 'There was an error while processing your request']);
+		}
+	}
+
+	public function update(\$id, Request \$request)
+	{
+		\$data = \$request->validate([ ]);
+
+		\$$2 = $1::findOrFail(\$id);
+		try {
+			\$$2->update(\$data);
+			return redirect()->route('$4.$2.index')
+				->with('success', '$1 saved');
+		} catch (Exception \$exception) {
+			return back()->withInput()->withErrors(['error' => 'There was an error while processing your request']);
+		}
+	}
+
+	public function destroy(\$id)
+	{
+		\$$2 = $1::findOrFail(\$id);
+		try {
+			\$$2->delete();
+			return redirect()->route('$4.$2.index')->with('success', '$1 deleted');
+		} catch (Exception \$exception) {
+			return back()->withInput()->withErrors(['error' => 'There was an error while processing your request']);
+		}
+	} 
+
+}
+endsnippet
+
+snippet validaterequest "Request validation" 
+use App\Rules\PhoneNumber;
+use Illuminate\Validation\Rule;
+
+\$data = \$request->validate([
+	'name' => ['required', 'string', 'max:255'],
+	'email' => [
+		'required', 'email:rfc,dns', 'max:255', 'email' => 'not_regex:/\+/i',
+		Rule::unique('users')->ignore(\$request->route('id'))
+	],
+	'phone' => [
+		'required', new PhoneNumber,
+
+		Rule::unique('users')->ignore(\$request->route('id'))
+	],
+	'password' => ['nullable', 'string', 'min:8'],
+]);
+
+endsnippet
+
+snippet composersage "Sage Composer"
+<?php
+
+namespace App\View\Composers;
+
+use Roots\Acorn\View\Composer;
+
+class $1 extends Composer
+{
+	protected static \$views = ['$2'];
+
+	public function with()
+	{
+		return [
+			'$3' => get_field('$3','option'),
+		];
+	}
+}
+
+
+endsnippet
+
+snippet wpshortcode "Wordpress shortcode"
+function $1_shortcode()
+{
+	\$out = 'Hello world';
+	return \$out;
+}
+add_shortcode('$1', '$1_shortcode');
+
+
+endsnippet
+
+snippet cachetagflush "Cache tag flush"
+Cache::tags([$1])->flush();
+endsnippet
+
+snippet wpplugin "wordpress plugin scaffold"
+<?php
+/**
+ * Plugin Name: 
+ * Plugin URI: PLUGIN SITE HERE
+ * Description: 
+ * Author: 
+ * Text Domain: 
+ * Domain Path: /languages
+ * Version: 0.1
+ *
+ */
+
+// version
+function the_plugin_version()
+{
+	return '0.1';
+}
+
+// include
+include_once __DIR__ . '/api-endpoints.php';
+
+endsnippet
+
+
+snippet wpapiendpoint "Wordpress api endpoint"
+<?php
+
+// search /wp-json/boat-api/v1/search
+function boat_api_search(WP_REST_Request \$request)
+{
+    \$param1 = \$request->get_param("param1");
+
+    // query database
+    global \$wpdb;
+    \$table_name = \$wpdb->prefix . "posts";
+
+    \$query = \$wpdb->prepare("select * from \$table_name");
+    \$results = \$wpdb->get_results(\$query);
+    if (count(\$results)) {
+        return count(\$results);
+    }
+    return 0;
+}
+
+add_action("rest_api_init", function () {
+    register_rest_route("boat-api/v1", "/search", [
+        "methods" => "GET",
+        "callback" => "boat_api_search",
+    ]);
+});
+endsnippet
+
+snippet putest "PHPUnit test"
+<?php
+use PHPUnit\Framework\TestCase;
+
+class $1 extends TestCase
+{
+    function test$2()
+    {
+        \$this->assertTrue(true);
+    }
+}
+endsnippet
+
+snippet debug-shell "Psy Debug shell"
+eval(\Psy\sh());
+endsnippet
+
+snippet wprestendpoint "Wordpress rest endpoint"
+function the_callback(WP_REST_Request \$request)
+{
+    \$page = \$request->get_param("page");
+    if (empty(\$page)) {
+        return "Error: Missing page parameter";
+    }
+    return "ok";
+}
+
+// https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/
+add_action("rest_api_init", function () {
+		// curl http://seanet.localhost/wp-json/the-rest-endpoint/v1/endpoint?page=1
+    register_rest_route("the-rest-endpoint/v1", "/endpoint", [
+        "methods" => "GET",
+        "callback" => "the_callback",
+        "permission_callback" => "__return_true",
+    ]);
+});
+endsnippet
+
+snippet fn "arrow function" i
+fn($1)=>$2
+endsnippet
+
+snippet psf "Public static function"
+public static function $1(){
+	$0
+}
+endsnippet
+
+snippet pf "Public function"
+public function $1(){
+	$0
+}
+endsnippet
+
+snippet wordpresswidget "Wordpress widget"
+<?php
+
+namespace App;
+
+class WidgetTest extends \WP_Widget
+{
+    function __construct()
+    {
+        parent::__construct(
+            "the-id", // Base ID
+            "The name", // Name
+            [
+                "description" => "the description",
+            ]
+        );
+    }
+
+    public function form(\$instance)
+    {
+        echo \Roots\view("widgets/widget-test-form", [
+            "field1" => [
+                "id" => \$this->get_field_id("field1"),
+                "name" => \$this->get_field_name("field1"),
+                "value" => \$instance["field1"] ?? "default",
+            ],
+        ])->render();
+    }
+
+    public function update(\$new_instance, \$old_instance)
+    {
+        \$instance = [];
+        \$instance["field1"] = !empty(\$new_instance["field1"])
+            ? sanitize_text_field(\$new_instance["field1"])
+            : "";
+        return \$instance;
+    }
+
+    public function widget(\$args, \$instance)
+    {
+        \$field1 = \$instance["field1"];
+        echo \Roots\view("widgets/widget-test", [
+            "field1" => \$field1,
+        ])->render();
+    }
+}
+
+add_action("widgets_init", function () {
+    register_widget("App\WidgetTest");
+});
+endsnippet
+
+snippet backpacklist "Backpack list methods"
+\$this->crud->with(["user", "complex"]);
+\$this->crud->orderBy("complex_title");
+\$this->crud->removeButton("show");
+// simple filter
+\$this->crud->addFilter(
+		[
+				"type" => "text",
+				"name" => "user_id",
+				"label" => "User ID",
+		],
+		false,
+		function (\$value) {
+				// if the filter is active
+				\$this->crud->addClause("where", "user_id", "=", \$value);
+		}
+);
+endsnippet
+
+snippet backpackcolumnrelation "Relationship in column"
+CRUD::column("complex_id")
+->type("select")
+->name("complex_id")
+->label("Complex")
+->entity("complex")
+->attribute("complex_title")
+->model(Complex::class);
+endsnippet
+
+snippet backpackfieldrelation "Relationship in field"
+CRUD::field("complex_id")
+->type("select2")
+->name("complex_id")
+->label("Complex")
+->entity("complex")
+	->attribute("complex_title")
+->model(Complex::class)
+	->options(function (\$query) {
+			return \$query->orderBy("complex_title")->get();
+			});
+endsnippet
+
+snippet backpackradio "backpack radio field"
+CRUD::field("status")
+->type("radio")
+->options([
+		"1" => "Active",
+		"0" => "Inactive",
+])
+endsnippet
+
+snippet backpackarray "backpack array field"
+CRUD::field("has_been_verified")
+		->type("select_from_array")
+		->options([
+				"verified" => "verified",
+				"NOT VERIFIED" => "NOT VERIFIED",
+		]);
+endsnippet
+
+snippet testhttp "http test"
+    public function test_$1()
+    {
+        \$user = User::factory()->create([
+            "role" => "user",
+        ]);
+        \$this->actingAs(\$user);
+        \$response = \$this->get(route("$2"));
+        \$response->assertStatus($3);
+    }
+endsnippet
+
+snippet wptransient "Description"
+	\$$1 = $3;
+if (false === (\$$1 = get_transient("$1_$2"))) {
+
+	$0
+
+	/* MINUTE_IN_SECONDS  = 60 (seconds) */
+	/* HOUR_IN_SECONDS    = 60 * MINUTE_IN_SECONDS */
+	/* DAY_IN_SECONDS     = 24 * HOUR_IN_SECONDS */
+	/* WEEK_IN_SECONDS    = 7 * DAY_IN_SECONDS */
+	/* MONTH_IN_SECONDS   = 30 * DAY_IN_SECONDS */
+	/* YEAR_IN_SECONDS    = 365 * DAY_IN_SECONDS */
+	set_transient('$1_$2', \$$1, MINUTE_IN_SECONDS);
+}
+return \$$1;
+endsnippet
+
+snippet wpenqueuescript "Enqueue script"
+add_action('wp_enqueue_scripts', function () {
+		wp_enqueue_script( 
+				'name', // name
+				asset('scripts/customizer.js')->uri(), // url
+				['jquery'], // dependencies
+				null, // version
+				true // in footer
+				);
+	});
+endsnippet
+
+snippet wpenqueuesstyle "Enqueue style"
+add_action('wp_enqueue_scripts', function () {
+		wp_enqueue_style( 
+				'name', // name
+				asset('scripts/customizer.js')->uri(), // url
+				[], // dependencies
+				null, // version
+				'screen', // media
+				);
+	});
+endsnippet
+
+snippet wpsageview "sage roots view"
+<?php echo \Roots\view('$1')->render()?>
+endsnippet
+
+snippet wpdbquery "Custom wordpress query" 
+global \$wpdb;
+\$prefix = \$wpdb->base_prefix;
+\$query = \$wpdb->prepare(
+		"select * from {\$prefix}user_notifications where user_receieve_id = %d order by ID desc",
+		\$user_id
+		);
+\$results = \$wpdb->get_results(\$query);
+endsnippet
+
+snippet wpajax "ajax request"
+// in plugins, 
+// https://codex.wordpress.org/AJAX_in_Plugins
+function $1()
+{
+	$name = $_POST["name"] ?? "????";
+	ob_clean(); // clear any debug messages 
+	wp_send_json([ "hello" => $name ]);
+	wp_die();
+}
+
+add_action("wp_ajax_$1", "$1");
+add_action("wp_ajax_nopriv_$1", "$1");
+
+jQuery.post(
+		// localized global variable
+		// globalSettings.ajaxUrl, 
+    '/wp-admin/admin-ajax.php',
+		{
+			'action': '$1',
+			'name':   'world'
+		}, 
+		function(res) {
+			console.log(res);
+		}
+);
+
+endsnippet
+
+snippet d "div" i
+<div class="$1">$0</div>
+endsnippet
+
+snippet sagelog "Sage log"
+\Illuminate\Support\Facades\Log::debug($0);
+endsnippet
+
+snippet wpcreatetable "create table"
+<?php
+
+// https://codex.wordpress.org/Creating_Tables_with_Plugins
+
+global \$$1_db_version;
+\$$1_db_version = "1.0";
+
+function $1_install()
+{
+	global \$wpdb;
+	global \$$1_db_version;
+
+	\$installed_ver = get_option("$1_db_version");
+
+	if (\$installed_ver != \$$1_db_version) {
+		\$table = \$wpdb->prefix . "$2";
+
+		\$sql = "CREATE TABLE \$table (
+		id mediumint(9) NOT NULL AUTO_INCREMENT,
+		fecha datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		nombre tinytext NOT NULL,
+		contenido text NOT NULL,
+		PRIMARY KEY  (id)
+	);";
+
+		require_once ABSPATH . "wp-admin/includes/upgrade.php";
+
+		// note: delta only alters/add columns, doesn't remove
+		dbDelta(\$sql);
+
+		update_option("$1_db_version", \$$1_db_version);
+	}
+}
+
+function $1_install_data()
+{
+	global \$wpdb;
+	\$wpdb->insert(\$wpdb->prefix . "$2", [
+		"time" => current_time("mysql"),
+		"name" => "hello",
+		"text" => "world",
+	]);
+}
+
+register_activation_hook(
+	plugin_dir_path(__DIR__ . "..") . "$1-formulario-cv.php",
+	"$1_install"
+);
+register_activation_hook(
+	plugin_dir_path(__DIR__ . "..") . "$1-formulario-cv.php",
+	"$1_install_data"
+);
+endsnippet
+
+snippet wpclicommand "Description" b
+// only in console
+if (!class_exists("WP_CLI")) {
+    return;
+}
+
+// import one or many boats
+WP_CLI::add_command(
+    "$1",
+    function (array \$args) {
+        foreach (\$args as \$arg) {
+            echo "import \$arg...\n";
+            BoatService::importOne(\$arg);
+        }
+    },
+    [
+        "shortdesc" => "Import by DocumentID, example: import 1 2 3 4",
+    ]
+);
+
+
+endsnippet
+
+snippet wpinsert "Wordpress insert in custom table"
+global \$wpdb;
+\$prefix = \$wpdb->base_prefix;
+\$wpdb->insert("{\$prefix}prefix_cv", [
+		"fecha" => date("Y-m-d H:i:s", time()),
+		"nombre" => \$form["nombre"],
+]);
+endsnippet
+
+snippet wpaddmenupage "Wordpress add menu page"
+// https://developer.wordpress.org/reference/functions/add_menu_page/
+
+
+add_action("admin_menu", function () {
+		add_menu_page(
+				"Page title", // page_title
+				"Page title", // menu_title
+				"edit_users", // capability
+				"menu-slug", // menu_slug
+				"$1", // function
+				"", // icon url
+				null // position
+				);
+		});
+
+function $1()
+{
+	echo "<div class='wrap'><h1>prefix CV</h1></div>";
+}
+endsnippet
+
+snippet wpdbgetresults "wordpress db get results select"
+global \$wpdb;
+\$prefix = \$wpdb->base_prefix;
+\$query = \$wpdb->prepare("SELECT * FROM {\$prefix}prefix_cv %d %s", 1, 'hello');
+\$rows = \$wpdb->get_results(\$query);
+foreach (\$rows as \$row) {
+	echo \$row->id;
+}
+endsnippet
+
+snippet wpdbupdate "wordpress db update"
+global \$wpdb;
+\$prefix = \$wpdb->base_prefix;
+\$rows = \$wpdb->update(
+		"{\$prefix}${1:table_name}",
+		// data
+		[
+		"enviada" => 1,
+		],
+		// where
+		[
+		"id" => 1,
+		],
+		// formats for data
+		["%d", "%s"],
+
+		// formats for where
+		["%d", "%s"]
+		);
+foreach (\$rows as \$row) {
+	echo \$row->id;
+}
+endsnippet
+
+snippet wpdebug "wordpress debug log" 
+// debug
+if (true === WP_DEBUG) {
+	error_log("$1");
+}
+endsnippet
+
+snippet wpcronjob "wordpress agregar cron job" 
+// https://developer.wordpress.org/plugins/cron/scheduling-wp-cron-events/
+
+// intervalo personalizado https://developer.wordpress.org/plugins/cron/understanding-wp-cron-scheduling/
+add_filter("cron_schedules", "prefix_add_cron_interval");
+function prefix_add_cron_interval(\$schedules)
+{
+	\$schedules["every_minute"] = [
+		"interval" => 60,
+		"display" => esc_html__("Every minute"),
+	];
+	return \$schedules;
+}
+
+// agregar scheduled job si no existe ya
+function prefix_add_scheduled_job()
+{
+	if (!wp_next_scheduled("prefix_custom_hook")) {
+		wp_schedule_event(time(), "every_minute", "prefix_custom_hook");
+	}
+}
+register_activation_hook(
+		plugin_dir_path(__DIR__ . "..") . "plugin-main-file.php", // plugin base dir, can be __FILE__
+		"prefix_add_scheduled_job"
+		);
+
+// quitar scheduled job
+function prefix_remove_scheduled_job()
+{
+	\$timestamp = wp_next_scheduled("prefix_custom_hook");
+	wp_unschedule_event(\$timestamp, "prefix_custom_hook");
+}
+register_deactivation_hook(
+		plugin_dir_path(__DIR__ . "..") . "plugin-main-file.php", // plugin base dir, can be __FILE__
+		"prefix_remove_scheduled_job"
+		);
+
+
+endsnippet
+
+snippet wplog "Agregar al log de errores"
+if (true === WP_DEBUG) {
+	error_log($1);
+}
+endsnippet
+
+snippet wpdate "wordpress local date" b
+\$local_date = date_i18n('Y-m-d H:i:s');
+endsnippet

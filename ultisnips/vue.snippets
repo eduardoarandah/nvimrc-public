@@ -1,0 +1,112 @@
+# A valid snippet should starts with:
+#
+#		snippet trigger_word [ "description" [ options ] ]
+#
+# and end with:
+#
+#		endsnippet
+#
+# Snippet options:
+#
+#		b - Beginning of line.
+#		i - In-word expansion.
+#		w - Word boundary.
+#		r - Regular expression
+#		e - Custom context snippet
+#		A - Snippet will be triggered automatically, when condition matches.
+#
+# Basic example:
+#
+#		snippet emitter "emitter properties" b
+#		private readonly ${1} = new Emitter<$2>()
+#		public readonly ${1/^_(.*)/$1/}: Event<$2> = this.$1.event
+#		endsnippet
+#
+# Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+
+extends html, javascript
+snippet vuecomponent "Vue Component"
+<template>
+<div class="wrapper">
+$0
+</div>
+</template> 
+<script>
+export default {
+  props: {}, 
+  components: {},
+  data() {
+    return {
+      ready: false,
+    };
+  },
+  computed(){},
+  mounted(){},
+  methods: {
+    update(){},
+  },
+};
+</script>
+<style scoped></style> 
+endsnippet
+
+snippet vueroute "Vue route"
+<router-link v-if="$2" :to="`$0`" class="$3">
+	$1
+</router-link> 
+endsnippet
+
+snippet for "v-for"
+<div v-for="$1 in $2" :key="$1.id">
+{{ $1.$0 }}
+</div>
+endsnippet
+
+snippet script "script"
+<script>
+$0
+</script>
+endsnippet
+
+snippet importcomponent "Import vue component"
+import $1 from '../components/$1'
+endsnippet
+
+snippet vprop "Vue prop" i
+$1: {
+	type: ${2:String},
+	default: ${3:null},
+},
+endsnippet
+
+snippet try "trycatch" 
+try{
+$0
+}catch(error){
+}
+
+endsnippet
+
+snippet datavuecomponent "vue component data"
+data() {
+	return {
+		$0: null,
+	}
+},
+endsnippet
+
+snippet computedvue "Vue computed"
+computed: {
+	$1() {
+		return $2
+	},
+},
+endsnippet
+
+snippet fetchnuxt "NuxtJs fetch"
+async fetch(){
+	const data = await this.\$axios.\$get(`$1`)
+		console.log(data);
+		this.title = data.title;
+}
+endsnippet

@@ -1,0 +1,325 @@
+priority -50
+
+global !p
+import vim
+
+# Tests for the existence of a variable declared by Vim's filetype detection
+# suggesting the type of shell script of the current file
+def testShell(scope, shell):
+	return vim.eval("exists('" + scope + ":is_" + shell + "')")
+
+# Loops over the possible variables, checking for global variables
+# first since they indicate an override by the user.
+def getShell():
+	for scope in ["g", "b"]:
+		for shell in ["bash", "posix", "sh", "kornshell"]:
+			if testShell(scope, shell) == "1":
+				if shell == "kornshell":
+					return "ksh"
+				if shell == "posix":
+					return "sh"
+				return shell
+	return "sh"
+endglobal
+
+###########################################################################
+#                            TextMate Snippets                            #
+###########################################################################
+snippet #!
+`!p snip.rv = '#!/bin/' + getShell() + "\n\n" `
+endsnippet
+
+snippet !env "#!/usr/bin/env (!env)"
+`!p snip.rv = '#!/usr/bin/env ' + getShell() + "\n\n" `
+endsnippet
+
+snippet sbash "safe bash options"
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+`!p snip.rv ='\n\n' `
+endsnippet
+
+snippet temp "Tempfile"
+${1:TMPFILE}="$(mktemp -t ${3:--suffix=${4:.SUFFIX}} ${2:`!p
+snip.rv = re.sub(r'[^a-zA-Z]', '_', snip.fn) or "untitled"
+`}.XXXXXX)"
+${5:${6/(.+)/trap "/}${6:rm -f '$${1/.*\s//}'}${6/(.+)/" 0               # EXIT\n/}${7/(.+)/trap "/}${7:rm -f '$${1/.*\s//}'; exit 1}${7/(.+)/" 2       # INT\n/}${8/(.+)/trap "/}${8:rm -f '$${1/.*\s//}'; exit 1}${8/(.+)/" 1 15    # HUP TERM\n/}}
+
+endsnippet
+
+snippet case "case .. esac (case)"
+case ${1:word} in
+	${2:pattern} )
+		$0;;
+esac
+endsnippet
+
+snippet elif "elif .. (elif)"
+elif ${2:[[ ${1:condition} ]]}; then
+	${0:#statements}
+endsnippet
+ 
+snippet for "for ... done (for)"
+for (( i = 0; i < ${1:10}; i++ )); do
+	${0:#statements}
+done
+endsnippet
+
+snippet forin "for ... in ... done (forin)"
+declare -a $1s=("a" "b" "c") 
+for $1 in ${$1s[@]}; do
+	echo $$1;
+done 
+endsnippet
+
+snippet here "here document (here)"
+<<-${2:'${1:TOKEN}'}
+	$0
+${1/['"`](.+)['"`]/$1/}
+endsnippet
+
+snippet if "if ... then (if)"
+if ${2:[[ ${1:condition} ]]}; then
+	${0:#statements}
+fi
+endsnippet
+
+snippet until "until ... (done)"
+until ${2:[[ ${1:condition} ]]}; do
+	${0:#statements}
+done
+endsnippet
+
+snippet while "while ... (done)"
+while ${2:[[ ${1:condition} ]]}; do
+	${0:#statements}
+done
+endsnippet
+
+# vim:ft=snippets:
+
+####################################################################################
+# Custom
+####################################################################################
+
+snippet bash "Bash Init"
+#!/bin/bash
+# safer settings https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set u # Exit if var doesn't exist
+set e # Exit on error
+set -o pipefail # Fail on error on a pipeline |
+set x # Show all commands
+set uexo
+endsnippet
+
+snippet conf "confirm"
+read -p "${1:Confirm} (y/n)?" CONT
+if [ "\$CONT" = "y" ]; then
+	$0
+else
+	$2
+fi
+endsnippet
+
+snippet sed "Sed"
+# -i guardar mismo archivo
+# -r regex
+# mac os: sed -i'' -e 'expresion'
+
+# replace
+sed "s/^${2:search}.*/${3:replace}/g" ${1:file}
+
+# append line
+sed "s/^$2.*/&\n$3/g" $1
+
+# add to 2nd line
+sed -i '2idefine("WP_SITEURL", "\$HTTP");' wp-config.php
+
+endsnippet
+
+snippet eol "agregar texto varias líneas"
+# ${1:full_path}
+cat > $1 << 'EOL'
+# 'EOL' ignora variables con \$ $0
+EOL
+endsnippet
+
+snippet timestamp "Description"
+TIMESTAMP=`date +%Y-%m-%d-%H-%M-%S`
+endsnippet
+
+snippet ifdir "If directory exists"
+if [ -d "${1:dir}" ]; then
+	$0
+fi
+endsnippet
+
+snippet iffile "If file exists"
+if [ -f "${1:file}" ]; then
+	$0
+fi
+endsnippet
+
+snippet ftp "FTP con ncftp"
+ncftp -u ${1:USER} -p '${2:PASS}' ${3:HOST} <<EOT
+cd /public_html/wp-content/themes
+put method.tgz
+EOT
+endsnippet
+
+snippet rsync "Rsync"
+rsync -avz --info=progress2 --delete app dist config resources vendor user@host:/path/to/dirs/end/with/slash/
+endsnippet
+
+snippet mydump "MySqlDump"
+mysqldump -u${1:user} -p${2:pass} ${3:db_name} > $3.sql
+mysqldump -u${1:user} -p${2:pass} ${3:db_name} | gzip > $3.sql.gz
+endsnippet
+
+snippet tar "Tar"
+tar -czf $1.tgz $1
+tar -xzf $1.tgz
+endsnippet
+
+snippet timestamp "bash timestamp"
+TIMESTAMP=`date +%Y-%m-%d-%H-%M-%S`
+endsnippet
+
+############
+#  wp-cli  #
+############
+
+snippet wppostcreate "WP Cli Post Create"
+wp post create --post_status=publish --post_title="$1" --post_type="${2:page}"
+endsnippet
+
+snippet wpsearchreplace "WP search replace"
+
+wp option get home
+wp db export $1-backup-before-domain-change.sql
+
+wp search-replace "${1:http}://$2" "${3:http}://$4"
+wp search-replace "$1:\/\/$2" "$3:\/\/$4"
+wp search-replace "//$2" "//$4"
+wp search-replace "\/\/$2" "\/\/$4"
+# cuidado, este puede salir mal, si el 2do contiene al primero
+wp search-replace "$2" "$4"
+
+wp option get home
+
+endsnippet
+
+snippet wpusercreate "WP user create"
+wp user create ${1:dev} ${2:dev@example.com} --user_pass=${3:asdf} --role=administrator
+endsnippet
+
+snippet wpuserupdate "WP user update"
+wp user update ${1:dev} --user_pass=${3:asdf}
+endsnippet
+
+##############################
+#  Gutenberg
+##############################
+
+snippet gut "Gutenberg Block"
+Block `!p snip.rv = t[1].replace("-"," ").title()`
+$0
+# php
+cat > app/Blocks/block-${1:name}.php <<'EOL'
+<?php
+add_action('acf/init', function () {
+	if (function_exists('acf_register_block')) {
+	acf_register_block([
+		'name' => 'block-$1',
+		'title' => __('`!p snip.rv = t[1].replace("-"," ").title()`', 'sage'),
+		'category' => 'sections',
+		'icon' => 'screenoptions',
+		'render_callback' => function (\$block){
+			echo \App\template("blocks.block-$1", [
+				'class' => \$block['className'] ?? "",
+				'header' => get_field('header'),
+				'text' => get_field('text'),
+				'link' => get_field('link'),
+				'image' => get_field('image'),
+			]);
+		}
+	]);
+	}
+});
+EOL
+
+# blade
+cat > resources/views/blocks/block-$1.blade.php <<'EOL'
+<section class="$1 {{ \$class }}">
+	<div class="$1__inner">
+
+		@if ( !empty(\$header) )
+		<h2 class="$1__header">{{ \$header }}</h2>
+		@endif
+
+		@if ( !empty(\$text) )
+		<div class="$1__text">{!! \$text !!}</div>
+		@endif
+
+		@if ( !empty(\$link) )
+		<div class="$1__link">
+			<a class="btn btn-primary" href="{{\$link['url']}}" target="{{\$link['target']}}">{{\$link['title']}}</a>
+		</div>
+		@endif
+
+		@if ( !empty(\$image) )
+		<div class="$1__image">
+			<img src="{{ \$image['sizes']['${2:thumbnail}'] }}" alt="{{ \$image['alt'] }}" class="img-fluid"/>
+		</div>
+		@endif
+
+	</div>
+</section>
+EOL
+
+# scss
+cat > resources/assets/styles/blocks/block-$1.scss <<'EOL'
+.block-$1 {
+	* {
+		outline: 1px dotted lightgray;
+	}
+	&__header {}
+	&__text {}
+	&__link {}
+	&__image {}
+}
+EOL
+
+# Add to functions & main.scss
+sed -i "s|.*// /blocks.*|  'Blocks/block-$1',\n&|g" resources/functions.php
+sed -i "s|.*// /blocks.*|@import 'blocks/block-$1';\n&|g" resources/assets/styles/main.scss
+
+vim --remote-silent resources/functions.php resources/assets/styles/main.scss app/Blocks/block-$1.php resources/views/blocks/block-$1.blade.php resources/assets/styles/blocks/block-$1.scss
+endsnippet
+
+snippet migra "php artisan make migration"
+php artisan make:migration:schema create_${1:tabla_plural}_table --schema="color:string:unique,color_en:string:unique"
+endsnippet
+
+snippet crud "backpack crud"
+php artisan backpack:crud ${1:model_singular}
+endsnippet
+
+snippet wpuserupdate "wp-cli user update" 
+wp user update $1 --user_pass=$2
+endsnippet
+
+snippet ftpput "ncftp ftp put" b
+# ver archivos modificados:
+
+git diff HEAD~1 HEAD --name-status
+
+# comando:
+
+HOST=''
+USER=''
+PASS=''
+
+ncftpput -u \$USER -p\$PASS \$HOST /remote_dir  file1 some/file2
+endsnippet

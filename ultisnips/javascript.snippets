@@ -1,0 +1,395 @@
+priority -50
+
+############
+#  COMMON  #
+############
+
+# The smart snippets use a global options called
+# "g:ultisnips_javascript.{option}" which can control the format
+# of trailing semicolon, space before function paren, etc.
+#
+# e.g.
+# let g:ultisnips_javascript = {
+#      \ 'keyword-spacing': 'always',
+#      \ 'semi': 'never',
+#      \ 'space-before-function-paren': 'always',
+#      \ }
+
+
+# global !p
+# from javascript_snippets import (
+# 	semi, space_before_function_paren, keyword_spacing
+# )
+# endglobal
+
+###########################################################################
+#                            TextMate Snippets                            #
+###########################################################################
+snippet get "Get Elements"
+getElement${1/(T)|(C)|.*/(?1:s)(?2:s)/}By${1:T}${1/(T)|(I)|(C).*/(?1:agName)(?2:d)(?3:lassName)/}('$2')
+endsnippet
+
+# snippet '':f "object method string"
+# '${1:${2:#thing}:${3:click}}': function`!p snip.rv = space_before_function_paren(snip)`(element) {
+# 	${VISUAL}$0
+# }${10:,}
+# endsnippet
+
+# snippet :f "Object Method"
+# ${1:method_name}: function`!p snip.rv = space_before_function_paren(snip)`(${3:attribute}) {
+# 	${VISUAL}$0
+# }${10:,}
+# endsnippet
+
+snippet :, "Object Value JS"
+${1:value_name}: ${0:value},
+endsnippet
+
+snippet : "Object key key: 'value'"
+${1:key}: ${2:"${3:value}"}${4:, }
+endsnippet
+
+# snippet proto "Prototype (proto)"
+# ${1:class_name}.prototype.${2:method_name} = function`!p snip.rv = space_before_function_paren(snip)`(${3:first_argument}) {
+# 	${VISUAL}$0
+# }`!p snip.rv = semi(snip)` 
+# endsnippet
+
+# snippet fun "function (named)" b
+# function ${1:function_name}`!p snip.rv = space_before_function_paren(snip)`(${2:argument}) {
+# 	${VISUAL}$0
+# }
+# endsnippet
+
+# snippet vf "function (assigned to var)"
+# ${1:var }${2:function_name} = function $2`!p snip.rv = space_before_function_paren(snip)`($3) {
+# 	${VISUAL}$0
+# }`!p snip.rv = semi(snip)`
+# endsnippet
+
+# # Drop priority so this only triggers when not beginning of line.
+# priority -51
+# snippet fun "function (anonymous)" w
+# function`!p snip.rv = space_before_function_paren(snip)`($1) {
+# 	${VISUAL}$0
+# }$2
+# endsnippet
+# priority -50
+
+# snippet anf "function (anonymous)" i
+# function`!p snip.rv = space_before_function_paren(snip)`($1) {
+# 	${VISUAL}$0
+# }
+# endsnippet
+
+# snippet iife "Immediately-Invoked Function Expression (iife)"
+# (function`!p snip.rv = space_before_function_paren(snip)`(${1:window}) {
+# 	${VISUAL}$0
+# }(${2:$1}))`!p snip.rv = semi(snip)`
+# endsnippet
+
+# snippet ;fe "Minify safe iife"
+# ;(function`!p snip.rv = space_before_function_paren(snip)`(${1}) {
+# 	${VISUAL}$0
+# }(${2}))
+# endsnippet
+
+# snippet timeout "setTimeout function"
+# setTimeout(function`!p snip.rv = space_before_function_paren(snip)`() {
+# 	${VISUAL}$0
+# }${2:.bind(${3:this})}, ${1:10})`!p snip.rv = semi(snip)`
+# endsnippet
+
+# snippet fi "for prop in obj using hasOwnProperty" b
+# for`!p snip.rv = keyword_spacing(snip)`(${1:prop} in ${2:obj}){
+# 	if`!p snip.rv = keyword_spacing(snip)`($2.hasOwnProperty($1)) {
+# 		${VISUAL}$0
+# 	}
+# }
+# endsnippet
+
+# snippet if "if (condition) { ... }"
+# if`!p snip.rv = keyword_spacing(snip)`(${1:true}) {
+# 	${VISUAL}$0
+# }
+# endsnippet
+
+# snippet ife "if (condition) { ... } else { ... }"
+# if`!p snip.rv = keyword_spacing(snip)`(${1:true}) {
+# 	${VISUAL}$0
+# }`!p snip.rv = keyword_spacing(snip)`else`!p snip.rv = keyword_spacing(snip)`{
+# 	${2}
+# }
+# endsnippet
+
+# snippet switch
+# switch`!p snip.rv = keyword_spacing(snip)`(${VISUAL}${1:expression}) {
+# 	case '${VISUAL}${3:case}':
+# 		${4}
+# 		break`!p snip.rv = semi(snip)`
+# 	${0}
+# 	default:
+# 		${2}
+# }
+# endsnippet
+
+# snippet case "case 'xyz': ... break"
+# case`!p snip.rv = keyword_spacing(snip)`'${VISUAL}${1:case}':
+# 	${VISUAL}$0
+# 	break`!p snip.rv = semi(snip)`
+# endsnippet
+
+# snippet do "do { ... } while (condition)"
+# do`!p snip.rv = keyword_spacing(snip)`{
+# 	${VISUAL}$0
+# }`!p snip.rv = keyword_spacing(snip)`while`!p snip.rv = keyword_spacing(snip)`(${1:/* condition */})`!p snip.rv = semi(snip)`
+# endsnippet
+
+# snippet ret "Return statement"
+# return ${VISUAL}$0`!p snip.rv = semi(snip)`
+# endsnippet
+
+# snippet us
+# 'use strict'`!p snip.rv = semi(snip)`
+# endsnippet
+
+# vim:ft=snippets:
+
+####################################################################################
+#  Custom  #
+####################################################################################
+
+snippet kv "Key : Value" iA
+'$1': $2,
+$0
+endsnippet
+
+snippet jqueryinit "JQuery init"
+import 'jquery';
+jQuery(document).ready(function(\$) {
+  $0
+});
+endsnippet
+
+snippet ajax "wordpress ajax"
+
+public static function wc_remove_product()
+{
+	\$key = \$_POST['key'];
+	WC()->cart->remove_cart_item(\$key);
+	echo "ok";
+	wp_die();
+}
+
+// Remove product
+add_action('wp_ajax_wc_remove_product', '\App\Controllers\App::wc_remove_product'); // wp_ajax_{action}
+add_action('wp_ajax_nopriv_wc_remove_product', '\App\Controllers\App::wc_remove_product'); // wp_ajax_{action}
+
+\$.ajax({
+	type: 'POST',
+	url: ajaxurl,
+	data: {
+		action: 'wc_refresh_cart',
+		url: ajaxurl,
+		key: key,
+	},
+	beforeSend: () => {
+		console.log('deleting item...');
+	},
+	success: data => {
+		console.log('success!');
+		console.log(data);
+		\$(document.body).trigger('removed_from_cart');
+	},
+}); 
+endsnippet
+
+snippet clo "Console.log" 
+console.log($0);
+endsnippet
+
+snippet axiosget "Axios get"
+try {
+	const response = await axios.get($1)
+	//console.log(response.data)
+} catch (error) {
+	const { errors, message } = error.response.data
+	if (errors || message) {
+		this.message = message
+		this.errors = errors
+	}
+	//console.log(response.data)
+}
+endsnippet
+
+snippet axiospost "Axios post"
+try {
+	const response = await axios.post($1)
+	//console.log(response.data)
+} catch (error) {
+	const { errors, message } = error.response.data
+	if (errors || message) {
+		this.message = message
+		this.errors = errors
+	}
+	//console.log(response.data)
+}
+endsnippet
+
+snippet af "arrow function" i
+($1)=>$2
+endsnippet
+
+
+snippet fun "Function"
+function($1){
+	$0
+}
+endsnippet
+
+snippet fetchFormData "Fetch form data"
+const formData = new FormData();
+formData.append('action', 'notifications_get');
+formData.append('perPage', '2');
+formData.append('page', '1');
+fetch(bidstitchSettings.ajaxUrl, {
+    method: 'POST',
+    body: formData
+})
+    .then((r) => r.json())
+    .then(
+        (r) => {
+            console.log(r);
+        }
+    )
+endsnippet
+
+snippet fetchpost "Description"
+const response = fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+			'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  })
+	.then(r=>r.json()); // parses JSON response into native JavaScript objects
+endsnippet
+
+snippet timeout "Set Timeout" 
+setTimeout(() => {
+	$0
+}, ${1:5000});
+endsnippet
+
+snippet tailwindconfig "tailwind example config"
+
+module.exports = {
+  purge: ['./resources/views/**/*.blade.php', './resources/css/**/*.css'],
+  theme: { 
+    colors: {
+      white: '#fff',
+      black: '#000',
+    },
+    fontFamily: {
+      nunito: ['Nunito', 'Helvetica', 'Arial', 'sans-serif'],
+      opensans: ['Open Sans', 'Helvetica', 'Arial', 'sans-serif'],
+    },
+    fontSize: {
+      xs: '0.563rem',
+      sm: '0.625rem',
+      base: '0.75rem',
+      lg: '0.875rem',
+      xl: '1rem',
+      '2xl': '1.125rem',
+      '3xl': '1.25rem',
+      '4xl': '1.375rem',
+      '5xl': '1.625rem',
+    },
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      xxl: '1440px',
+    },
+    letterSpacing: {
+      tighter: '-.05em',
+      tight: '-.025em',
+      normal: '0',
+      wide: '.025em',
+      wider: '.05em',
+      widest: '.4em',
+    },
+    extend: {
+      colors: {
+        primary: '#001965',
+        secondary: '#FE543C',
+        facebook: '#3977f2',
+        twitter: '#40a1f2',
+        whatsapp: '#43e676',
+        gray: {
+          '100': '#eeeeee',
+          '200': '#dddddd',
+          '300': '#cccccc',
+          '400': '#afafaf',
+          '500': '#999999',
+          '600': '#707070',
+          '700': '#555555',
+          '800': '#424242',
+          '900': '#212121',
+        },
+      },
+    },
+    fontSize: {
+      xs: '.75rem',
+      sm: '.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+      '2xl': '1.5rem',
+      '3xl': '1.875rem',
+      '4xl': '2.5rem',
+    },
+  },
+  variants: {},
+  plugins: [require('@tailwindcss/custom-forms'), require('@tailwindcss/typography')],
+}; 
+endsnippet
+
+snippet modexp "Module exports" 
+module.exports = {
+$0 
+}
+endsnippet
+
+snippet expd "export default"
+export default
+endsnippet
+
+snippet exportjs "export js"
+import $1 from '$1.js'
+$1();
+export default function() {
+
+}
+endsnippet
+
+snippet elementexists "element exists"
+//Attempt to get the element using document.getElementById
+var element = document.getElementById("$1");
+
+//If it isn't "undefined" and it isn't "null", then it exists.
+if(typeof(element) != 'undefined' && element != null){
+  alert('Element exists!');
+} else{
+  alert('Element does not exist!');
+}
+endsnippet
+
