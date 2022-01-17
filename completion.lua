@@ -1,3 +1,33 @@
+-- treesitter enable
+require("nvim-treesitter.configs").setup({
+	ensure_installed = {
+		"javascript",
+		"json",
+		"css",
+		"php",
+		"html",
+		"python",
+		"bash",
+		"regex",
+		"ruby",
+		"yaml",
+		"jsonc",
+		"tsx",
+		"lua",
+		"vue",
+	}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+	highlight = {
+		enable = true,
+		disable = { "php" }, -- list of language that will be disabled
+	},
+	indent = {
+		enable = false,
+	},
+	context_commentstring = {
+		enable = true,
+	},
+})
+
 -- Setup nvim-cmp.
 local cmp = require("cmp")
 
@@ -51,11 +81,16 @@ cmp.setup.cmdline(":", {
 	}),
 })
 
---- install: npm install -g typescript typescript-language-server eslint prettier
 
 -- Setup lspconfig.
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+
+--- install: npm install -g typescript typescript-language-server eslint prettier
 require("lspconfig")["tsserver"].setup({
 	capabilities = capabilities,
 })
+
+--- install: npm install -g intelephense  
+--- directory needs a composer.json file or .git file
+require("lspconfig").intelephense.setup({})
