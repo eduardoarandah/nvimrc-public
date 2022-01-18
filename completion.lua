@@ -51,6 +51,7 @@ cmp.setup({
 			c = cmp.mapping.close(),
 		}),
 		["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		["<tab>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 	},
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
@@ -81,16 +82,16 @@ cmp.setup.cmdline(":", {
 	}),
 })
 
-
 -- Setup lspconfig.
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 
 --- install: npm install -g typescript typescript-language-server eslint prettier
-require("lspconfig")["tsserver"].setup({
-	capabilities = capabilities,
-})
+require("lspconfig")["tsserver"].setup({ capabilities = capabilities, })
 
---- install: npm install -g intelephense  
+--- install: npm install -g intelephense
 --- directory needs a composer.json file or .git file
-require("lspconfig").intelephense.setup({})
+require("lspconfig").intelephense.setup({ capabilities = capabilities, })
+
+--  cssls npm i -g vscode-langservers-extracted
+require("lspconfig").cssls.setup({ capabilities = capabilities })
+require("lspconfig").html.setup({ capabilities = capabilities })
