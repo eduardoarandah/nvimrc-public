@@ -1,34 +1,9 @@
--- treesitter enable
-require("nvim-treesitter.configs").setup({
-	ensure_installed = {
-		"javascript",
-		"json",
-		"css",
-		"php",
-		"html",
-		"python",
-		"bash",
-		"regex",
-		"ruby",
-		"yaml",
-		"jsonc",
-		"tsx",
-		"lua",
-		"vue",
-	}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-	highlight = {
-		enable = true,
-		disable = { "php" }, -- list of language that will be disabled
-	},
-	indent = {
-		enable = false,
-	},
-	context_commentstring = {
-		enable = true,
-	},
-})
-
--- Setup nvim-cmp.
+-----------------------------------------------------------------------------
+-- nvim-cmp
+-- A completion engine plugin for neovim written in Lua.
+-- Completion sources are installed from external repositories and "sourced".
+-- https://github.com/hrsh7th/nvim-cmp
+-----------------------------------------------------------------------------
 local cmp = require("cmp")
 
 cmp.setup({
@@ -83,15 +58,25 @@ cmp.setup.cmdline(":", {
 })
 
 -- Setup lspconfig.
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local lsp = require("lspconfig")
 
---- install: npm install -g typescript typescript-language-server eslint prettier
-require("lspconfig")["tsserver"].setup({ capabilities = capabilities, })
+--  npm i -g vscode-langservers-extracted
+lsp.cssls.setup({ capabilities = capabilities })
+lsp.html.setup({ capabilities = capabilities })
+lsp.jsonls.setup({ capabilities = capabilities })
+lsp.eslint.setup({ capabilities = capabilities })
 
---- install: npm install -g intelephense
---- directory needs a composer.json file or .git file
-require("lspconfig").intelephense.setup({ capabilities = capabilities, })
+---  npm install -g typescript typescript-language-server eslint prettier
+lsp.tsserver.setup({ capabilities = capabilities, })
 
---  cssls npm i -g vscode-langservers-extracted
-require("lspconfig").cssls.setup({ capabilities = capabilities })
-require("lspconfig").html.setup({ capabilities = capabilities })
+---  npm install -g intelephense # directory composer.json or .git file
+lsp.intelephense.setup({ capabilities = capabilities, })
+
+--  npm install -g @tailwindcss/language-server
+lsp.tailwindcss.setup({ capabilities = capabilities, })
+
+-- npm install -g vls
+lsp.vuels.setup({ capabilities = capabilities, })

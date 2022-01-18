@@ -5,15 +5,8 @@ command! DownloadVimPlug !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https
 call mkdir($HOME."/.vim/plugged","p")
 call plug#begin('$HOME/.vim/plugged')
 
-" Syntax
-" Plug 'sheerun/vim-polyglot'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-
-
 " Theme
 Plug 'tomasr/molokai' 
-
-" Color
 set background=dark
 set termguicolors
 
@@ -228,26 +221,31 @@ let g:slime_target = "tmux"
 " :.2 current window, second pane
 " %pane_id get it with echo $TMUX_PANE
 let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": "{last}"}
-
 let g:slime_no_mappings = 1
 xmap <F9> <Plug>SlimeRegionSend
 nmap <F9> <Plug>SlimeParagraphSend
+
+" Syntax
+" Plug 'sheerun/vim-polyglot'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
 " lua format
 Plug 'andrejlevkovitch/vim-lua-format'
 
 " Completion
-Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'hrsh7th/nvim-cmp' " A completion engine plugin for neovim written in Lua.
+Plug 'neovim/nvim-lspconfig' " A collection of common configurations for Neovim's built-in language server client.
 
-" For ultisnips users.
-Plug 'SirVer/ultisnips'
-Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+" Completion sources
+Plug 'hrsh7th/cmp-nvim-lsp' " nvim-cmp source for neovim's built-in language server client.
+Plug 'hrsh7th/cmp-buffer' " nvim-cmp source for buffer words.
+Plug 'hrsh7th/cmp-path' " nvim-cmp source for filesystem paths.
+Plug 'hrsh7th/cmp-cmdline' " nvim-cmp source for vim's cmdline.
+Plug 'hrsh7th/cmp-nvim-lua' " nvim-cmp source for neovim Lua API.
+
+" Snippets ultisnips users.
+Plug 'SirVer/ultisnips' " UltiSnips is the ultimate solution for snippets in Vim
+Plug 'quangnguyen30192/cmp-nvim-ultisnips' " UltiSnips completion source for nvim-cmp
 
 call plug#end()
 
