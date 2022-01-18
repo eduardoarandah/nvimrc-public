@@ -61,6 +61,7 @@ set splitbelow " Open split below
 set splitright " Open split right
 set listchars=trail:-
 set mouse=a " Mouse support in all modes
+set undofile
 
 " Wildmenu
 set wildmenu " Show list instead of just completing
@@ -68,18 +69,23 @@ set wildignore=*.o,*~,*.pyc " Ignore compiled files
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 set wildcharm=<tab>
 
-" set runtimepath to use .vim folder
-call mkdir($HOME."/.vim","p")
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
-let &packpath = &runtimepath
- 
-
-" Temporary files
-call mkdir($HOME."/.vim/tmp","p") " Create dir if not exists
-set backupdir=$HOME/.vim/tmp//
-set directory=$HOME/.vim/tmp//
-set undodir=$HOME/.vim/tmp//
-set undofile
+" Directories. Separate vim and neovim to avoid conflicts on format
+if(has('nvim'))
+  call mkdir($HOME."/.vim/nvimtmp","p") " Create dir if not exists
+  set runtimepath^=~/.vim runtimepath+=~/.vim/after
+  let &packpath = &runtimepath
+  set backupdir=$HOME/.vim/nvimtmp//
+  set directory=$HOME/.vim/nvimtmp//
+  set undodir=$HOME/.vim/nvimtmp//
+  command! Tmpfilesremove !rm ~/.vim/nvimtmp/*
+else
+  call mkdir($HOME."/.vim/tmp","p") " Create dir if not exists
+  set runtimepath^=~/.vim runtimepath+=~/.vim/after
+  set backupdir=$HOME/.vim/tmp//
+  set directory=$HOME/.vim/tmp//
+  set undodir=$HOME/.vim/tmp//
+  command! Tmpfilesremove !rm ~/.vim/tmp/*
+endif
 
 " Leader Key
 let mapleader=" "
@@ -198,7 +204,7 @@ nnoremap Y y$
 nnoremap F2 :set pastetoggle<CR>
 
 " ALWAYS use the clipboard for ALL operations 
-set clipboard+=unnamedplus
+set clipboard+=unnamedplus,unnamed
 
 " Don't lose clipboard when pasting
 vnoremap p pgvy
