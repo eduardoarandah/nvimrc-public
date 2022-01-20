@@ -54,8 +54,8 @@ set nojoinspaces " Prevents inserting two spaces after punctuation on a join (J)
 set switchbuf=useopen,usetab " Specify the behavior when switching between buffers
 set hlsearch " Highlight search results
 set incsearch " Makes search act like search in modern browsers
-set ignorecase " Ignore case when searching
-set smartcase " When searching try to be smart about cases
+" set ignorecase " Ignore case when searching
+" set smartcase " When searching try to be smart about cases
 set gdefault " Add g (global) to substitute operations, :s/pattern/replacement/
 set splitbelow " Open split below
 set splitright " Open split right
