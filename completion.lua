@@ -56,27 +56,3 @@ cmp.setup.cmdline(":", {
 		{ name = "cmdline" },
 	}),
 })
-
--- Setup lspconfig.
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-
-local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
-local lsp = require("lspconfig")
-
---  npm i -g vscode-langservers-extracted
-lsp.cssls.setup({ capabilities = capabilities })
-lsp.html.setup({ capabilities = capabilities })
-lsp.jsonls.setup({ capabilities = capabilities })
-lsp.eslint.setup({ capabilities = capabilities })
-
----  npm install -g typescript typescript-language-server eslint prettier
-lsp.tsserver.setup({ capabilities = capabilities, })
-
----  npm install -g intelephense # directory composer.json or .git file
-lsp.intelephense.setup({ capabilities = capabilities, })
-
---  npm install -g @tailwindcss/language-server
-lsp.tailwindcss.setup({ capabilities = capabilities, })
-
--- npm install -g vls
-lsp.vuels.setup({ capabilities = capabilities, })

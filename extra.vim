@@ -26,8 +26,8 @@ nnoremap <leader>f :call FormatDocument()<Cr>
 " Edit Vimrc
 """""""""""""""""""""""""
 
-:command! Vrc e $HOME/.config/nvim/basic.vim | e $HOME/.config/nvim/plugins.vim | e $HOME/.config/nvim/extra.vim | e $HOME/.config/nvim/syntax.lua | e $HOME/.config/nvim/completion.lua
-:command! VrcReload so $HOME/.config/nvim/basic.vim | so $HOME/.config/nvim/plugins.vim | so $HOME/.config/nvim/extra.vim | so $HOME/.config/nvim/syntax.lua| so $HOME/.config/nvim/completion.lua
+:command! Vrc e $HOME/.config/nvim/basic.vim | e $HOME/.config/nvim/plugins.vim | e $HOME/.config/nvim/extra.vim | e $HOME/.config/nvim/syntax.lua | e $HOME/.config/nvim/completion.lua | e $HOME/.config/nvim/lsp.lua
+:command! VrcReload so $HOME/.config/nvim/basic.vim | so $HOME/.config/nvim/plugins.vim | so $HOME/.config/nvim/extra.vim | so $HOME/.config/nvim/syntax.lua | so $HOME/.config/nvim/completion.lua | so $HOME/.config/nvim/lsp.lua
 
 """""""""""""""""""
 " CSS
