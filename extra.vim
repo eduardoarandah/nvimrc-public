@@ -8,7 +8,7 @@ fun! FormatDocument()
     % !blade-formatter --stdin --indent-size=2 --wrap=999
   elseif(&ft == 'sql')
     % !sqlformat --reindent --keywords upper --identifiers lower %
-  elseif( &ft == 'css' || &ft == 'scss' || &ft == 'php' || &ft == 'markdown')
+  elseif( &ft == 'css' || &ft == 'scss' || &ft == 'markdown')
     PrettierAsync
   elseif(&ft == 'lua') 
     " download https://github.com/JohnnyMorganz/StyLua/releases
