@@ -111,8 +111,8 @@ nnoremap <leader>k :b#<CR>
 " Tabs
 nnoremap <leader>tt :tabnew<CR>
 nnoremap <leader>tc :tabclose<CR>
-nnoremap ]t :tabnext<CR>
-nnoremap [t :tabprevious<CR>
+nnoremap ) :tabnext<CR>
+nnoremap ( :tabprevious<CR>
 
 " Go to end of page and center
 nnoremap G Gzz
