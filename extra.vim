@@ -16,11 +16,11 @@ fun! FormatDocument()
     silent !stylua %
     edit
   else
-    call CocAction('format')
+    lua vim.lsp.buf.formatting()
   endif
 endfun
 
-nnoremap <leader>f :call FormatDocument()<Cr>
+" nnoremap <leader>f :call FormatDocument()<Cr>
 
 """""""""""""""""""""""""
 " Edit Vimrc
