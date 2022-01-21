@@ -229,6 +229,10 @@ nmap <F9> <Plug>SlimeParagraphSend
 " Plug 'sheerun/vim-polyglot'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
+" Editorconfig
+" Respect .editorconfig settings like indenting
+Plug 'editorconfig/editorconfig-vim'
+
 " lua format
 Plug 'andrejlevkovitch/vim-lua-format'
 
