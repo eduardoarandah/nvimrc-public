@@ -1,9 +1,0 @@
-{
-  "snippets.userSnippetsDirectory": "~/.config/nvim/ultisnips",
-  "stylelint.enable": true,
-  "stylelint.config": "~/.stylelint",
-  "python.jediEnabled": false,
-  "coc.preferences.useQuickfixForLocations": true,
-  "vetur.ignoreProjectWarning": true,
-  "sumneko-lua.enableNvimLuaDev": true
-}

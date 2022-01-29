@@ -5,10 +5,12 @@
 fun! FormatDocument()
   if(&ft == 'blade') 
     SpacesClean
-    % !blade-formatter --stdin --indent-size=2 --wrap=999
+    % !npx blade-formatter --stdin --indent-size=2 --wrap=999
   elseif(&ft == 'sql')
     % !sqlformat --reindent --keywords upper --identifiers lower %
-  elseif( &ft == 'css' || &ft == 'scss' || &ft == 'markdown')
+  elseif( &ft == 'css' || &ft == 'scss')
+    % !npx stylelint --fix
+  elseif( &ft == 'markdown')
     PrettierAsync
   elseif(&ft == 'lua') 
     " download https://github.com/JohnnyMorganz/StyLua/releases
@@ -21,6 +23,18 @@ fun! FormatDocument()
 endfun
 
 " nnoremap <leader>f :call FormatDocument()<Cr>
+
+"""""""""""""""""""""""""
+" Fix
+"""""""""""""""""""""""""
+
+function! Fix() 
+  if(&ft == 'javascript') 
+    silent !npx eslint --fix %
+  endif
+endfunction 
+
+command! Fix :call Fix() 
 
 """""""""""""""""""""""""
 " Edit Vimrc
