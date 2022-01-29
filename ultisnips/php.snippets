@@ -4,8 +4,8 @@ snippet php "PHP <?php ?>" i
 <?php $0 ?>
 endsnippet
 
-snippet pf "PHP Function" i
-public function $1($2){
+snippet fun "PHP Function" i
+function $1($2){
 	$0
 }
 endsnippet
@@ -1092,55 +1092,66 @@ public function $1(){
 }
 endsnippet
 
-snippet wordpresswidget "Wordpress widget"
+snippet wpwidget "Wordpress widget"
 <?php
 
 namespace App;
 
-class WidgetTest extends \WP_Widget
+class ${1:TheNameWidget} extends \WP_Widget
 {
     function __construct()
     {
         parent::__construct(
-            "the-id", // Base ID
-            "The name", // Name
+            '${2:the-name}', // Base ID
+            esc_html__('${3:The Name}', 'sage'), // Name
             [
-                "description" => "the description",
+                'description' => esc_html__('${4:The description}', 'sage')
             ]
         );
     }
 
+    function form_values(\$instance, \$name, \$default = null)
+    {
+        return [
+            'id' => \$this->get_field_id(\$name),
+            'name' => \$this->get_field_name(\$name),
+            'value' => \$instance[\$name] ?? '',
+            'default' => \$default,
+        ];
+    }
+    function sanitize(\$new_instance, \$name)
+    {
+        if (empty(\$new_instance[\$name]))
+            return '';
+        return strip_tags(\$new_instance[\$name]);
+    }
+
     public function form(\$instance)
     {
-        echo \Roots\view("widgets/widget-test-form", [
-            "field1" => [
-                "id" => \$this->get_field_id("field1"),
-                "name" => \$this->get_field_name("field1"),
-                "value" => \$instance["field1"] ?? "default",
-            ],
+        echo \Roots\view('widgets.$2-form', [
+            'title' => \$this->form_values(\$instance, 'title', ''),
         ])->render();
     }
 
     public function update(\$new_instance, \$old_instance)
     {
-        \$instance = [];
-        \$instance["field1"] = !empty(\$new_instance["field1"])
-            ? sanitize_text_field(\$new_instance["field1"])
-            : "";
+        \$instance = array();
+        \$instance['title'] = \$this->sanitize(\$new_instance, "title");
         return \$instance;
     }
 
     public function widget(\$args, \$instance)
     {
-        \$field1 = \$instance["field1"];
-        echo \Roots\view("widgets/widget-test", [
-            "field1" => \$field1,
+        echo \$args['before_widget'];
+        echo \Roots\view('widgets.$2', [
+            'instance' => \$instance,
         ])->render();
+        echo \$args['after_widget'];
     }
 }
 
-add_action("widgets_init", function () {
-    register_widget("App\WidgetTest");
+add_action('widgets_init', function () {
+    register_widget('App\\$1');
 });
 endsnippet
 
