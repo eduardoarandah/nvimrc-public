@@ -5,6 +5,9 @@ command! DownloadVimPlug !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https
 call mkdir($HOME."/.vim/plugged","p")
 call plug#begin('$HOME/.vim/plugged')
 
+" Syntax
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
 " Theme
 Plug 'tomasr/molokai' 
 set background=dark
@@ -15,53 +18,13 @@ if !has("gui_running")
   let g:rehash256 = 1
 endif
 
-" Comments
-Plug 'tpope/vim-commentary'
+" Status/tabline
+Plug 'vim-airline/vim-airline'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
+let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler' " Show terminal buffers
 
-" Better repeating
-Plug 'tpope/vim-repeat'
-
-" surround with ys
-Plug 'tpope/vim-surround'
-
-" Create html tag
-nmap <localleader>t yslt
-imap <localleader>t <C-o>yslt
-
-" Git fugitive
-Plug 'tpope/vim-fugitive'
-nnoremap <leader>gs :Git<cr>
-nnoremap <leader>ga :Git add %<cr>
-nnoremap <leader>gr :Gread<cr>
-nnoremap <leader>gl :Git log<cr>
-nnoremap <leader>gL :Git log --name-only<cr>
-nnoremap <leader>gA :Git add -A<cr>
-nnoremap <leader>gco :Git checkout<space>
-nnoremap <leader>gcb :Git checkout -b<space>
-nnoremap <leader>gp :Git push<cr>
-
-" git diff (:Gdiffsplit! for merge conflicts)
-nnoremap <leader>gd :Gdiffsplit<cr>
-
-" git merge left-right
-nnoremap <leader>mh :diffget //2<cr>
-nnoremap <leader>ml :diffget //3<cr>
-
-" All commits
-command! Ghistory :Gclog
-
-" Commits for current file
-command! Ghistoryfile :0Gclog!
-
-" Shows a git diff in the sign column. 
-Plug 'mhinz/vim-signify'
-
-" Maximizes and restores the current window in Vim. 
-Plug 'szw/vim-maximizer'
-nnoremap <leader>z :MaximizerToggle<CR>
-xnoremap <leader>z :MaximizerToggle<CR>gv
-
-" NerdTree
+" File explorer
 Plug 'scrooloose/nerdtree', { 'on': [ 'NERDTreeToggle', 'NERDTreeFind', 'NERDTreeCWD', 'NERDTree' ] }
 let NERDTreeShowHidden=1 
 nnoremap <F7> :NERDTreeToggle<CR>
@@ -70,68 +33,8 @@ nnoremap <F8> :NERDTreeFind<CR>
 " Change current dir to current file
 nnoremap <leader>cd :cd %:p:h<CR>:NERDTreeCWD<CR>
 
-" Auto close brackets
-Plug 'jiangmiao/auto-pairs' 
-let g:AutoPairsShortcutToggle=''
-let g:AutoPairsMapCh=0 " don't map this one
-
-" RipGrep :Rg
-Plug 'jremmen/vim-ripgrep'
-let g:rg_command='rg --vimgrep --pcre2'
-
-" Sessions
-Plug 'xolox/vim-misc' "requirement
-Plug 'romgrk/vim-session' 
-let g:session_autoload = 'no'
-let g:session_autosave = 'yes'
-let g:session_directory = $HOME."/.vim/sessions"
-let g:session_extension = ''
-
-" Create dir if not exists
-call mkdir($HOME."/.vim/sessions","p")
-
-" Open session (project)
-nnoremap <leader>s :OpenSession 
-
-" Highlight yank 
-Plug 'machakann/vim-highlightedyank'
-
-" Status/tabline
-Plug 'vim-airline/vim-airline'
-
-let g:airline#extensions#tabline#enabled = 1
-
-" Show just the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
-
-" Show terminal buffers
-let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'
-
-" Useful commands
-Plug 'tpope/vim-eunuch' 
-" :Delete: Delete a buffer and the file on disk simultaneously.
-" :Unlink: Like :Delete, but keeps the now empty buffer.
-" :Move: Rename a buffer and the file on disk simultaneously.
-" :Rename: Like :Move, but relative to the current file's containing directory.
-" :Chmod: Change the permissions of the current file.
-" :Mkdir: Create a directory, defaulting to the parent of the current file.
-" :Cfind: Run find and load the results into the quickfix list.
-" :Clocate: Run locate and load the results into the quickfix list.
-" :Lfind/:Llocate: Like above, but use the location list.
-" :Wall: Write every open window. Handy for kicking off tools like guard.
-" :SudoWrite: Write a privileged file with sudo.
-" :SudoEdit: Edit a privileged file with sudo.
-" File type detection for sudo -e is based on original file name.
-" New files created with a shebang line are automatically made executable.
-" New init scripts are automatically prepopulated with /etc/init.d/skeleton.
-
-" Calculate simple formulas
-Plug 'sk1418/HowMuch' 
-let g:HowMuch_scale = 8 
-nmap <leader>hm V<Plug>AutoCalcAppendWithEq
-vmap <leader>hm <Plug>AutoCalcAppendWithEq
-vmap <leader>hms <Plug>AutoCalcAppendWithEqAndSum
-vmap <leader>hmr <Plug>AutoCalcReplace
+" Comment lines
+Plug 'tpope/vim-commentary'
 
 " FZF Fuzzy Finder 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -168,15 +71,101 @@ nnoremap <leader>j :Lines<CR>
 " Find buffer
 nnoremap <C-f> :Buffers<CR>
 
-" Z plugin integration
-" jump around recent directories
-" https://github.com/rupa/z
-nnoremap <localleader>z :call fzf#run({'source': 'cat ~/.z \| cut -d"\|" -f1', 'sink':'e'})<cr>
+" Allow repeating for plugin mappings like surround
+Plug 'tpope/vim-repeat'
+
+" Surround with ys
+Plug 'tpope/vim-surround'
+
+" Create html tag
+nmap <localleader>t yslt<cr>
+
+" Git
+Plug 'tpope/vim-fugitive'
+nnoremap <leader>gs :Git<cr>
+nnoremap <leader>ga :Git add %<cr>
+nnoremap <leader>gr :Gread<cr>
+nnoremap <leader>gl :Git log<cr>
+nnoremap <leader>gL :Git log --name-only<cr>
+nnoremap <leader>gA :Git add -A<cr>
+nnoremap <leader>gco :Git checkout<space>
+nnoremap <leader>gcb :Git checkout -b<space>
+nnoremap <leader>gp :Git push<cr>
+
+" git diff (:Gdiffsplit! for merge conflicts)
+nnoremap <leader>gd :Gdiffsplit<cr>
+
+" git merge left-right
+nnoremap <leader>mh :diffget //2<cr>
+nnoremap <leader>ml :diffget //3<cr>
+
+" All commits
+command! Ghistory :Gclog
+
+" Commits for current file
+command! Ghistoryfile :0Gclog!
+
+" Shows a git diff in the sign column. 
+Plug 'mhinz/vim-signify'
+
+" Maximizes and restores the current window in Vim. 
+Plug 'szw/vim-maximizer'
+nnoremap <leader>z :MaximizerToggle<CR>
+xnoremap <leader>z :MaximizerToggle<CR>gv
+
+" Auto close brackets
+Plug 'jiangmiao/auto-pairs' 
+let g:AutoPairsShortcutToggle=''
+let g:AutoPairsMapCh=0 " don't map this one
+
+" Search with ripgrep :Rg
+Plug 'jremmen/vim-ripgrep'
+let g:rg_command='rg --vimgrep --pcre2'
+
+" Sessions
+Plug 'xolox/vim-misc' "requirement
+Plug 'romgrk/vim-session' 
+let g:session_autoload = 'no'
+let g:session_autosave = 'yes'
+let g:session_directory = $HOME."/.vim/sessions"
+let g:session_extension = ''
+
+" Create dir if not exists
+call mkdir($HOME."/.vim/sessions","p")
+
+" Open session (project)
+nnoremap <leader>s :OpenSession 
+
+" Useful commands
+Plug 'tpope/vim-eunuch' 
+" :Delete: Delete a buffer and the file on disk simultaneously.
+" :Unlink: Like :Delete, but keeps the now empty buffer.
+" :Move: Rename a buffer and the file on disk simultaneously.
+" :Rename: Like :Move, but relative to the current file's containing directory.
+" :Chmod: Change the permissions of the current file.
+" :Mkdir: Create a directory, defaulting to the parent of the current file.
+" :Cfind: Run find and load the results into the quickfix list.
+" :Clocate: Run locate and load the results into the quickfix list.
+" :Lfind/:Llocate: Like above, but use the location list.
+" :Wall: Write every open window. Handy for kicking off tools like guard.
+" :SudoWrite: Write a privileged file with sudo.
+" :SudoEdit: Edit a privileged file with sudo.
+" File type detection for sudo -e is based on original file name.
+" New files created with a shebang line are automatically made executable.
+" New init scripts are automatically prepopulated with /etc/init.d/skeleton.
+
+" Calculate simple formulas
+Plug 'sk1418/HowMuch' 
+let g:HowMuch_scale = 8 
+nmap <leader>hm V<Plug>AutoCalcAppendWithEq
+vmap <leader>hm <Plug>AutoCalcAppendWithEq
+vmap <leader>hms <Plug>AutoCalcAppendWithEqAndSum
+vmap <leader>hmr <Plug>AutoCalcReplace
 
 " Align in | with :Tabularize /|
 Plug 'godlygeek/tabular'
 
-" Display markers "
+" Display markers
 Plug 'kshenoy/vim-signature'
 
 " Css Color
@@ -184,7 +173,7 @@ Plug 'ap/vim-css-color', { 'for': [ 'css', 'scss' ] }
 
 " Change case (casing)
 Plug 'arthurxavierx/vim-caser' 
-let g:caser_no_mappings = 1
+" let g:caser_no_mappings = 1
 " let g:caser_prefix = 'gs'
 " p PascalCase
 " c camelCase
@@ -198,6 +187,7 @@ let g:caser_no_mappings = 1
 " . dot.case
 
 " Visual select and change case
+Plug 'arthurxavierx/vim-caser' 
 function! Case()
    let l:myMakeTargets = ["", "gsc", "gs-", "gsp", "gs_", "gsU", "gst", "gss", "gs\<space>", "gsKse", "gs."]
    let l:c=0
@@ -230,10 +220,6 @@ let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_
 let g:slime_no_mappings = 1
 xmap <F9> <Plug>SlimeRegionSend
 nmap <F9> <Plug>SlimeParagraphSend
-
-" Syntax
-" Plug 'sheerun/vim-polyglot'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
 " Editorconfig
 " Respect .editorconfig settings like indenting

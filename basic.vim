@@ -87,6 +87,17 @@ else
   command! Tmpfilesremove !rm ~/.vim/tmp/*
 endif
 
+"""""""""""""""""
+" Highlight yanks
+"""""""""""""""""
+
+if(has('nvim'))
+  augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=300 }
+  augroup END
+endif
+
 " Leader Key
 let mapleader=" "
 let maplocalleader = "\\"
