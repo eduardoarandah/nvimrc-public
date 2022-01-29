@@ -14,8 +14,8 @@ filetype off " basic
 filetype plugin on " Enable filetype plugins
 filetype indent on " Enable loading the indent file for specific file types
 syntax enable " Enable syntax highlighting
-set redrawtime=2000 " After this milliseconds, stop processing syntax
-set maxmempattern=1000000 " Max memory for syntax in Kb
+set redrawtime=5000 " After this milliseconds, stop processing syntax
+" set maxmempattern=1000000 " Max memory for syntax in Kb
 set encoding=utf-8 " Encoding (needed in youcompleteme)
 set fileencoding=utf-8 " The encoding written to file.
 set noerrorbells " No annoying sound on errors
@@ -97,9 +97,9 @@ let maplocalleader = "\\"
 
 " Lines
 nnoremap <C-l> g_
-vnoremap <C-l> g_
+xnoremap <C-l> g_
 nnoremap <C-h> ^
-vnoremap <C-h> ^
+xnoremap <C-h> ^
 
 " Buffers
 nnoremap <C-j> :bn<CR>
@@ -167,12 +167,12 @@ nnoremap <leader>l _vg_
 nnoremap <leader>a ggVG
 
 " Move lines in visual mode
-vnoremap N :m '>+1<CR>gv=gv
-vnoremap P :m '<-2<CR>gv=gv
+xnoremap N :m '>+1<CR>gv=gv
+xnoremap P :m '<-2<CR>gv=gv
 
 " J K just move
-vnoremap J j
-vnoremap K k
+xnoremap J j
+xnoremap K k
 
 """""""""""
 " Quick fix
@@ -191,7 +191,7 @@ nnoremap <leader>cc :cclose<CR>;
 nnoremap Q @q
 
 " Execute macro q on visual selection
-vnoremap Q :normal @q<CR>
+xnoremap Q :normal @q<CR>
 
 """""""""""""""""""""""
 " Clipboard / registers
@@ -207,7 +207,7 @@ nnoremap F2 :set pastetoggle<CR>
 set clipboard+=unnamedplus,unnamed
 
 " Don't lose clipboard when pasting
-vnoremap p pgvy
+xnoremap p pgvy
 
 " delete/change without changing clipboard
 nnoremap <leader>x "_x
@@ -237,7 +237,7 @@ nmap * *N
 nmap # #N
 
 " * search selection (uses z register)
-vnoremap * "zy:set hlsearch<cr>:let @z=escape(@z,'\\/')<cr>:let @/='\V'.@z<cr>
+xnoremap * "zy:set hlsearch<cr>:let @z=escape(@z,'\\/')<cr>:let @/='\V'.@z<cr>
 
 " <leader>r replace, repeat with .
 nmap <leader>r viw*cgn
@@ -304,7 +304,7 @@ endif
 
 " Save
 nnoremap <C-s> :w!<CR>
-vnoremap <C-s> <Esc>:w!<CR>
+xnoremap <C-s> <Esc>:w!<CR>
 inoremap <C-s> <Esc>:w!<CR>
 
 " Refresh

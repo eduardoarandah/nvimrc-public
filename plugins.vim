@@ -56,7 +56,7 @@ Plug 'mhinz/vim-signify'
 " Maximizes and restores the current window in Vim. 
 Plug 'szw/vim-maximizer'
 nnoremap <leader>z :MaximizerToggle<CR>
-vnoremap <leader>z :MaximizerToggle<CR>gv
+xnoremap <leader>z :MaximizerToggle<CR>gv
 
 " NerdTree
 Plug 'scrooloose/nerdtree', { 'on': [ 'NERDTreeToggle', 'NERDTreeFind', 'NERDTreeCWD', 'NERDTree' ] }
