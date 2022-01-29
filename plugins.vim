@@ -32,8 +32,10 @@ imap <localleader>t <C-o>yslt
 Plug 'tpope/vim-fugitive'
 nnoremap gs :Git<cr>
 nnoremap ga :Git add %<cr>
-nnoremap gA :Git add -A<cr>
-nnoremap gl :Git log<cr>
+nnoremap <leader>gl :Git log<cr>
+nnoremap <leader>gA :Git add -A<cr>
+nnoremap <leader>gco :Git checkout<space>
+nnoremap <leader>gcb :Git checkout -b<space>
 nnoremap <leader>gp :Git push<cr>
 
 " git diff (:Gdiffsplit! for merge conflicts)
