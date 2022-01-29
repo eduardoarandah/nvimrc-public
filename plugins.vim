@@ -30,9 +30,9 @@ imap <localleader>t <C-o>yslt
 
 " Git fugitive
 Plug 'tpope/vim-fugitive'
-nnoremap gs :Git<cr>
-nnoremap ga :Git add %<cr>
-nnoremap gr :Gread<cr>
+nnoremap <leader>gs :Git<cr>
+nnoremap <leader>ga :Git add %<cr>
+nnoremap <leader>gr :Gread<cr>
 nnoremap <leader>gl :Git log<cr>
 nnoremap <leader>gA :Git add -A<cr>
 nnoremap <leader>gco :Git checkout<space>
