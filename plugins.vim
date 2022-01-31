@@ -8,6 +8,11 @@ call plug#begin('$HOME/.vim/plugged')
 " Syntax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
+if(!has('nvim'))
+" Highlight yank 
+Plug 'machakann/vim-highlightedyank'
+endif
+
 " Theme
 Plug 'tomasr/molokai' 
 set background=dark
