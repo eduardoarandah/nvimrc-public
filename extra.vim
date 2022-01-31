@@ -2,7 +2,7 @@
 " Format
 """""""""""""""""""""""""
 
-fun! FormatDocument()
+function! FormatDocument()
   if(&ft == 'blade') 
     SpacesClean
     % !npx blade-formatter --stdin --indent-size=2 --wrap=999
@@ -10,19 +10,19 @@ fun! FormatDocument()
     % !sqlformat --reindent --keywords upper --identifiers lower %
   elseif( &ft == 'css' || &ft == 'scss')
     % !npx stylelint --fix
-  elseif( &ft == 'markdown')
+  elseif( &ft == 'markdown' || &ft  == 'vue')
     PrettierAsync
   elseif(&ft == 'lua') 
-    " download https://github.com/JohnnyMorganz/StyLua/releases
     write
+    " download https://github.com/JohnnyMorganz/StyLua/releases
     silent !stylua %
     edit
   else
     lua vim.lsp.buf.formatting()
   endif
-endfun
+endfunction
 
-" nnoremap <leader>f :call FormatDocument()<Cr>
+nnoremap <leader>f :call FormatDocument()<Cr>
 
 """""""""""""""""""""""""
 " Fix
@@ -96,13 +96,6 @@ command! -nargs=1 ExtractImagesFromUrl :r!curl -s <args> | grep -shoP 'http[^" ]
 command! Pxtorem s#\v(\d+)px#\=string(submatch(1)/16.0)."rem"
 command! Pxtoremglobal %s#\v(\d+)px#\=string(submatch(1)/16.0)."rem"
 
-""""""""""""
-" Macros "
-""""""""""""
-
-" PHP construct args to class attributes
-command! PhpConstructorArgsProcess delmarks z | exec('norm mzlywOpublic $pa;`zjo$this->pa=$pa;`z')
-
 """"""""""""""""""""
 " CSS Dictionaries
 """"""""""""""""""""
@@ -160,6 +153,7 @@ command PhpIfToBlade :norm 0f{%S@endifD0:s/<?php if/@if
 " go to class
 nnoremap \c ?class<CR>2f":noh<CR>
 
+" Lorem ipsum
 command! LoremHtml :r!curl -Ns https://loripsum.net/api/10/medium/headers/decorate/link/ul/ol/bq/
 
 """""""""""""""
@@ -169,14 +163,9 @@ command! LoremHtml :r!curl -Ns https://loripsum.net/api/10/medium/headers/decora
 :command! TailwindOnTheRight :vsplit | vertical resize 40 | e tailwind.config.js | norm <c-w>h<cr>
 
 """""""""""""""""""""""""
-" Open script
+" Search on relevant directories
 """""""""""""""""""""""""
 
-" Generate password
-noremap <localleader>p :r!pwgen -sN 1 40<cr>
-inoremap <localleader>p <esc>:r!pwgen -sN 1 40<cr>i
-
-" Search on relevant directories
 command! Clientes :Files ~/clientes
 command! Colegas :Files ~/colegas
 command! Conocimiento :Files ~/conocimiento

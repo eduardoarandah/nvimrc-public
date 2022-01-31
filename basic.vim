@@ -46,7 +46,7 @@ set background=dark " Dark
 set autoindent " Auto indent
 set shiftwidth=2 " Use indents of 2 spaces
 set expandtab " Tabs are spaces, not tabs
-set tabstop=2 " An indentation every four columns
+set tabstop=2 " An indentation every x columns
 set softtabstop=2 " Let backspace delete indent
 set ai " Auto indent
 set si " Smart indent

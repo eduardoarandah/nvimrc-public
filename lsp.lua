@@ -35,9 +35,8 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap("n", "[E", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 	buf_set_keymap("n", "[e", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 	buf_set_keymap("n", "[q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-	buf_set_keymap("n", "[f", "<cmd>call FormatDocument()<CR>", opts)
+	buf_set_keymap("n", "[f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
-
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
@@ -79,7 +78,8 @@ local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-require("lspconfig").sumneko_lua.setup({
+nvim_lsp.sumneko_lua.setup({
+	on_attach = on_attach,
 	settings = {
 		Lua = {
 			runtime = {
