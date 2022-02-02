@@ -1038,16 +1038,24 @@ add_action("rest_api_init", function () {
 });
 endsnippet
 
-snippet putest "PHPUnit test"
+snippet puClass "PHPUnit class"
 <?php
 use PHPUnit\Framework\TestCase;
 
-class $1 extends TestCase
+class $1 extends BaseTest
 {
     function test$2()
     {
         \$this->assertTrue(true);
     }
+}
+endsnippet
+
+snippet putest "PHPUnit class"
+function test$1()
+{
+		$0
+		\$this->assertTrue();
 }
 endsnippet
 

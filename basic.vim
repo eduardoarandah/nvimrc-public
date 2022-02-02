@@ -44,7 +44,7 @@ set relativenumber " Use relative numbers instead of absolute
 set wrap! " Don't wrap long lines
 set background=dark " Dark
 set autoindent " Auto indent
-set shiftwidth=2 " Use indents of 2 spaces
+set shiftwidth=4 " Use indents of x spaces
 set expandtab " Tabs are spaces, not tabs
 set tabstop=2 " An indentation every x columns
 set softtabstop=2 " Let backspace delete indent
@@ -365,11 +365,9 @@ cnoremap && <C-R>=fnameescape(expand("%:t"))<CR>
 
 " Insert filename
 nnoremap <localleader>fn :let @z=expand('%:t')<Cr>"zp 
-imap <localleader>fn <esc><localleader>fn 
 
 " Insert other window filename
 nnoremap <localleader>wn <C-w><C-w>:let @z=expand('%:t')<Cr><C-w><C-w>"zp 
-imap <localleader>wn <esc><localleader>wn 
 
 " Duplicate File
 function! s:duplicate(name)
@@ -466,7 +464,6 @@ augroup END
 
 " Insert date
 nnoremap <localleader>h i<c-r>=strftime("%Y-%m-%d")<CR><esc>
-inoremap <localleader>h <c-r>=strftime("%Y-%m-%d")<CR>
 
 " Underline
 nnoremap <leader>- "zyy"zpVr-o<esc>
