@@ -1,9 +1,9 @@
 " Download vim-plug if not exists
-command! DownloadVimPlug !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+command! DownloadVimPlug !curl -fLo ~/.nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 " Create plugged dir if not exists
-call mkdir($HOME."/.vim/plugged","p")
-call plug#begin('$HOME/.vim/plugged')
+call mkdir($HOME."/.nvim/plugged","p")
+call plug#begin('$HOME/.nvim/plugged')
 
 " Syntax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
@@ -17,7 +17,7 @@ endif
 " Theme
 Plug 'tomasr/molokai' 
 set background=dark
-set termguicolors
+" set termguicolors
 
 " if terminal has 256 colors
 if !has("gui_running")
@@ -133,11 +133,11 @@ Plug 'xolox/vim-misc' "requirement
 Plug 'romgrk/vim-session' 
 let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
-let g:session_directory = $HOME."/.vim/sessions"
+let g:session_directory = $HOME."/.nvim/sessions"
 let g:session_extension = ''
 
 " Create dir if not exists
-call mkdir($HOME."/.vim/sessions","p")
+call mkdir($HOME."/.nvim/sessions","p")
 
 " Open session (project)
 nnoremap <leader>s :OpenSession 

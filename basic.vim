@@ -1,7 +1,6 @@
 " Update:
 " PlugUpgrade 
 " PlugUpdate
-" CocUpdate
 " TSUpdate
 
 """"""""""""""""
@@ -70,22 +69,13 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 set wildcharm=<tab>
 
 " Directories. Separate vim and neovim to avoid conflicts on format
-if(has('nvim'))
-  call mkdir($HOME."/.vim/nvimtmp","p") " Create dir if not exists
-  set runtimepath^=~/.vim runtimepath+=~/.vim/after
-  let &packpath = &runtimepath
-  set backupdir=$HOME/.vim/nvimtmp//
-  set directory=$HOME/.vim/nvimtmp//
-  set undodir=$HOME/.vim/nvimtmp//
-  command! Tmpfilesremove !rm ~/.vim/nvimtmp/*
-else
-  call mkdir($HOME."/.vim/tmp","p") " Create dir if not exists
-  set runtimepath^=~/.vim runtimepath+=~/.vim/after
-  set backupdir=$HOME/.vim/tmp//
-  set directory=$HOME/.vim/tmp//
-  set undodir=$HOME/.vim/tmp//
-  command! Tmpfilesremove !rm ~/.vim/tmp/*
-endif
+call mkdir($HOME."/.nvim/tmp","p") " Create dir if not exists
+set runtimepath^=~/.nvim runtimepath+=~/.nvim/after
+let &packpath = &runtimepath
+set backupdir=$HOME/.nvim/tmp//
+set directory=$HOME/.nvim/tmp//
+set undodir=$HOME/.nvim/tmp//
+command! Tmpfilesremove !rm ~/.nvim/tmp/*
 
 """""""""""""""""
 " Highlight yanks
@@ -228,10 +218,8 @@ nnoremap <leader>c "_c
 " Delete all registers
 command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
 
-if (has("nvim")) 
-  " Fixes copying special chars
-  lang en_US 
-endif
+" Fixes copying special chars (only nvim)
+lang en_US 
 
 """"""""""""""""
 " Search replace
@@ -384,11 +372,6 @@ endfunction
 
 " Repeat last command
 nnoremap g. @:
-
-if (has("nvim")) 
-  " Shows the effects of a command incrementally, as you type.
-  set inccommand=nosplit 
-endif
 
 """""""""""""""""""""""""
 " Code formatting

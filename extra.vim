@@ -107,20 +107,20 @@ endfun
 command! DictionaryDistStylesApp :call DictionaryDistStylesApp()
 
 " Generate Boostrap dictionary:
-" ctags -R --fields=+aimlS --languages=css --exclude=node_modules -f - | cut -f1 | uniq | sed 's/\.//' > ~/.vim/dict/bootstrap
+" ctags -R --fields=+aimlS --languages=css --exclude=node_modules -f - | cut -f1 | uniq | sed 's/\.//' > ~/.nvim/dict/bootstrap
 " Download boostrap and generate classes:
-" curl -s https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.vim/dict/bootstrap4
-:command! DictBoostrap4 :set dictionary+=~/.vim/dict/bootstrap4
-:command! DictBoostrap4Remove :set dictionary-=~/.vim/dict/bootstrap4
+" curl -s https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/bootstrap4
+:command! DictBoostrap4 :set dictionary+=~/.nvim/dict/bootstrap4
+:command! DictBoostrap4Remove :set dictionary-=~/.nvim/dict/bootstrap4
 
 
 " Tailwind dictionary
-" mkdir -p ~/.vim/dict
+" mkdir -p ~/.nvim/dict
 " https://tailwindcss.com/docs/installation#using-tailwind-without-post-css
-" npx tailwindcss-cli@latest build -o ~/.vim/dict/tailwind.css
-" cat ~/.vim/dict/tailwind.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.vim/dict/tailwind
-:command! DictTailwind :set dictionary+=~/.vim/dict/tailwind
-:command! DictTailwindRemove :set dictionary-=~/.vim/dict/tailwind
+" npx tailwindcss-cli@latest build -o ~/.nvim/dict/tailwind.css
+" cat ~/.nvim/dict/tailwind.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/tailwind
+:command! DictTailwind :set dictionary+=~/.nvim/dict/tailwind
+:command! DictTailwindRemove :set dictionary-=~/.nvim/dict/tailwind
 
 """""""""""""""
 " PHP
