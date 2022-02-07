@@ -7,6 +7,7 @@ call plug#begin('$HOME/.vim/plugged')
 
 " Syntax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'jwalton512/vim-blade'
 
 if(!has('nvim'))
 " Highlight yank 

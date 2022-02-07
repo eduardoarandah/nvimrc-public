@@ -634,6 +634,11 @@ snippet migradrop "Migration drop table"
 Schema::drop('$1')
 endsnippet
 
+snippet migradropcolumn "Migration drop column"
+\$table->dropColumn('${1:name}');
+\$table->dropColumn(['$1']);
+endsnippet
+
 snippet mutator "Model: mutator"
 public function set`!p snip.rv = t[1].replace("_"," ").title().replace(" ","")`Attribute($value)
 {
@@ -1296,8 +1301,9 @@ snippet wpajax "ajax request"
 function $1()
 {
 	$name = $_POST["name"] ?? "????";
+	// wp_send_json_error([ "hello" => $name ]);
 	ob_clean(); // clear any debug messages 
-	wp_send_json([ "hello" => $name ]);
+	wp_send_json_success([ "hello" => $name ]);
 	wp_die();
 }
 
