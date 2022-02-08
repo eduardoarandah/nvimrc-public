@@ -9,7 +9,7 @@ function! FormatDocument()
   elseif(&ft == 'sql')
     % !sqlformat --reindent --keywords upper --identifiers lower %
   elseif( &ft == 'css' || &ft == 'scss')
-    % !npx stylelint --fix
+    % !npx stylelint --fix --stdin-filename %
   elseif( &ft == 'markdown' || &ft  == 'vue')
     PrettierAsync
   elseif(&ft == 'lua') 

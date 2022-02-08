@@ -61,6 +61,7 @@ set splitright " Open split right
 set listchars=trail:-
 set mouse=a " Mouse support in all modes
 set undofile
+set signcolumn=yes " Fixed space on the left for git and linting signs, otherwise it 'jumps'
 
 " Wildmenu
 set wildmenu " Show list instead of just completing
