@@ -47,9 +47,6 @@ command! Fix :call Fix()
 " CSS
 """""""""""""""""""
 
-" go class
-nnoremap <localleader>c 0?class<cr>2f":noh<cr>
-
 " tc To BEM Class
 nnoremap <leader>tb I&__<ESC>A{}<ESC>
 

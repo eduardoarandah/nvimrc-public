@@ -556,7 +556,7 @@ snippet wpaction "wordpress action hook"
 add_action(
     '$1', // hook_name
     function(){
-        echo '<div class="dummy">$0</div>';
+        echo '<div style="padding: 10px;outline: 1px dashed red;">hello</div>';
     },
     10, // priority (lower first)
     1 // accepted args in function

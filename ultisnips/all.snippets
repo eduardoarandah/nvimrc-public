@@ -6,6 +6,20 @@
 # ~-55 so that other filetypes will still overwrite.
 priority -60
 
+
+snippet interpolationexample "Interpolation example"
+${1}
+
+title case:
+`!p snip.rv = t[1].title() if t[1] else ''`
+
+dash case:
+`!p snip.rv = t[1].replace(" ","-") if t[1] else ''`
+
+camel Case:
+`!p snip.rv = t[1][0].lower() + t[1].title().replace(" ","")[1:] if t[1] else ''`
+endsnippet
+
 ##############
 # NICE BOXES #
 ##############

@@ -83,9 +83,6 @@ Plug 'tpope/vim-repeat'
 " Surround with ys
 Plug 'tpope/vim-surround'
 
-" Create html tag
-nmap <localleader>t yslt<cr>
-
 " Git
 Plug 'tpope/vim-fugitive'
 nnoremap <leader>gs :Git<cr>

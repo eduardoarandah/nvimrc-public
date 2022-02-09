@@ -353,10 +353,8 @@ cnoremap ^^ <C-R>=fnameescape(expand("%:p"))<CR>
 cnoremap && <C-R>=fnameescape(expand("%:t"))<CR>
 
 " Insert filename
-nnoremap <localleader>fn :let @z=expand('%:t')<Cr>"zp 
-
-" Insert other window filename
-nnoremap <localleader>wn <C-w><C-w>:let @z=expand('%:t')<Cr><C-w><C-w>"zp 
+command! Fname normal i<c-r>=expand('%:t:r')<cr>
+command! Fnameext normal i<c-r>=expand('%:t')<cr>
 
 " Duplicate File
 function! s:duplicate(name)
@@ -447,7 +445,8 @@ augroup END
 """""""""""""""""""""""""""""""""""
 
 " Insert date
-nnoremap <localleader>h i<c-r>=strftime("%Y-%m-%d")<CR><esc>
+command! Today normal i<c-r>=strftime("%Y-%m-%d")<CR><esc>
+nnoremap gt :Today<CR>
 
 " Underline
 nnoremap <leader>- "zyy"zpVr-o<esc>
@@ -482,4 +481,3 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 " :h s_flags
 " :h submatch()
 command! CopyMatches let hits = [] | %substitute//\=add(hits, submatch(0))/gne | let @+ = join(hits, "\n")
-
