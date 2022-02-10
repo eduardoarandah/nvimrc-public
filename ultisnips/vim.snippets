@@ -50,3 +50,9 @@ augroup filetype_html
 	autocmd FileType html nnoremap <buffer> <localleader>f Vatzf
 augroup END
 endsnippet 
+
+snippet .vimrccwd ".vimrc to change tools but not working directory"
+nnoremap <c-p> :Files ${1:wp-content/themes/xxx}<cr>
+NERDTree
+NERDTree $1
+endsnippet

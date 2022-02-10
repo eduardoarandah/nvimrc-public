@@ -88,12 +88,21 @@ Plug 'tpope/vim-fugitive'
 nnoremap <leader>gs :Git<cr>
 nnoremap <leader>ga :Git add %<cr>
 nnoremap <leader>gr :Gread<cr>
-nnoremap <leader>gl :Git log<cr>
-nnoremap <leader>gL :Git log --name-only<cr>
+nnoremap <leader>gl :Git log --name-only<cr>
 nnoremap <leader>gA :Git add -A<cr>
 nnoremap <leader>gco :Git checkout<space>
 nnoremap <leader>gcb :Git checkout -b<space>
 nnoremap <leader>gp :Git push<cr>
+
+" create a nice report on the last commit
+function! Greport() 
+    norm ibranch: 
+    read !git branch --show-current
+    norm kJyypVr-o
+    read !git log --name-only -n 1
+endfunction 
+command! Greport :call Greport() 
+
 
 " git diff (:Gdiffsplit! for merge conflicts)
 nnoremap <leader>gd :Gdiffsplit<cr>
@@ -137,7 +146,7 @@ let g:session_extension = ''
 call mkdir($HOME."/.nvim/sessions","p")
 
 " Open session (project)
-nnoremap <leader>s :OpenSession 
+nnoremap <leader>s :OpenSession<space>
 
 " Useful commands
 Plug 'tpope/vim-eunuch' 
