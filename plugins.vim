@@ -94,16 +94,6 @@ nnoremap <leader>gco :Git checkout<space>
 nnoremap <leader>gcb :Git checkout -b<space>
 nnoremap <leader>gp :Git push<cr>
 
-" create a nice report on the last commit
-function! Greport() 
-    norm ibranch: 
-    read !git branch --show-current
-    norm kJyypVr-o
-    read !git log --name-only -n 1
-endfunction 
-command! Greport :call Greport() 
-
-
 " git diff (:Gdiffsplit! for merge conflicts)
 nnoremap <leader>gd :Gdiffsplit<cr>
 
