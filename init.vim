@@ -4,4 +4,3 @@ source ~/.config/nvim/extra.vim
 source ~/.config/nvim/syntax.lua
 source ~/.config/nvim/completion.lua
 source ~/.config/nvim/lsp.lua
-source ~/.config/nvim/greport.lua

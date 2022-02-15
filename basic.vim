@@ -137,8 +137,8 @@ nnoremap <leader>q :bd<CR>
 " close unsaved buffer, no save
 nnoremap <leader>Q :bd!<CR>
 
-" just die please
-nnoremap <leader>gq :qa!<CR>
+" just die please (ZQ)
+" nnoremap <leader>gq :qa!<CR>
 
 " write
 nnoremap <leader>w :w!<CR>

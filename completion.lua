@@ -5,6 +5,7 @@
 -- https://github.com/hrsh7th/nvim-cmp
 -----------------------------------------------------------------------------
 local cmp = require("cmp")
+local api = vim.api
 
 cmp.setup({
 	snippet = {
@@ -30,14 +31,11 @@ cmp.setup({
 	},
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
-		-- { name = 'vsnip' }, -- For vsnip users.
-		-- { name = 'luasnip' }, -- For luasnip users.
-		{ name = "ultisnips" }, -- For ultisnips users.
-		-- { name = 'snippy' }, -- For snippy users.
-	}, {
+		{ name = "ultisnips" },
 		{ name = "nvim_lua" },
 		{ name = "buffer" },
 		{ name = "path" },
+		{ name = "dictionary", keyword_length = 2 },
 	}),
 })
 
@@ -56,3 +54,36 @@ cmp.setup.cmdline(":", {
 		{ name = "cmdline" },
 	}),
 })
+
+---------------------------------------------
+-- dictionary
+-- https://github.com/uga-rosa/cmp-dictionary
+---------------------------------------------
+
+require("cmp_dictionary").setup({
+	dic = {},
+	async = true,
+	debug = false,
+})
+
+function DictBoostrap4()
+	local dic = require("cmp_dictionary")
+	-- Download boostrap and generate classes:
+	-- curl -s https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/bootstrap4
+	dic.setup({ dic = { ["php,html,blade"] = { "~/.nvim/dict/bootstrap4" } } })
+	dic.update()
+end
+
+api.nvim_command("command! DictBoostrap4 :lua DictBoostrap4()")
+
+function DictTailwind()
+	local dic = require("cmp_dictionary")
+	-- mkdir -p ~/.nvim/dict
+	-- https://tailwindcss.com/docs/installation#using-tailwind-without-post-css
+	-- npx tailwindcss-cli@latest build -o ~/.nvim/dict/tailwind.css
+	-- cat ~/.nvim/dict/tailwind.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/tailwind
+	dic.setup({ dic = { ["php,html,blade"] = { "~/.nvim/dict/tailwind" } } })
+	dic.update()
+end
+
+api.nvim_command("command! DictTailwind :lua DictTailwind()")

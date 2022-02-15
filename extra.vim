@@ -9,7 +9,8 @@ function! FormatDocument()
   elseif(&ft == 'sql')
     % !sqlformat --reindent --keywords upper --identifiers lower %
   elseif( &ft == 'css' || &ft == 'scss')
-    % !npx stylelint --fix --stdin-filename %
+    " % !npx stylelint --fix --stdin-filename %
+    PrettierAsync
   elseif( &ft == 'markdown' || &ft  == 'vue')
     PrettierAsync
   elseif(&ft == 'lua') 
@@ -107,8 +108,9 @@ command! DictionaryDistStylesApp :call DictionaryDistStylesApp()
 " ctags -R --fields=+aimlS --languages=css --exclude=node_modules -f - | cut -f1 | uniq | sed 's/\.//' > ~/.nvim/dict/bootstrap
 " Download boostrap and generate classes:
 " curl -s https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/bootstrap4
-:command! DictBoostrap4 :set dictionary+=~/.nvim/dict/bootstrap4
-:command! DictBoostrap4Remove :set dictionary-=~/.nvim/dict/bootstrap4
+" :command! DictBoostrap4 :set dictionary+=~/.nvim/dict/bootstrap4
+" :command! DictBoostrap4Remove :set dictionary-=~/.nvim/dict/bootstrap4
+"
 
 
 " Tailwind dictionary
@@ -116,8 +118,8 @@ command! DictionaryDistStylesApp :call DictionaryDistStylesApp()
 " https://tailwindcss.com/docs/installation#using-tailwind-without-post-css
 " npx tailwindcss-cli@latest build -o ~/.nvim/dict/tailwind.css
 " cat ~/.nvim/dict/tailwind.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/tailwind
-:command! DictTailwind :set dictionary+=~/.nvim/dict/tailwind
-:command! DictTailwindRemove :set dictionary-=~/.nvim/dict/tailwind
+" :command! DictTailwind :set dictionary+=~/.nvim/dict/tailwind
+" :command! DictTailwindRemove :set dictionary-=~/.nvim/dict/tailwind
 
 """""""""""""""
 " PHP
@@ -169,3 +171,10 @@ command! Conocimiento :Files ~/conocimiento
 command! Proyectos :Files ~/proyectos
 command! Repos :Files ~/repos
 command! Scripts :Files ~/scripts
+
+
+"""""""""""""""""""""""""
+" Lua
+"""""""""""""""""""""""""
+
+command! Greport lua require'greport'.greport()

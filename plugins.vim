@@ -240,6 +240,8 @@ Plug 'hrsh7th/cmp-buffer' " nvim-cmp source for buffer words.
 Plug 'hrsh7th/cmp-path' " nvim-cmp source for filesystem paths.
 Plug 'hrsh7th/cmp-cmdline' " nvim-cmp source for vim's cmdline.
 Plug 'hrsh7th/cmp-nvim-lua' " nvim-cmp source for neovim Lua API.
+Plug 'uga-rosa/cmp-dictionary' " https://github.com/uga-rosa/cmp-dictionary
+
 
 " Snippets ultisnips users.
 Plug 'SirVer/ultisnips' " UltiSnips is the ultimate solution for snippets in Vim

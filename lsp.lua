@@ -56,7 +56,7 @@ local servers = {
 	"eslint",
 	"tsserver",
 	"intelephense",
-	"tailwindcss",
+	-- "tailwindcss",
 	"vuels",
 	"sumneko_lua",
 }
