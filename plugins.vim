@@ -233,6 +233,7 @@ Plug 'andrejlevkovitch/vim-lua-format'
 " Completion
 Plug 'hrsh7th/nvim-cmp' " A completion engine plugin for neovim written in Lua.
 Plug 'neovim/nvim-lspconfig' " A collection of common configurations for Neovim's built-in language server client.
+Plug 'williamboman/nvim-lsp-installer' " Allows you to seamlessly install LSP servers locally
 
 " Completion sources
 Plug 'hrsh7th/cmp-nvim-lsp' " nvim-cmp source for neovim's built-in language server client.
@@ -246,6 +247,7 @@ Plug 'uga-rosa/cmp-dictionary' " https://github.com/uga-rosa/cmp-dictionary
 " Snippets ultisnips users.
 Plug 'SirVer/ultisnips' " UltiSnips is the ultimate solution for snippets in Vim
 Plug 'quangnguyen30192/cmp-nvim-ultisnips' " UltiSnips completion source for nvim-cmp
+nnoremap <leader>u :UltiSnipsEdit<cr>
 
 call plug#end()
 
