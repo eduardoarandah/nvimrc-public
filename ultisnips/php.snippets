@@ -1532,3 +1532,10 @@ endsnippet
 snippet wpdate "wordpress local date" b
 \$local_date = date_i18n('Y-m-d H:i:s');
 endsnippet
+
+snippet wpfilterdebug "debug wp hook" b
+global \$wp_filter;
+echo '<pre>';
+var_dump( \$wp_filter['$1'] );
+echo '</pre>';
+endsnippet

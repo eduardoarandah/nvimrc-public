@@ -53,7 +53,7 @@ local function prev()
 end
 
 local function next()
-	if vim.b.greport_number > 1 then
+	if vim.b.greport_number > 0 then
 		vim.b.greport_number = vim.b.greport_number - 1
 		add_log()
 	end
