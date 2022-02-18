@@ -122,7 +122,7 @@ let g:AutoPairsMapCh=0 " don't map this one
 
 " Search with ripgrep :Rg
 Plug 'jremmen/vim-ripgrep'
-let g:rg_command='rg --vimgrep --pcre2'
+let g:rg_command='rg --vimgrep --pcre2 --type-add="scss:*.scss"'
 
 " Sessions
 Plug 'xolox/vim-misc' "requirement

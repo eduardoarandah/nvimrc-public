@@ -553,14 +553,10 @@ endsnippet
 ###############
 
 snippet wpaction "wordpress action hook"
-add_action(
-    '$1', // hook_name
-    function(){
-        echo '<div style="padding: 10px;outline: 1px dashed red;">hello</div>';
-    },
-    10, // priority (lower first)
-    1 // accepted args in function
-);
+function ${1:action}_${2:filter}(){
+		$0
+}
+add_action( '$1', '$1_$2', 10); // priority: lower first
 endsnippet
 
 snippet wpfilter "wordpress filter"
@@ -1533,7 +1529,7 @@ snippet wpdate "wordpress local date" b
 \$local_date = date_i18n('Y-m-d H:i:s');
 endsnippet
 
-snippet wpfilterdebug "debug wp hook" b
+snippet wpactiondebug "debug do_action" b
 global \$wp_filter;
 echo '<pre>';
 var_dump( \$wp_filter['$1'] );

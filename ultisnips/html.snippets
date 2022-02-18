@@ -818,7 +818,9 @@ endsnippet
 
 
 snippet ifecho "PHP <?php ?>" i
-<?php if (\$$1) : ?>
-		<?php echo \$$1 ?>
+<?php if (!empty(\$$1)) : ?>
+		<div class="$1">
+				<?php echo \$$1 ?>
+		</div>
 <?php endif ?>
 endsnippet

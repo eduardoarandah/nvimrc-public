@@ -18,10 +18,10 @@ require("nvim-treesitter.configs").setup({
 	}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
 	highlight = {
 		enable = true,
-		disable = { "php" }, -- list of language that will be disabled
+		-- disable = { "php" }, -- list of language that will be disabled
 	},
 	indent = {
-		enable = false,
+		enable = true,
 	},
 	context_commentstring = {
 		enable = true,

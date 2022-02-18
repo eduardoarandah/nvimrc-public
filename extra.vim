@@ -10,6 +10,7 @@ function! FormatDocument()
     % !sqlformat --reindent --keywords upper --identifiers lower %
   elseif( &ft == 'css' || &ft == 'scss')
     " % !npx stylelint --fix --stdin-filename %
+    DeleteBlankLines
     PrettierAsync
   elseif( &ft == 'markdown' || &ft  == 'vue')
     PrettierAsync
@@ -173,8 +174,3 @@ command! Repos :Files ~/repos
 command! Scripts :Files ~/scripts
 
 
-"""""""""""""""""""""""""
-" Lua
-"""""""""""""""""""""""""
-
-command! Greport lua require'greport'.greport()
