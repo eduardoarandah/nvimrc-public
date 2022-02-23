@@ -371,7 +371,7 @@ nnoremap g. @:
 " motions
 """""""""""""""""""""""""
 
-" motion: from first non-blank char to last
+" operator pending motion: yil to yank inside line
 xnoremap il ^og_
 onoremap <silent> il :normal vil<CR>
 
