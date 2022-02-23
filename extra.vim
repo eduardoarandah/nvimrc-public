@@ -232,3 +232,9 @@ command! Repos :Files ~/repos
 command! Scripts :Files ~/scripts
 
 
+"""""""""""""""""""""""""
+" Lua modules
+"""""""""""""""""""""""""
+
+command! Greport lua require'greport'.greport()<cr>
+

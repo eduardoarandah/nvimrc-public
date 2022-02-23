@@ -4,6 +4,7 @@ local function build_floating_buffer()
 	local buf = api.nvim_create_buf(false, true) -- create new emtpy buffer
 
 	api.nvim_buf_set_option(buf, "bufhidden", "wipe")
+	api.nvim_buf_set_option(buf, "filetype", "git")
 
 	-- get dimensions
 	local width = api.nvim_get_option("columns")
@@ -25,6 +26,7 @@ local function build_floating_buffer()
 		height = win_height,
 		row = row,
 		col = col,
+		border = "double",
 	}
 	-- and finally create it with buffer attached
 	api.nvim_open_win(buf, true, opts)
@@ -65,12 +67,15 @@ local function next()
 	end
 end
 
-function Greport()
+local function greport()
 	local buf = build_floating_buffer()
 	add_branch_to_buffer(buf)
 	add_log_to_buffer(buf)
 	add_mappings_to_buffer(buf)
 end
 
--- register command
-vim.cmd("command! Greport lua Greport()")
+return {
+	greport = greport,
+	prev = prev,
+	next = next,
+}
