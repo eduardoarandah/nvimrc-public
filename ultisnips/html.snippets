@@ -821,6 +821,14 @@ snippet ifecho "PHP <?php ?>" i
 <?php if (!empty(\$$1)) : ?>
 		<div class="$1">
 				<?php echo \$$1 ?>
+				<?php echo htmlspecialchars(\$$1) ?>
+				<?php echo nl2br(htmlspecialchars(\$$1)) ?>
 		</div>
 <?php endif ?>
+endsnippet
+
+snippet acflink "ACF link"
+<a class="$0" href="<?php echo \$${1:link}['url'] ?>" target="<?php echo \$$1['target'] ?>">
+		<?php echo htmlspecialchars(\$$1['title']) ?>
+</a>
 endsnippet

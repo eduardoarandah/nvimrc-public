@@ -7,7 +7,10 @@ call plug#begin('$HOME/.nvim/plugged')
 
 " Syntax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-Plug 'jwalton512/vim-blade'
+" https://github.com/nvim-treesitter/playground :TSPlaygroundToggle
+" Plug 'nvim-treesitter/playground'
+Plug 'sheerun/vim-polyglot'
+" Plug 'jwalton512/vim-blade'
 
 if(!has('nvim'))
 " Highlight yank 
@@ -15,8 +18,9 @@ Plug 'machakann/vim-highlightedyank'
 endif
 
 " Theme
-Plug 'tomasr/molokai' 
 set background=dark
+Plug 'tanvirtin/monokai.nvim'
+Plug 'Mofiqul/dracula.nvim'
 " set termguicolors
 
 " if terminal has 256 colors
@@ -255,7 +259,7 @@ call plug#end()
 set completeopt=menu,menuone,noselect
 
 " After loading plugins
-colorscheme molokai
+colorscheme dracula
 
 " Better cursor highlighting
 " hi Search cterm=NONE ctermfg=255 guifg=#eeeeee ctermbg=88 guibg=#870000

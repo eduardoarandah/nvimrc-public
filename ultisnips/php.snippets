@@ -1535,3 +1535,9 @@ echo '<pre>';
 var_dump( \$wp_filter['$1'] );
 echo '</pre>';
 endsnippet
+
+snippet wpcategory "Get first category post"
+// get category
+\$terms = get_the_terms(\$post, 'category');
+\$category_name =  (is_array(\$terms) && count(\$terms)) ? \$terms[0]->name : '';
+endsnippet

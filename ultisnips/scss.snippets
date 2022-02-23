@@ -205,7 +205,8 @@ endsnippet
 
 snippet pseudo "Pseudo Element"
 position: relative;
-&::${1:before} {
+// &:not(:last-child):after {
+&::${1:after} {
 		display: block;
 		content: '';
 		position: absolute;

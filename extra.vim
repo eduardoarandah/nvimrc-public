@@ -1,3 +1,84 @@
+"""""""""""""""""""""""""""""""""""
+" Spaces
+"""""""""""""""""""""""""""""""""""
+
+" Delete blank lines
+:command! DeleteBlankLines g/^\s*$/d
+
+" Replace multiple blank lines for single line
+function! DoubleBlankLinesRemove(...)
+  let save_pos = getpos(".")
+  silent! %s/\(\n\n\)\n\+/\1/e
+  nohlsearch
+  call setpos('.', save_pos)
+endfunction
+command! DoubleBlankLinesRemove :call DoubleBlankLinesRemove()
+
+" Replace multiple horizontal spacing to single space
+function! DoubleSpacesRemove(...)
+  let save_pos = getpos(".")
+  silent! %s/\S\zs \+/ /e
+  nohlsearch
+  call setpos('.', save_pos)
+endfunction
+command! DoubleSpacesRemove :call DoubleSpacesRemove()
+
+" Delete trailing white space
+function! DeleteTrailingWhiteSpace(...)
+    let save_pos = getpos(".")
+    silent! %s/\s\+$//e
+    call setpos('.', save_pos)
+endfunction
+command! DeleteTrailingWhiteSpace :call DeleteTrailingWhiteSpace()
+
+" Clean bad spaces
+command! SpacesClean :call DeleteTrailingWhiteSpace() | call DoubleSpacesRemove() | call DoubleBlankLinesRemove()
+
+"""""""""""""""""""""""""""""""""""
+" Utils
+"""""""""""""""""""""""""""""""""""
+
+" Insert date
+command! Today normal i<c-r>=strftime("%Y-%m-%d")<CR><esc>
+nnoremap gt :Today<CR>
+
+" Underline
+nnoremap <leader>- "zyy"zpVr-o<esc>
+nnoremap <leader>= "zyy"zpVr=o<esc>
+
+" Append colon and semicolon
+nnoremap <leader>, A,<ESC>
+nnoremap <leader>; A;<ESC>
+
+" Open url under cursor
+function! OpenURLUnderCursor()
+  let s:uri = expand('<cWORD>')
+  let s:uri = substitute(s:uri, '?', '\\?', '')
+  let s:uri = shellescape(s:uri, 1)
+  if s:uri != ''
+    silent exec "!open '".s:uri."'"
+    :redraw!
+  endif
+endfunction
+nnoremap gx :call OpenURLUnderCursor()<CR>
+
+"""""""""""""""""""""""""
+" Searching
+"""""""""""""""""""""""""
+
+" Copy  all matches in document
+" Strategy: execute add command on each match on each line into an array
+" then join with new line \n
+" g flag: repeat on each match in the line
+" n report matches only, don't make any substitutions
+" e no errors please
+" The |submatch()| function can be used to obtain matched text.  The whole matched text can be accessed with submatch(0) 
+" read more 
+" :h substitute
+" :h s_flags
+" :h submatch()
+command! CopyMatches let hits = [] | %substitute//\=add(hits, submatch(0))/gne | let @+ = join(hits, "\n")
+
 """""""""""""""""""""""""
 " Format
 """""""""""""""""""""""""
@@ -54,13 +135,13 @@ nnoremap <leader>tb I&__<ESC>A{}<ESC>
 
 fun! s:extractBem()
   " clean
-  let @a=''
-  " extract
-  g/__[a-z-]*/y A
+  let @z=''
+  " copy-append to z register
+  g/__[a-z-]*/y Z
   " new file
-  e temp
+  tabnew temp
   " paste
-  normal "aP
+  normal "zP
   " substitute everthing outside capture group and add $ and {}
   %s/.*\(__[a-z-]*\).*/\&\1{}/g
   " yank all
@@ -70,7 +151,7 @@ fun! s:extractBem()
   " exit
   bd!
   " echo
-  " echo 'copied to clipboard'
+  echo 'copied to clipboard'
 endfun
 
 :command! ExtractBem :call s:extractBem()
@@ -105,23 +186,6 @@ fun! DictionaryDistStylesApp()
 endfun
 command! DictionaryDistStylesApp :call DictionaryDistStylesApp()
 
-" Generate Boostrap dictionary:
-" ctags -R --fields=+aimlS --languages=css --exclude=node_modules -f - | cut -f1 | uniq | sed 's/\.//' > ~/.nvim/dict/bootstrap
-" Download boostrap and generate classes:
-" curl -s https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/bootstrap4
-" :command! DictBoostrap4 :set dictionary+=~/.nvim/dict/bootstrap4
-" :command! DictBoostrap4Remove :set dictionary-=~/.nvim/dict/bootstrap4
-"
-
-
-" Tailwind dictionary
-" mkdir -p ~/.nvim/dict
-" https://tailwindcss.com/docs/installation#using-tailwind-without-post-css
-" npx tailwindcss-cli@latest build -o ~/.nvim/dict/tailwind.css
-" cat ~/.nvim/dict/tailwind.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/tailwind
-" :command! DictTailwind :set dictionary+=~/.nvim/dict/tailwind
-" :command! DictTailwindRemove :set dictionary-=~/.nvim/dict/tailwind
-
 """""""""""""""
 " PHP
 """""""""""""""
@@ -155,12 +219,6 @@ nnoremap \c ?class<CR>2f":noh<CR>
 
 " Lorem ipsum
 command! LoremHtml :r!curl -Ns https://loripsum.net/api/10/medium/headers/decorate/link/ul/ol/bq/
-
-"""""""""""""""
-" Tailwind
-"""""""""""""""
-
-:command! TailwindOnTheRight :vsplit | vertical resize 40 | e tailwind.config.js | norm <c-w>h<cr>
 
 """""""""""""""""""""""""
 " Search on relevant directories

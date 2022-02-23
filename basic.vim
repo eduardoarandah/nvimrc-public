@@ -58,7 +58,7 @@ set incsearch " Makes search act like search in modern browsers
 set gdefault " Add g (global) to substitute operations, :s/pattern/replacement/
 set splitbelow " Open split below
 set splitright " Open split right
-set listchars=trail:-
+" set listchars=trail:-
 set mouse=a " Mouse support in all modes
 set undofile
 set signcolumn=yes " Fixed space on the left for git and linting signs, otherwise it 'jumps'
@@ -302,11 +302,6 @@ if ((has('win32') || has('win64')) && has("gui_running"))
     autocmd GUIEnter * simalt ~x " https://vim.fandom.com/wiki/Maximize_or_set_initial_window_size
 endif
 
-" Save
-nnoremap <C-s> :w!<CR>
-xnoremap <C-s> <Esc>:w!<CR>
-inoremap <C-s> <Esc>:w!<CR>
-
 " Refresh
 nnoremap <F5> :e<CR>
 
@@ -365,51 +360,27 @@ function! s:duplicate(name)
 endfunction
 :command! -nargs=1 -bar Duplicate :call s:duplicate(<f-args>)
 
-""""""""""
+"""""""""""""""""""""""""
 " Commands
-""""""""""
+"""""""""""""""""""""""""
 
 " Repeat last command
 nnoremap g. @:
 
 """""""""""""""""""""""""
-" Code formatting
+" motions
+"""""""""""""""""""""""""
+
+" motion: from first non-blank char to last
+xnoremap il ^og_
+onoremap <silent> il :normal vil<CR>
+
+"""""""""""""""""""""""""
+" Formatting
 """""""""""""""""""""""""
 
 " Indent all document
 nnoremap == gg=G
-
-" Delete blank lines
-:command! DeleteBlankLines g/^\s*$/d
-
-" Replace multiple blank lines for single line
-function! DoubleBlankLinesRemove(...)
-  let save_pos = getpos(".")
-  silent! %s/\(\n\n\)\n\+/\1/e
-  nohlsearch
-  call setpos('.', save_pos)
-endfunction
-command! DoubleBlankLinesRemove :call DoubleBlankLinesRemove()
-
-" Replace multiple horizontal spacing to single space
-function! DoubleSpacesRemove(...)
-  let save_pos = getpos(".")
-  silent! %s/\S\zs \+/ /e
-  nohlsearch
-  call setpos('.', save_pos)
-endfunction
-command! DoubleSpacesRemove :call DoubleSpacesRemove()
-
-" Delete trailing white space
-function! DeleteTrailingWhiteSpace(...)
-    let save_pos = getpos(".")
-    silent! %s/\s\+$//e
-    call setpos('.', save_pos)
-endfunction
-command! DeleteTrailingWhiteSpace :call DeleteTrailingWhiteSpace()
-
-" Clean bad spaces
-command! SpacesClean :call DeleteTrailingWhiteSpace() | call DoubleSpacesRemove() | call DoubleBlankLinesRemove()
 
 """""""""""""""""""""""""""
 " Filetypes specific tuning
@@ -439,45 +410,3 @@ augroup filetypes
   autocmd BufRead,BufNewFile *.scss setlocal iskeyword+=#,-,$
 
 augroup END
-
-"""""""""""""""""""""""""""""""""""
-" Utils
-"""""""""""""""""""""""""""""""""""
-
-" Insert date
-command! Today normal i<c-r>=strftime("%Y-%m-%d")<CR><esc>
-nnoremap gt :Today<CR>
-
-" Underline
-nnoremap <leader>- "zyy"zpVr-o<esc>
-nnoremap <leader>= "zyy"zpVr=o<esc>
-
-" Append colon and semicolon
-nnoremap <leader>, A,<ESC>
-nnoremap <leader>; A;<ESC>
-
-" Open url under cursor
-function! OpenURLUnderCursor()
-  let s:uri = expand('<cWORD>')
-  let s:uri = substitute(s:uri, '?', '\\?', '')
-  let s:uri = shellescape(s:uri, 1)
-  if s:uri != ''
-    silent exec "!open '".s:uri."'"
-    :redraw!
-  endif
-endfunction
-nnoremap gx :call OpenURLUnderCursor()<CR>
-
-
-" Copy  all matches in document
-" Strategy: execute add command on each match on each line into an array
-" then join with new line \n
-" g flag: repeat on each match in the line
-" n report matches only, don't make any substitutions
-" e no errors please
-" The |submatch()| function can be used to obtain matched text.  The whole matched text can be accessed with submatch(0) 
-" read more 
-" :h substitute
-" :h s_flags
-" :h submatch()
-command! CopyMatches let hits = [] | %substitute//\=add(hits, submatch(0))/gne | let @+ = join(hits, "\n")
