@@ -703,18 +703,21 @@ endsnippet
 ####################
 
 snippet cf "Contact Form 7 Text"
-<label for="${1:your-name}">$2</label>
+<label>
 [text* $1 class:form-control]
+</label>
 endsnippet
 
 snippet cfemail "Contact Form 7 Email"
-<label for="${1:name}">$2</label>
+<label>
 [email* $1 akismet:author_email class:form-control]
+</label>
 endsnippet
 
 snippet cftextarea "Contact Form 7 TextArea"
-<label for="${1:name}">$2</label>
+<label>
 [textarea* $1 class:form-control]
+</label>
 endsnippet
 
 snippet cfsubmit "Contact Form 7 Button Submit"
@@ -728,15 +731,16 @@ endsnippet
 
 snippet cfcheckbox "Contact Form 7 Checkbox"
 <label for="${1:name}">$2</label>
-[checkbox $1 "uno" "dos" "tres"]
+[checkbox $1 class:xxx  use_label_element "uno" "dos" "tres"]
 endsnippet
+
 snippet cftel "Contact Form 7 Tel"
-<label for="${1:name}">$2</label>
+<label>
 [tel* ${1:name} class:form-input class:mt-1 class:block class:w-full]
+</label>
 endsnippet
 
 snippet spinnerfa5 "Spinner font awesome 5"
-
 <div class="d-flex justify-content-center align-items-center p-5">
 	<div class="fa-3x">
 		<i class="fas fa-spinner fa-pulse"></i>
@@ -816,14 +820,13 @@ snippet ph "PHP <?php ?>" i
 <?php $0 ?>
 endsnippet
 
-
-snippet ifecho "PHP <?php ?>" i
-<?php if (!empty(\$$1)) : ?>
-		<div class="$1">
-				<?php echo \$$1 ?>
-				<?php echo htmlspecialchars(\$$1) ?>
-				<?php echo nl2br(htmlspecialchars(\$$1)) ?>
-		</div>
+snippet phecho "Echo variable if exists" i
+<?php if (!empty(\$${1:the_variable})) : ?>
+<div class="$2">
+	<?php echo \$$1 ?>
+	<?php echo htmlspecialchars(\$$1) ?>
+	<?php echo nl2br(htmlspecialchars(\$$1)) ?>
+</div>
 <?php endif ?>
 endsnippet
 
@@ -831,4 +834,48 @@ snippet acflink "ACF link"
 <a class="$0" href="<?php echo \$${1:link}['url'] ?>" target="<?php echo \$$1['target'] ?>">
 		<?php echo htmlspecialchars(\$$1['title']) ?>
 </a>
+endsnippet
+
+snippet wpwidgetformtext "wordpress widget form field"
+<p>
+  <label for="<?php echo \$${1:fieldName}['id'] ?>"><?php echo __('${2:Field Name}', '${3:sage}') ?></label>
+  <input type="text" class="widefat" id="<?php echo \$$1['id'] ?>" name="<?php echo \$$1['name'] ?>" value="<?php echo \$$1['value'] ?>">
+</p>
+endsnippet
+
+snippet wpwidgettextarea "wordpress widget form textearea"
+<p>
+<label for="<?php echo \$${1:fieldName}['id'] ?>"><?php echo __('${2:file name}', '${3:sage}') ?></label>
+<textarea class="widefat" id="<?php echo \$$1['id'] ?>" name="<?php echo \$$1['name'] ?>" rows="8" cols="40"><?php echo \$$1['value'] ?></textarea>
+</p>
+
+
+endsnippet
+
+##########
+# Alpinejs
+##########
+
+snippet xif "Alpinejs x-if"
+<template x-if="$1">
+$0
+</template>
+endsnippet
+
+snippet xfor "Alpinejs x-for"
+<template x-for="$1 in $1s" :key="$1.id">
+	<div x-text="$1.id"></div>
+</template>
+endsnippet
+
+snippet xtext "Alpinejs x-text"
+<div x-text="$1"></div>
+endsnippet
+
+snippet xselect "Alpinejs select"
+<select x-model="$1Id">
+	<template x-for="$1 in $1s" :key="$1.id">
+		<option :selected="$1.id == $1Id" :value="$1.id" x-text="$1.name"></option>
+	</template>
+</select>
 endsnippet

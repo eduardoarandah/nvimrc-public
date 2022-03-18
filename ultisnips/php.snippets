@@ -225,7 +225,7 @@ endsnippet
 #  ACF  #
 #########
 
-snippet acff "ACF Function"
+snippet acfgf "ACF Function"
 public function ${1:name}() {
 	return get_field('$1');
 }
@@ -278,7 +278,7 @@ endsnippet
 
 
 
-snippet acffielddescription "Acf Field description"
+snippet acfgroupfields "Acf group fields description"
 // types: wysiwyg
 if (function_exists('acf_add_local_field_group')) {
   acf_add_local_field_group([
@@ -317,6 +317,30 @@ if (function_exists('acf_add_local_field_group')) {
     ],
   ]);
 }
+endsnippet
+
+snippet acffi "Description"
+[
+	"key" => "field_$1_$2",
+	"label" => "`!p snip.rv = t[2].replace("_"," ").title()`",
+	"name" => "$2",
+	"type" => "text",
+	"instructions" => "",
+	"required" => 1,
+	"conditional_logic" => 0,
+	"wrapper" => [
+		"width" => "",
+		"class" => "",
+		"id" => ""
+	],
+	"default_value" => "",
+	"placeholder" => "",
+	"prepend" => "",
+	"append" => "",
+	"maxlength" => ""
+],
+
+
 endsnippet
 
 snippet wpimg "Wordpress Image with fallback"
@@ -566,6 +590,14 @@ return $0
 }, 10);
 endsnippet
 
+snippet wpactionremove "wordpress action remove"
+function ${1:custom_remove_action_hook}() {
+	remove_action('hook_name', 'callback_name', 10);
+}
+add_action('template_redirect', '$1', 0);
+endsnippet
+
+
 #############
 #  laravel  #
 #############
@@ -774,12 +806,6 @@ endsnippet
 
 snippet res "Laravel resource"
 Route::resource('$1','$2Controller')->only($0); 
-endsnippet
-
-snippet fun "Function"
-function($1){
-	$0;
-} 
 endsnippet
 
 snippet scope "Laravel scope" b
@@ -1024,7 +1050,7 @@ function boat_api_search(WP_REST_Request \$request)
     \$table_name = \$wpdb->prefix . "posts";
 
     \$query = \$wpdb->prepare("select * from \$table_name");
-    \$results = \$wpdb->get_results(\$query);
+    \$results = \$wpdb->get_results(\$query, ARRAY_A);
     if (count(\$results)) {
         return count(\$results);
     }
@@ -1101,7 +1127,7 @@ public function $1(){
 }
 endsnippet
 
-snippet wpwidget "Wordpress widget"
+snippet wpwidgetsage "Wordpress widget"
 <?php
 
 namespace App;
@@ -1162,6 +1188,92 @@ class ${1:TheNameWidget} extends \WP_Widget
 add_action('widgets_init', function () {
     register_widget('App\\$1');
 });
+endsnippet
+
+snippet wpwidgetphp "wordpress widget template"
+<?php
+
+namespace ${1:App}\Widgets;
+
+use $1\View;
+
+class ${2:ClassName} extends \WP_Widget
+{
+    public function init()
+    {
+        add_action('widgets_init', function () {
+            register_widget('$1\Widgets\$2');
+        });
+    }
+    function __construct()
+    {
+        parent::__construct(
+            '${3:base-id}', // Base ID
+            esc_html__('${4:The widget title}', 'sage'), // Name
+            [
+                'description' => esc_html__('${5: The widget description}', 'sage')
+            ]
+        );
+    }
+
+    function form_values(\$instance, \$name, \$default = null)
+    {
+        return [
+            'id' => \$this->get_field_id(\$name),
+            'name' => \$this->get_field_name(\$name),
+            'value' => \$instance[\$name] ?? '',
+            'default' => \$default,
+        ];
+    }
+    function sanitize(\$new_instance, \$name)
+    {
+        if (empty(\$new_instance[\$name]))
+            return '';
+        return strip_tags(\$new_instance[\$name]);
+    }
+
+    public function form(\$instance)
+    {
+        echo (new View('$3-form.php', [
+            'title' => \$this->form_values(\$instance, 'title', ''),
+        ]))->render();
+    }
+
+    public function update(\$new_instance, \$old_instance)
+    {
+        \$instance = array();
+        \$instance['title'] = \$this->sanitize(\$new_instance, "title");
+        return \$instance;
+    }
+
+    public function widget(\$args, \$instance)
+    {
+        echo \$args['before_widget'];
+        echo (new View('$3.php', [
+            'title' => \$instance['title'],
+        ]))->render();
+        echo \$args['after_widget'];
+    }
+}
+?>
+endsnippet
+
+snippet phpview "snippet for requiring php with parameter"
+<?php
+
+namespace App;
+
+class View
+{
+  public static function render(\$view, \$params = [])
+  {
+    ob_start();
+    if (!empty(\$params))
+      extract(\$params);
+    require(__DIR__ . "/../resources/views/{\$view}.php");
+    return ob_get_clean();
+  }
+}
 endsnippet
 
 snippet backpacklist "Backpack list methods"
@@ -1269,8 +1381,10 @@ snippet wpenqueuesstyle "Enqueue style"
 add_action('wp_enqueue_scripts', function () {
 		wp_enqueue_style( 
 				'name', // name
+				// plugins_url() . "/the-path/resources/css/styles.css", // url
 				asset('scripts/customizer.js')->uri(), // url
 				[], // dependencies
+				// filemtime(plugin_dir_path(__DIR__ . "/../resources/css/styles.css")), // version
 				null, // version
 				'screen', // media
 				);
@@ -1288,7 +1402,7 @@ global \$wpdb;
 		"select * from {\$prefix}user_notifications where user_receieve_id = %d order by ID desc",
 		\$user_id
 		);
-\$results = \$wpdb->get_results(\$query);
+\$results = \$wpdb->get_results(\$query, ARRAY_A);
 endsnippet
 
 snippet wpajax "ajax request"
@@ -1321,7 +1435,7 @@ jQuery.post(
 
 endsnippet
 
-snippet d "div" i
+snippet di "div" w
 <div class="$1">$0</div>
 endsnippet
 
@@ -1442,9 +1556,9 @@ snippet wpdbgetresults "wordpress db get results select"
 global \$wpdb;
 \$prefix = \$wpdb->base_prefix;
 \$query = \$wpdb->prepare("SELECT * FROM {\$prefix}prefix_cv %d %s", 1, 'hello');
-\$rows = \$wpdb->get_results(\$query);
+\$rows = \$wpdb->get_results(\$query, ARRAY_A);
 foreach (\$rows as \$row) {
-	echo \$row->id;
+	echo \$row['id'];
 }
 endsnippet
 
@@ -1536,8 +1650,22 @@ var_dump( \$wp_filter['$1'] );
 echo '</pre>';
 endsnippet
 
-snippet wpcategory "Get first category post"
-// get category
-\$terms = get_the_terms(\$post, 'category');
-\$category_name =  (is_array(\$terms) && count(\$terms)) ? \$terms[0]->name : '';
+snippet wpterms "get first taxonomy term"
+\$terms = get_the_terms(\$post, "taxonomy");
+\$first_term = \$terms && !is_wp_error(\$terms) ? \$terms[0]->name : '';
+endsnippet
+
+snippet phclass "PHP Class"
+<?php
+
+namespace $1;
+
+class $2
+{
+$0
+}
+endsnippet
+
+snippet vd "var_dump" 
+var_dump($0);
 endsnippet

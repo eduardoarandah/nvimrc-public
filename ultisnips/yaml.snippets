@@ -70,6 +70,7 @@ name: $1
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 pre_window:
+  - nvm use 16
   - source init.sh
 
 # Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.

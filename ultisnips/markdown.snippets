@@ -77,7 +77,7 @@ snippet link "Link to something"
 [${1:${VISUAL:Text}}](${3:http://${2:www.url.com}})$0
 endsnippet
 
-snippet i "Image" b
+snippet img "Image" ib
 ![${1:titulo}](${2:url})
 endsnippet
 
@@ -113,4 +113,27 @@ endsnippet
 snippet cronwordpress "cronjob wordpress backup"
 # minute (0-59)	hour (0 - 23)	day of the month (1 - 31)	month (1 - 12)	day of the week (0 - 6)
 * * * * * su masterplan -c 'cd /home/masterplan/webapps/masterplanmkt/public && wp cron event run --due-now && wp core update && wp core update-db && wp db export ../db.sql'
+endsnippet
+
+snippet wpthemepush "Push wp theme"
+U=runcloud
+H=111.111.111.111
+P=/home/runcloud/webapps/${1:project_name}/public/wp-content/themes/ # with ending /
+
+# test
+ssh $U@$H "cd $P && ls -al"
+
+# build
+cd /Users/lalo/repos/$1/public/wp-content/themes/$1
+yarn build
+composer install --no-dev
+cd ..
+tar --exclude-vcs --exclude $1/node_modules  -czf $1.tgz $1
+
+# send decompress remove
+rsync -avz $1.tgz $U@$H:$P
+ssh $U@$H "cd $P && rm -rf $1 && tar -xzf $1.tgz && rm $1.tgz"
+
+# clean cache
+ssh $U@$H "cd $P && wp w3-total-cache flush all"
 endsnippet

@@ -237,4 +237,3 @@ command! Scripts :Files ~/scripts
 """""""""""""""""""""""""
 
 command! Greport lua require'greport'.greport()<cr>
-
