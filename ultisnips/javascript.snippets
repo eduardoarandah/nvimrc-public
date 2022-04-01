@@ -393,3 +393,11 @@ if(typeof(element) != 'undefined' && element != null){
 }
 endsnippet
 
+snippet datetimezone "Description"
+formatter = new Intl.DateTimeFormat([], {
+  timeZone: 'UTC',
+  timeStyle:"medium"
+});
+let time = formatter.format(new Date())
+console.log(time);
+endsnippet

@@ -856,6 +856,25 @@ endsnippet
 # Alpinejs
 ##########
 
+snippet alpineinit "Alpinejs init"
+
+https://alpinejs.dev/start-here
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<div x-data="alpineData">
+		<button @click="open = true">Expand</button>
+		<span x-show="open">
+				Content...
+		</span>
+</div>
+<script>
+		function alpineData() {
+				return {
+						open: false
+				}
+		}
+</script>
+endsnippet
+
 snippet xif "Alpinejs x-if"
 <template x-if="$1">
 $0

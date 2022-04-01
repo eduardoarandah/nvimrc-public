@@ -207,6 +207,7 @@ xnoremap <leader>c :call Case()<cr>
 
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  } 
+" call mkdp#util#install()
 
 " Prettier
 Plug 'prettier/vim-prettier', {

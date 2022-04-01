@@ -260,23 +260,13 @@ add_action('acf/init', function () {
 });
 endsnippet
 
-snippet gf "ACF Get Field" i
-get_field('${1}')
+snippet wpgf "ACF Get Field, assign" i
+\$$1 = get_field('${1}');
 endsnippet
 
-snippet gfa "ACF Get Field, assign" i
-$1 = get_field('${1}');
+snippet wpgfo "ACF Get Field Option" i
+\$$1 = get_field('${1}', 'option');
 endsnippet
-
-snippet gfo "ACF Get Field Option" i
-get_field('${1}','option')
-endsnippet
-
-snippet gfoa "ACF Get Field Option assign" i
-$1 = get_field('${1}','option');
-endsnippet
-
-
 
 snippet acfgroupfields "Acf group fields description"
 // types: wysiwyg
@@ -376,6 +366,18 @@ snippet fore "Foreach"
 foreach(\$$1 as \$$2){
 	$0 
 } 
+endsnippet
+
+snippet foreraw "Foreach in raw php"
+<div class="$1">
+<?php foreach(\$$1 as \$$2):  ?>
+	<div class="$2">
+		<?php echo \$$2 ?>
+		<?php echo htmlspecialchars(\$$2) ?>
+		<?php echo nl2br(htmlspecialchars(\$$2)) ?>
+	</div>
+<?php endforeach ?>
+</div>
 endsnippet
 
 ###############
@@ -688,6 +690,13 @@ Route::get('$1/{$1}', '$2Controller@show')->name('$1.show');
 Route::get('$1/{$1}/edit', '$2Controller@edit')->name('$1.edit');
 Route::put('$1/{$1}', '$2Controller@update')->name('$1.update');
 Route::delete('$1/{$1}', '$2Controller@destroy')->name('$1.destroy');
+endsnippet
+
+snippet lartransaction "DB transaction"
+DB::transaction(function () {
+    DB::update('update users set votes = 1');
+    DB::delete('delete from posts');
+});
 endsnippet
 
 ##############
@@ -1258,7 +1267,7 @@ class ${2:ClassName} extends \WP_Widget
 ?>
 endsnippet
 
-snippet phpview "snippet for requiring php with parameter"
+snippet phprender "snippet for requiring php with parameter"
 <?php
 
 namespace App;
@@ -1267,11 +1276,14 @@ class View
 {
   public static function render(\$view, \$params = [])
   {
-    ob_start();
-    if (!empty(\$params))
-      extract(\$params);
-    require(__DIR__ . "/../resources/views/{\$view}.php");
-    return ob_get_clean();
+		ob_start();
+		if (!empty($params))
+			extract($params);
+		require(__DIR__ . "/../views/\$view.php");
+		if ($return)
+			return ob_get_clean();
+		else
+			echo ob_get_clean();
   }
 }
 endsnippet
