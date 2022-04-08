@@ -73,13 +73,16 @@ priority -60
 snippet interpolationexample "Interpolation example"
 ${1}
 
-title case:
+Title Case:
 `!p snip.rv = t[1].title() if t[1] else ''`
 
-dash case:
+dash-case:
 `!p snip.rv = t[1].replace(" ","-") if t[1] else ''`
 
-camel Case:
+underscore_case:
+`!p snip.rv = t[1].replace(" ","_") if t[1] else ''`
+
+camelCase:
 `!p snip.rv = t[1][0].lower() + t[1].title().replace(" ","")[1:] if t[1] else ''`
 endsnippet
 

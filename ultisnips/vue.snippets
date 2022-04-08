@@ -25,6 +25,7 @@
 # Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
 
 extends html, javascript
+
 snippet vuecomponent "Vue Component"
 <template>
 <div class="wrapper">
@@ -109,4 +110,254 @@ async fetch(){
 		console.log(data);
 		this.title = data.title;
 }
+endsnippet
+
+snippet inputtext "Input text in vue.js"
+<!-- $1 -->
+<label class="block">
+<span class="text-gray-700">`!p snip.rv = t[1].title() if t[1] else ''`</span>
+<input v-model="form.`!p snip.rv = t[1].replace(" ","_") if t[1] else ''`" type="text" class="" />
+<div v-if="errors.`!p snip.rv = t[1].replace(" ","_") if t[1] else ''`" class="form-error">
+{{ errors.`!p snip.rv = t[1].replace(" ","_") if t[1] else ''` }}
+</div>
+</label>
+endsnippet
+
+snippet inputnumber "Input number"
+<!-- $1 -->
+<label class="block">
+<span class="text-gray-700">`!p snip.rv = t[1].title() if t[1] else ''`</span>
+<input v-model="form.`!p snip.rv = t[1].replace(" ","_") if t[1] else ''`" type="number" step="any" class="" />
+<div v-if="errors.`!p snip.rv = t[1].replace(" ","_") if t[1] else ''`" class="form-error">
+{{ errors.`!p snip.rv = t[1].replace(" ","_") if t[1] else ''` }}
+</div>
+</label>
+endsnippet
+
+snippet inputtextarea "Input textarea"
+<!-- $1 -->
+<span class="text-gray-700">`!p snip.rv = t[1].title() if t[1] else ''`</span>
+<textarea v-model="form.`!p snip.rv = t[1].replace(" ","_") if t[1] else ''`" rows="5"></textarea>
+<div v-if="errors.`!p snip.rv = t[1].replace(" ","_") if t[1] else ''`" class="form-error">
+{{ errors.`!p snip.rv = t[1].replace(" ","_") if t[1] else ''` }}
+</div>
+endsnippet
+
+snippet select "Select control"
+<!-- $1 -->
+<label class="block">
+  <span class="text-gray-700">`!p snip.rv = t[1].title() if t[1] else ''`</span>
+  <select v-model="form.`!p snip.rv = t[1].replace(" ","_") if t[1] else ''` _id">
+    <option value="" class="text-gray-500">Select</option>
+    <option v-for="`!p snip.rv = t[1].replace(" ","_") if t[1] else ''`  in `!p snip.rv = t[1].replace(" ","_") if t[1] else ''` s" :key="`!p snip.rv = t[1].replace(" ","_") if t[1] else ''` .id" :value="`!p snip.rv = t[1].replace(" ","_") if t[1] else ''` .id">
+      {{ `!p snip.rv = t[1].replace(" ","_") if t[1] else ''` .name }}
+    </option>
+  </select>
+</label>
+endsnippet
+
+# crud
+snippet editcomponentoptionapi "Edit component option api"
+<template>
+  <div>
+    <Form :model="model" :errors="errors" :sending="sending" @send="send" />
+  </div>
+</template>
+<script>
+import Layout from "@/Layouts/AppLayout";
+import Form from "./Form.vue";
+export default {
+  layout: Layout,
+  components: {
+    Form,
+  },
+  props: {
+    errors: Object,
+    model: Object,
+  },
+  data() {
+    return {
+      sending: false,
+    };
+  },
+  methods: {
+    send(data) {
+      this.\$inertia.put(this.route("${1:route-name}.update", this.model.id), data, {
+        onStart: () => {
+          this.sending = true;
+        },
+        onFinish: () => {
+          this.sending = false;
+        },
+      });
+    },
+  },
+};
+</script>
+endsnippet
+
+snippet createcomponentoptionapi "create component option api"
+<template>
+  <div>
+    <Form :model="model" :errors="errors" :sending="sending" @send="send" />
+  </div>
+</template>
+<script>
+import Layout from "@/Layouts/AppLayout";
+import Form from "./Form.vue";
+export default {
+  layout: Layout,
+  components: {
+    Form,
+  },
+  props: {
+    errors: Object,
+    model: Object,
+  },
+  data() {
+    return {
+      sending: false,
+    };
+  },
+  methods: {
+    send(data) {
+      this.\$inertia.post(this.route("${1:route-name}.store"), data, {
+        onStart: () => (this.sending = true),
+        onFinish: () => (this.sending = false),
+      });
+    },
+  },
+};
+</script>
+endsnippet
+
+snippet formcomponentoptionapi "Form component option api"
+<template>
+  <form @submit.prevent="send" class="p-4">
+    <div class="grid gap-4">
+
+      <!-- nombre -->
+      <label class="block">
+        <span class="text-gray-700">Nombre</span>
+        <input v-model="form.nombre" type="text" class="" />
+        <div v-if="errors.nombre" class="form-error">{{ errors.nombre }}</div>
+      </label>
+
+    </div>
+    <loading-button :loading="sending" class="btn btn-primary mt-4" type="submit"> Guardar </loading-button>
+  </form>
+</template>
+<script>
+import LoadingButton from "@/Shared/LoadingButton";
+export default {
+  props: {
+    model: Object,
+    errors: Object,
+    sending: Boolean,
+  },
+  components: {
+    LoadingButton,
+  },
+  data() {
+    return {
+      form: { ...this.model },
+    };
+  },
+  methods: {
+    send() {
+      this.\$emit("send", this.form);
+    },
+  },
+};
+</script>
+endsnippet
+
+snippet editquimiapan "edit quimiapan"
+<template>
+  <div>
+    <page-header>${1:título}</page-header>
+    <div class="flex space-x-2">
+      <inertia-link class="btn btn-primary" :href="route('${2:route-name}.index')">${3:Ver todos}</inertia-link>
+    </div>
+    <div class="panel mt-6 max-w-lg">
+      <Form :model="model" :errors="errors" :sending="sending" @send="send" />
+    </div>
+  </div>
+</template>
+<script>
+import Layout from "@/Layouts/AppLayout";
+import PageHeader from "@/Shared/PageHeader";
+import Form from "./Form.vue";
+export default {
+  layout: Layout,
+  components: {
+    Form,
+    PageHeader,
+  },
+  props: {
+    errors: Object,
+    model: Object,
+  },
+  data() {
+    return {
+      sending: false,
+    };
+  },
+  methods: {
+    send(data) {
+      this.\$inertia.put(this.route("$2.update", this.model.id), data, {
+        onStart: () => {
+          this.sending = true;
+        },
+        onFinish: () => {
+          this.sending = false;
+        },
+      });
+    },
+  },
+};
+</script>
+endsnippet
+
+snippet createquimiapan "create quimiapan"
+<template>
+  <div>
+    <page-header>${1:titulo}</page-header>
+    <div class="flex space-x-2">
+      <inertia-link class="btn btn-primary" :href="route('${2:route-name}.index')">${3:Ver todos}</inertia-link>
+    </div>
+    <div class="panel mt-6 max-w-lg">
+      <Form :model="model" :errors="errors" :sending="sending" @send="send" />
+    </div>
+  </div>
+</template>
+<script>
+import Layout from "@/Layouts/AppLayout";
+import PageHeader from "@/Shared/PageHeader";
+import Form from "./Form.vue";
+export default {
+  layout: Layout,
+  components: {
+    Form,
+    PageHeader,
+  },
+  props: {
+    errors: Object,
+    model: Object,
+  },
+  data() {
+    return {
+      sending: false,
+    };
+  },
+  methods: {
+    send(data) {
+      this.\$inertia.post(this.route("$2.store"), data, {
+        onStart: () => (this.sending = true),
+        onFinish: () => (this.sending = false),
+      });
+    },
+  },
+};
+</script>
 endsnippet

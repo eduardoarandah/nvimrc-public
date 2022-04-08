@@ -19,6 +19,22 @@ snippet vis "${VISUAL}" i
 endsnippet
 
 snippet rep "Replace in snippet" i
-\`!p snip.rv = t[1].replace("_","-").title()\`
+TitleCase
+`!p snip.rv = t[1].title().replace(" ","") if t[1] else ''`
+snake_case
+`!p snip.rv = t[1].lower().replace(" ","_") if t[1] else ''`
+dash-case
+`!p snip.rv = t[1].lower().replace(" ","-") if t[1] else ''`
 endsnippet
-# vim:ft=snippets:
+
+snippet repAdvanced ""
+// ${1:model name}
+
+`!p if t[1]: t[2]=t[1].title().replace(" ","")`
+`!p if t[1]: t[3]=t[1].lower().replace(" ","_")`
+`!p if t[1]: t[4]=t[1].lower().replace(" ","-")`
+
+TitleCase $1
+snake_case $2
+dash-case $3
+endsnippet

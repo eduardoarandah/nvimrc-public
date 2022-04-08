@@ -1,5 +1,16 @@
 extends html
 
+snippet test "test"
+// ${1:model name}
+`!p snip.rv = t[1].title().replace(" ","") if t[1] else ''`
+`!p if t[1]: t[2]=t[1].title().replace(" ","")`
+`!p if t[1]: t[3]=t[1].lower().replace(" ","_")`
+`!p if t[1]: t[4]=t[1].lower().replace(" ","-")`
+$1
+$2
+$3
+endsnippet
+
 snippet ph "PHP <?php ?>" i
 <?php $0 ?>
 endsnippet
@@ -604,6 +615,45 @@ endsnippet
 #  laravel  #
 #############
 
+snippet catalogtovariable "query for a catalog"
+// ${1:model name}
+\$`!p if t[1]: snip.rv = t[1].lower().replace(" ","_")`s = `!p if t[1]: snip.rv = t[1].title().replace(" ","")`::select(['id','${2:name}'])->orderBy('$2')->get();
+endsnippet
+
+snippet queryleftjoin "query builder join"
+->leftJoin('${1:tableB}', '$1.id', '=', '${2:tableA}.$1_id')$0
+endsnippet
+
+snippet modelfactory "model factory"
+${1:ModelName}::factory(${2:10})->create();
+endsnippet
+
+snippet factoryforeignkey "factory element from related model"
+'$1_id' => $this->faker->randomElement(`!p snip.rv = t[1].replace("_"," ").title().replace(" ","")`::all()->pluck('id')->toArray()),
+endsnippet
+
+snippet factorytext "factory text"
+'$1' => \$this->faker->text(${2:3})
+endsnippet
+
+snippet factorynumber "factory number"
+'$1' => \$this->faker->numberBetween($2, $3),
+endsnippet
+
+# validations
+snippet validanumeric "validation numeric"
+'$1' => ["numeric"],
+endsnippet
+
+snippet modelinit "basic model properties"
+protected \$table = "$1";
+protected \$guarded = ["id"];
+// https://laravel.com/docs/9.x/eloquent-mutators#date-casting
+protected \$casts = [
+	"date_field" => "datetime",
+];
+endsnippet
+
 snippet cachegetstore "Description"
 Cache::remember("$2", ${3:60}, fn() => $1);
 // use Illuminate\Support\Facades\Cache;
@@ -612,49 +662,64 @@ endsnippet
 snippet belongsTo "Laravel model relation belongs to"
 public function ${1:model}()
 {
-	return \$this->belongsTo(App\\$2\\::class);
+	return \$this->belongsTo($0::class);
 }
 endsnippet
 
 snippet hasMany "Laravel model relation has many"
 public function ${1:model}s()
 {
-	return \$this->hasMany(App\\$2\\::class);
+	return \$this->hasMany($0::class);
 }
 endsnippet
 
-snippet migraupdate "Migration update"
+snippet belongsToMany "relationship many to many"
+public function ${1:model}s()
+{
+	return \$this->belongsToMany($0::class);
+}
+endsnippet
+
+snippet migratablecreate "Migration table create"
+Schema::create('$1', function (Blueprint \$table) {
+		\$table->id();
+		$0
+		\$table->timestamps();
+});
+endsnippet
+
+snippet migratableupdate "Migration table update"
 Schema::table('$1', function (Blueprint \$table) {
 		\$table->$2('$3');
 });
 endsnippet
 
-snippet migraprimarykey "Schema:primarykey"
+snippet migraprimarykey "Migration:primarykey"
 \$table->id();
 endsnippet
 
-snippet migraforeignkey "Schema:foreign key"
-\$table->unsignedBigInteger('${1:table}_id');
-\$table->foreign('$1_id')->references('id')->on('$1')->onDelete('cascade');
+snippet migrafk "Migration:foreign key"
+//https://laravel.com/docs/9.x/migrations#foreign-key-constraints
+\$table->foreignId('${1:field_name}_id')->constrained('$1');
 endsnippet
 
-snippet migrainteger "Schema:integer"
+snippet migrainteger "Migration:integer"
 \$table->integer('${1:name}')${2:->nullable()};
 endsnippet
 
-snippet migrastring "Schema:string"
+snippet migrastring "Migration:string"
 \$table->string('${1:name}')${2:->nullable()};
 endsnippet
 
-snippet migradate "Schema:date"
+snippet migradate "Migration:date"
 \$table->date('${1:name}')${2:->nullable()};
 endsnippet
 
-snippet migratext "Schema:text"
+snippet migratext "Migration:text"
 \$table->text('${1:name}')${2:->nullable()};
 endsnippet
 
-snippet migrahemamodify "Schema modify"
+snippet migrahemamodify "Migration modify"
 Schema::table('$1', function (Blueprint \$table) {
     \$table->string('email');
 }); 
@@ -665,8 +730,12 @@ Schema::drop('$1')
 endsnippet
 
 snippet migradropcolumn "Migration drop column"
-\$table->dropColumn('${1:name}');
-\$table->dropColumn(['$1']);
+\$table->dropColumn(['${1:name}']);
+\$table->dropForeign('table_name_$1_foreign');
+endsnippet
+
+snippet migradropfk "Migration drop foreign key"
+\$table->dropForeign('${2:table_name}_${1:column_name}_foreign');
 endsnippet
 
 snippet mutator "Model: mutator"
@@ -697,6 +766,11 @@ DB::transaction(function () {
     DB::update('update users set votes = 1');
     DB::delete('delete from posts');
 });
+endsnippet
+
+
+snippet carbontoday "Today with carbon"
+Carbon::today()->format('Y-m-d')
 endsnippet
 
 ##############
@@ -964,6 +1038,83 @@ class $1Controller extends Controller
 }
 endsnippet
 
+snippet inertiacrudcontroller "inertia crud controller"
+<?php
+
+// ${1:model name}
+`!p if t[1]: t[2]=t[1].title().replace(" ","")`
+`!p if t[1]: t[3]=t[1].lower().replace(" ","_")`
+`!p if t[1]: t[4]=t[1].lower().replace(" ","-")`
+namespace App\Http\Controllers;
+
+use App\Models\\$2;
+use App\Settings;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+
+class $2Controller extends Controller
+{
+    protected $rules = [
+        "nombre" => ["nullable", "string"]
+    ];
+	public function index(Request \$request)
+	{
+		/* Initialize query */
+		\$query = $2::query();
+		/* search */
+		\$search = \$request->input("search");
+		if (\$search) {
+				\$query->where("nombre", "like", "%$search%");
+		}
+		/* sort */
+		\$sort = \$request->input("sort");
+		\$direction = \$request->input("direction") == "desc" ? "desc" : "asc";
+		if (\$sort) {
+			\$query->orderBy(\$sort, \$direction);
+		}
+		/* get paginated results */
+		\$models = \$query->paginate(Settings::get('default_pagination', 20))->appends($request->query());
+		return Inertia::render("$2/Index", [
+				"models" => \$models,
+				"sort" => \$request->query("sort"),
+				"direction" => \$request->query("direction"),
+				"search" => \$request->query("search"),
+		]);
+	}
+	public function create()
+	{
+		return Inertia::render("$2/Create");
+	}
+	public function store(Request \$request)
+	{
+		\$data = \$request->validate(\$this->rules);
+		$2::create(\$data);
+		return redirect()->route("$4.index")->with("success", "Elemento creado");
+	}
+	public function show($2 \$$3)
+	{
+		\$$3->setVisible(['id', ...array_keys(\$this->rules)]);
+		return Inertia::render("$2/Show", ["model" => \$$3]);
+	}
+	public function edit($2 \$$3)
+	{
+		\$$3->setVisible(['id', ...array_keys(\$this->rules)]);
+		return Inertia::render("$2/Edit", ["model" => \$$3]);
+	}
+	public function update($2 \$$3, Request \$request)
+	{
+		\$data = \$request->validate(\$this->rules);
+		\$$3->update(\$data);
+		return redirect()->route("$4.index")->with("success", "Elemento actualizado");
+	}
+	public function destroy($2 \$$3)
+	{
+		\$$3->delete();
+		return redirect()->route("$4.index")->with("success", "Elemento eliminado");
+	}
+}
+endsnippet
+
 snippet validaterequest "Request validation" 
 use App\Rules\PhoneNumber;
 use Illuminate\Validation\Rule;
@@ -980,6 +1131,8 @@ use Illuminate\Validation\Rule;
 		Rule::unique('users')->ignore(\$request->route('id'))
 	],
 	'password' => ['nullable', 'string', 'min:8'],
+	"fecha" => ["required", "date", "date_format:Y-m-d"],
+
 ]);
 
 endsnippet
@@ -1007,10 +1160,12 @@ class $1 extends Composer
 endsnippet
 
 snippet wpshortcode "Wordpress shortcode"
-function $1_shortcode()
+function $1_shortcode(\$atts)
 {
-	\$out = 'Hello world';
+  \$out = 'Hello world ';
+  \$out .= var_export(\$atts, true);
 	return \$out;
+
 }
 add_shortcode('$1', '$1_shortcode');
 

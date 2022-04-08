@@ -254,6 +254,7 @@ Plug 'SirVer/ultisnips' " UltiSnips is the ultimate solution for snippets in Vim
 Plug 'quangnguyen30192/cmp-nvim-ultisnips' " UltiSnips completion source for nvim-cmp
 nnoremap <leader>u :UltiSnipsEdit<cr>
 
+
 call plug#end()
 
 " Completion

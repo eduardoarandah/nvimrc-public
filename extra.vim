@@ -237,3 +237,9 @@ command! Scripts :Files ~/scripts
 """""""""""""""""""""""""
 
 command! Greport lua require'greport'.greport()<cr>
+
+"""""""""""""""""""""""""
+" Ultisnips
+"""""""""""""""""""""""""
+
+xnoremap <leader>u y:UltiSnipsEdit<cr>Go<cr>snippet key "description"<cr><esc>poendsnippet<esc>
