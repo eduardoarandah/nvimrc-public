@@ -69,6 +69,12 @@ endfunction
 
 nnoremap <leader>cz :call ChangeFZFDir()<CR>
 
+" Change working directory to frequently used ones registered in z command 
+" requires: https://github.com/rupa/z
+let jumpPath = '{ cat ~/.z \| cut -d"\|" -f1; find ~/proyectos/ -type d -maxdepth 1 ; find ~/clientes/ -type d -maxdepth 1 }'
+nnoremap <F6> :call fzf#run({'source': jumpPath, 'sink': 'JumpDir'})<cr>
+command! -nargs=1 JumpDir cd <args> | NERDTreeCWD
+
 " History files
 noremap <leader>hi :History<CR>
 

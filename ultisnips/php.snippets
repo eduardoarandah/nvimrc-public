@@ -680,7 +680,7 @@ public function ${1:model}s()
 }
 endsnippet
 
-snippet migratablecreate "Migration table create"
+snippet migracreate "Migration table create"
 Schema::create('$1', function (Blueprint \$table) {
 		\$table->id();
 		$0
@@ -688,9 +688,9 @@ Schema::create('$1', function (Blueprint \$table) {
 });
 endsnippet
 
-snippet migratableupdate "Migration table update"
+snippet migraupdate "Migration table update"
 Schema::table('$1', function (Blueprint \$table) {
-		\$table->$2('$3');
+	$0
 });
 endsnippet
 
@@ -700,7 +700,7 @@ endsnippet
 
 snippet migrafk "Migration:foreign key"
 //https://laravel.com/docs/9.x/migrations#foreign-key-constraints
-\$table->foreignId('${1:field_name}_id')->constrained('$1');
+\$table->foreignId('${1:field_name}_id')->nullable()->constrained('$1');
 endsnippet
 
 snippet migrainteger "Migration:integer"
@@ -717,6 +717,10 @@ endsnippet
 
 snippet migratext "Migration:text"
 \$table->text('${1:name}')${2:->nullable()};
+endsnippet
+
+snippet migradecimal "Migration:decimal"
+\$table->decimal('$1', 8, 2);
 endsnippet
 
 snippet migrahemamodify "Migration modify"
