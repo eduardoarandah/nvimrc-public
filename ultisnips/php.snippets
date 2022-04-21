@@ -694,6 +694,10 @@ Schema::table('$1', function (Blueprint \$table) {
 });
 endsnippet
 
+snippet migradropcolumn "Migration drop column"
+\$table->dropColumn(['$1']);
+endsnippet
+
 snippet migraprimarykey "Migration:primarykey"
 \$table->id();
 endsnippet
@@ -729,16 +733,11 @@ Schema::table('$1', function (Blueprint \$table) {
 }); 
 endsnippet
 
-snippet migradrop "Migration drop table"
+snippet migradroptable "Migration drop table"
 Schema::drop('$1')
 endsnippet
 
-snippet migradropcolumn "Migration drop column"
-\$table->dropColumn(['${1:name}']);
-\$table->dropForeign('table_name_$1_foreign');
-endsnippet
-
-snippet migradropfk "Migration drop foreign key"
+snippet migradropforeign "Migration drop foreign key"
 \$table->dropForeign('${2:table_name}_${1:column_name}_foreign');
 endsnippet
 
