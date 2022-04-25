@@ -44,7 +44,8 @@ nnoremap <F8> :NERDTreeFind<CR>
 nnoremap <leader>cd :cd %:p:h<CR>:NERDTreeCWD<CR>
 
 " Comment lines
-Plug 'tpope/vim-commentary'
+" https://github.com/numToStr/Comment.nvim
+Plug 'numToStr/Comment.nvim'
 
 " FZF Fuzzy Finder 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -269,5 +270,6 @@ set completeopt=menu,menuone,noselect
 " After loading plugins
 colorscheme dracula
 
-" Better cursor highlighting
-" hi Search cterm=NONE ctermfg=255 guifg=#eeeeee ctermbg=88 guibg=#870000
+" Lua plugins
+lua require('Comment').setup()
+
