@@ -57,13 +57,13 @@ end
 
 local function prev()
 	vim.b.greport_number = vim.b.greport_number + 1
-	add_log_to_buffer()
+	add_log_to_buffer(0) -- 0 is current buffer
 end
 
 local function next()
 	if vim.b.greport_number > 0 then
 		vim.b.greport_number = vim.b.greport_number - 1
-		add_log_to_buffer()
+		add_log_to_buffer(0) -- 0 is current buffer
 	end
 end
 
