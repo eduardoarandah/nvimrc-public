@@ -220,6 +220,10 @@ nnoremap \c ?class<CR>2f":noh<CR>
 " Lorem ipsum
 command! LoremHtml :r!curl -Ns https://loripsum.net/api/10/medium/headers/decorate/link/ul/ol/bq/
 
+" add empty tag with surround
+nmap <localleader>t yslt
+imap <localleader>t <esc>yslt
+
 """""""""""""""""""""""""
 " Search on relevant directories
 """""""""""""""""""""""""

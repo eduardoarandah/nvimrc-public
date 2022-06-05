@@ -240,7 +240,7 @@ nmap * *N
 nmap # #N
 
 " * search selection (uses z register)
-xnoremap * "zy:set hlsearch<cr>:let @z=escape(@z,'\\/')<cr>:let @/='\V'.@z<cr>
+" xnoremap * "zy:set hlsearch<cr>:let @z=escape(@z,'\\/')<cr>:let @/='\V'.@z<cr>
 
 " <leader>r replace, repeat with .
 nmap <leader>r viw*cgn

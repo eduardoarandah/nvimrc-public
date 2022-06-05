@@ -28,6 +28,9 @@ if !has("gui_running")
   let g:rehash256 = 1
 endif
 
+" search with * escaping special chars
+Plug 'nelstrom/vim-visual-star-search'
+
 " Status/tabline
 Plug 'vim-airline/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
