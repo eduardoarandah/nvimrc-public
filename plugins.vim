@@ -7,10 +7,7 @@ call plug#begin('$HOME/.nvim/plugged')
 
 " Syntax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-" https://github.com/nvim-treesitter/playground :TSPlaygroundToggle
-" Plug 'nvim-treesitter/playground'
 Plug 'sheerun/vim-polyglot'
-" Plug 'jwalton512/vim-blade'
 
 if(!has('nvim'))
 " Highlight yank 
@@ -19,9 +16,7 @@ endif
 
 " Theme
 set background=dark
-Plug 'tanvirtin/monokai.nvim'
 Plug 'Mofiqul/dracula.nvim'
-" set termguicolors
 
 " if terminal has 256 colors
 if !has("gui_running")
@@ -77,7 +72,6 @@ nnoremap <leader>cz :call ChangeFZFDir()<CR>
 " requires: https://github.com/rupa/z
 let jumpPath = '{ cat ~/.z \| cut -d"\|" -f1; find ~/proyectos/ -type d -maxdepth 1 ; find ~/clientes/ -type d -maxdepth 1 }'
 nnoremap <F6> :call fzf#run({'source': jumpPath, 'sink': 'JumpDir'})<cr>
-command! -nargs=1 JumpDir cd <args> | NERDTreeCWD
 
 " History files
 noremap <leader>hi :History<CR>
@@ -203,7 +197,6 @@ Plug 'arthurxavierx/vim-caser'
 " . dot.case
 
 " Visual select and change case
-Plug 'arthurxavierx/vim-caser' 
 function! Case()
    let l:myMakeTargets = ["", "gsc", "gs-", "gsp", "gs_", "gsU", "gst", "gss", "gs\<space>", "gsKse", "gs."]
    let l:c=0
@@ -217,7 +210,6 @@ xnoremap <leader>c :call Case()<cr>
 
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  } 
-" call mkdp#util#install()
 
 " Prettier
 Plug 'prettier/vim-prettier', {
@@ -238,8 +230,7 @@ let g:slime_no_mappings = 1
 xmap <F9> <Plug>SlimeRegionSend
 nmap <F9> <Plug>SlimeParagraphSend
 
-" Editorconfig
-" Respect .editorconfig settings like indenting
+" editorconfig respect .editorconfig settings like indenting
 Plug 'editorconfig/editorconfig-vim'
 
 " lua format
@@ -258,12 +249,13 @@ Plug 'hrsh7th/cmp-cmdline' " nvim-cmp source for vim's cmdline.
 Plug 'hrsh7th/cmp-nvim-lua' " nvim-cmp source for neovim Lua API.
 Plug 'uga-rosa/cmp-dictionary' " https://github.com/uga-rosa/cmp-dictionary
 
-
 " Snippets ultisnips users.
 Plug 'SirVer/ultisnips' " UltiSnips is the ultimate solution for snippets in Vim
 Plug 'quangnguyen30192/cmp-nvim-ultisnips' " UltiSnips completion source for nvim-cmp
 nnoremap <leader>u :UltiSnipsEdit<cr>
 
+" fix things in quickfix list
+Plug 'stefandtw/quickfix-reflector.vim'
 
 call plug#end()
 

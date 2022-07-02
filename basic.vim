@@ -7,13 +7,16 @@
 " Basic settings
 """"""""""""""""
 
+" python3 path 
+let g:python3_host_prog='/usr/local/bin/python3'
+
 scriptencoding utf-8 " basic
 set nocompatible " basic
 filetype off " basic
 filetype plugin on " Enable filetype plugins
 filetype indent on " Enable loading the indent file for specific file types
 syntax enable " Enable syntax highlighting
-set redrawtime=5000 " After this milliseconds, stop processing syntax
+" set redrawtime=5000 " After this milliseconds, stop processing syntax
 " set maxmempattern=1000000 " Max memory for syntax in Kb
 set encoding=utf-8 " Encoding (needed in youcompleteme)
 set fileencoding=utf-8 " The encoding written to file.
@@ -149,7 +152,7 @@ nnoremap <leader>w :w!<CR>
 " close all buffers
 nnoremap <leader>bd :%bd<CR>
 
-" keep current window only
+" close other splits, keep current only
 nnoremap <leader>o :only<CR>
 
 """"""""
@@ -243,12 +246,12 @@ nmap # #N
 " xnoremap * "zy:set hlsearch<cr>:let @z=escape(@z,'\\/')<cr>:let @/='\V'.@z<cr>
 
 " <leader>r replace, repeat with .
-nmap <leader>r viw*cgn
-vmap <leader>r *cgn
+nmap <leader>r viw*Ncgn
+xmap <leader>r *Ncgn
 
 " <leader>R replace all
 nmap <leader>R viw*:%s/\V<C-r>z/<C-r>z
-vmap <leader>R *:%s/\V<C-r>z/<C-r>z
+xmap <leader>R *:%s/\V<C-r>z/<C-r>z
 
 " spanish keyboard
 nnoremap ñ /
@@ -351,8 +354,8 @@ cnoremap ^^ <C-R>=fnameescape(expand("%:p"))<CR>
 cnoremap && <C-R>=fnameescape(expand("%:t"))<CR>
 
 " Insert filename
-command! Fname normal i<c-r>=expand('%:t:r')<cr>
-command! Fnameext normal i<c-r>=expand('%:t')<cr>
+command! Fname normal i <c-r>=expand('%:t:r')<cr>
+command! Fnameext normal i <c-r>=expand('%:t')<cr>
 
 " Duplicate File
 function! s:duplicate(name)

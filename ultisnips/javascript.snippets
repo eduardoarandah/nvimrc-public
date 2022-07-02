@@ -160,8 +160,21 @@ endsnippet
 ####################################################################################
 
 
+snippet ff "arrow function" i
+($1)=>$2
+endsnippet
+
+
+snippet fun "Function"
+function($1){
+	$0
+}
+endsnippet
+
+
+
 snippet imp "import from"
-import { $0 } from "${1:vue}"
+import { $0 } from '$1'
 endsnippet
 
 
@@ -239,17 +252,6 @@ try {
 		this.errors = errors
 	}
 	//console.log(response.data)
-}
-endsnippet
-
-snippet af "arrow function" i
-($1)=>$2
-endsnippet
-
-
-snippet fun "Function"
-function($1){
-	$0
 }
 endsnippet
 

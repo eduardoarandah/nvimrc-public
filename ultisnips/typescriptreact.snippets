@@ -24,9 +24,7 @@
 #
 # Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
 
-extends javascript
-
-
+extends typescript
 
 snippet component "React component" b
 import React from 'react';
@@ -38,4 +36,12 @@ function $1 (props){
 }
 
 export default $1;
+endsnippet
+
+snippet usestate "useState hook"
+const [$1, set$2] = useState($3);
+endsnippet
+
+snippet usestateimport "useState import"
+import { useState } from 'react'
 endsnippet
