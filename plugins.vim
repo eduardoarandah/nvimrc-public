@@ -42,7 +42,6 @@ nnoremap <F8> :NERDTreeFind<CR>
 nnoremap <leader>cd :cd %:p:h<CR>:NERDTreeCWD<CR>
 
 " Comment lines
-" https://github.com/numToStr/Comment.nvim
 Plug 'numToStr/Comment.nvim'
 
 " FZF Fuzzy Finder 
