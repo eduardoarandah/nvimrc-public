@@ -118,6 +118,7 @@ nnoremap <leader>tt :tabnew<CR>
 nnoremap <leader>tc :tabclose<CR>
 nnoremap ) :tabnext<CR>
 nnoremap ( :tabprevious<CR>
+
 " Move tabs
 nnoremap <leader>) :tabm +1<cr>
 nnoremap <leader>( :tabm -1<cr>

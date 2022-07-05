@@ -12,8 +12,8 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 return require("packer").startup(function()
-	local function nnoremap(l, r)
-		vim.api.nvim_set_keymap("n", l, r, { noremap = true })
+	local function nnoremap(key, command)
+		vim.api.nvim_set_keymap("n", key, command, { noremap = true })
 	end
 
 	use("wbthomason/packer.nvim")
