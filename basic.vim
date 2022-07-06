@@ -11,7 +11,7 @@ scriptencoding utf-8 " basic
 filetype off " basic
 filetype plugin on " Enable filetype plugins
 filetype indent on " Enable loading the indent file for specific file types
-syntax enable " Enable syntax highlighting
+" syntax enable " Enable syntax highlighting
 
 set nocompatible " basic
 " set redrawtime=5000 " After this milliseconds, stop processing syntax
@@ -415,3 +415,4 @@ augroup filetypes
   autocmd BufRead,BufNewFile *.scss setlocal iskeyword+=#,-,$
 
 augroup END
+
