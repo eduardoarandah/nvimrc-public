@@ -1,0 +1,7 @@
+-- vim.cmd("source ~/.config/nvim/basic.vim")
+require("basic")
+vim.cmd("source ~/.config/nvim/plugins.vim")
+vim.cmd("source ~/.config/nvim/extra.vim")
+require("syntax")
+require("completion")
+require("lsp")

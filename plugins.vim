@@ -1,9 +1,8 @@
 " Download vim-plug if not exists
-command! DownloadVimPlug !curl -fLo ~/.nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 " Create plugged dir if not exists
-call mkdir($HOME."/.nvim/plugged","p")
-call plug#begin('$HOME/.nvim/plugged')
+call plug#begin()
 
 " Syntax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
@@ -132,10 +131,10 @@ Plug 'jremmen/vim-ripgrep'
 let g:rg_command='rg --vimgrep --pcre2 --type-add="scss:*.scss"'
 
 " Sessions
-Plug 'xolox/vim-misc' "requirement
-Plug 'romgrk/vim-session' 
+" Plug 'xolox/vim-misc' "requirement
+" Plug 'romgrk/vim-session' 
 let g:session_autoload = 'no'
-let g:session_autosave = 'yes'
+let g:session_autosave = 'no'
 let g:session_directory = $HOME."/.nvim/sessions"
 let g:session_extension = ''
 
@@ -235,6 +234,9 @@ Plug 'editorconfig/editorconfig-vim'
 " lua format
 Plug 'andrejlevkovitch/vim-lua-format'
 
+" typescript
+Plug 'jose-elias-alvarez/typescript.nvim'
+
 " Completion
 Plug 'hrsh7th/nvim-cmp' " A completion engine plugin for neovim written in Lua.
 Plug 'neovim/nvim-lspconfig' " A collection of common configurations for Neovim's built-in language server client.
@@ -266,4 +268,3 @@ colorscheme dracula
 
 " Lua plugins
 lua require('Comment').setup()
-
