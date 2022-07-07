@@ -236,6 +236,9 @@ Plug 'editorconfig/editorconfig-vim'
 " lua format
 Plug 'andrejlevkovitch/vim-lua-format'
 
+" typescript
+Plug 'jose-elias-alvarez/typescript.nvim'
+
 " Completion
 Plug 'hrsh7th/nvim-cmp' " A completion engine plugin for neovim written in Lua.
 Plug 'neovim/nvim-lspconfig' " A collection of common configurations for Neovim's built-in language server client.
