@@ -1,5 +1,7 @@
 local set = vim.opt
 local g = vim.g
+local cmd = vim.api.nvim_create_autocmd
+
 g.mapleader = " "
 g.maplocalleader = "\\"
 set.clipboard = "unnamedplus,unnamed" -- ALWAYS use the clipboard for ALL operations
@@ -24,7 +26,7 @@ set.virtualedit = "block" -- If you need to define a block in visual block mode 
 set.wrap = false -- Don't wrap long lines
 
 -- lua-highlight
-vim.api.nvim_create_autocmd("TextYankPost", {
+cmd("TextYankPost", {
 	pattern = "*",
 	callback = function()
 		vim.highlight.on_yank({ higroup = "Visual", timeout = 120 })

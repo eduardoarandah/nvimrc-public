@@ -1,6 +1,6 @@
 local map = vim.keymap.set
 local fn = vim.fn
-local command = vim.api.nvim_create_user_command
+local cmd = vim.api.nvim_create_user_command
 
 -- Automatically install packer
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -43,7 +43,7 @@ return require("packer").startup(function(use)
 	use("scrooloose/nerdtree")
 	vim.cmd("let NERDTreeShowHidden=1")
 	map("n", "<F7>", ":NERDTreeToggle<CR>")
-	map("n", "<F8> ", ":NERDTreeFind<CR>")
+	map("n", "<F8>", ":NERDTreeFind<CR>")
 
 	-- Change current dir to current file
 	vim.cmd("nnoremap <leader>cd :cd %:p:h<CR>:NERDTreeCWD<CR>")
@@ -104,10 +104,10 @@ return require("packer").startup(function(use)
 	map("n", "<leader>ml", ":diffget //3<cr>")
 
 	-- All commits
-	command("Ghistory", ":Gclog",{ bang = true })
+	cmd("Ghistory", ":Gclog", { bang = true })
 
 	-- Commits for current file
-	command("Ghistoryfile", ":0Gclog!",{ bang = true })
+	cmd("Ghistoryfile", ":0Gclog!", { bang = true })
 
 	-- Shows a git diff in the sign column.
 	use("mhinz/vim-signify")
