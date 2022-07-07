@@ -1,5 +1,5 @@
--- vim.cmd("source ~/.config/nvim/basic.vim")
-require("basic")
+require("settings")
+require("mappings")
 vim.cmd("source ~/.config/nvim/plugins.vim")
 vim.cmd("source ~/.config/nvim/extra.vim")
 require("syntax")

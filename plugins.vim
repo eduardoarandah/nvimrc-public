@@ -23,7 +23,7 @@ if !has("gui_running")
 endif
 
 " search with * escaping special chars
-Plug 'nelstrom/vim-visual-star-search'
+" Plug 'nelstrom/vim-visual-star-search'
 
 " Status/tabline
 Plug 'vim-airline/vim-airline'
