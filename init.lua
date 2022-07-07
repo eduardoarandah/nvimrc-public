@@ -8,5 +8,5 @@ require("plugins")
 require("syntax")
 require("completion")
 require("lsp")
-local rtp = vim.opt.runtimepath:get()[1]
+local rtp = vim.fn.stdpath("config")
 vim.cmd("source " .. rtp .. "/commands.vim")

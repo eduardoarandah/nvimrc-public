@@ -1,11 +1,12 @@
 local map = vim.keymap.set
-local fn = vim.fn
 local cmd = vim.api.nvim_create_user_command
 
--- Automatically install packer
+-- Automatically install packer if not found on disk then set a local variable to show it's just installed
+local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local packer_just_installed = nil
 if fn.empty(fn.glob(install_path)) > 0 then
-	Packer_bootstrap_just_installed = fn.system({
+	packer_just_installed = fn.system({
 		"git",
 		"clone",
 		"--depth",
@@ -255,7 +256,7 @@ return require("packer").startup(function(use)
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
-	if Packer_bootstrap_just_installed then
+	if packer_just_installed then
 		require("packer").sync()
 	end
 end)
