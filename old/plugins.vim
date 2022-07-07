@@ -1,9 +1,8 @@
 " Download vim-plug if not exists
-command! DownloadVimPlug !curl -fLo ~/.nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 " Create plugged dir if not exists
-call mkdir($HOME."/.nvim/plugged","p")
-call plug#begin('$HOME/.nvim/plugged')
+call plug#begin()
 
 " Syntax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
@@ -24,7 +23,7 @@ if !has("gui_running")
 endif
 
 " search with * escaping special chars
-Plug 'nelstrom/vim-visual-star-search'
+" Plug 'nelstrom/vim-visual-star-search'
 
 " Status/tabline
 Plug 'vim-airline/vim-airline'
@@ -42,7 +41,6 @@ nnoremap <F8> :NERDTreeFind<CR>
 nnoremap <leader>cd :cd %:p:h<CR>:NERDTreeCWD<CR>
 
 " Comment lines
-" https://github.com/numToStr/Comment.nvim
 Plug 'numToStr/Comment.nvim'
 
 " FZF Fuzzy Finder 
@@ -65,7 +63,6 @@ function! ChangeFZFDir()
   nnoremap <C-p> :Files <c-r>=g:dir<CR><CR>
   echo 'FZF files dir changed to: '. g:dir 
 endfunction
-
 nnoremap <leader>cz :call ChangeFZFDir()<CR>
 
 " Change working directory to frequently used ones registered in z command 
@@ -133,10 +130,10 @@ Plug 'jremmen/vim-ripgrep'
 let g:rg_command='rg --vimgrep --pcre2 --type-add="scss:*.scss"'
 
 " Sessions
-Plug 'xolox/vim-misc' "requirement
-Plug 'romgrk/vim-session' 
+" Plug 'xolox/vim-misc' "requirement
+" Plug 'romgrk/vim-session' 
 let g:session_autoload = 'no'
-let g:session_autosave = 'yes'
+let g:session_autosave = 'no'
 let g:session_directory = $HOME."/.nvim/sessions"
 let g:session_extension = ''
 
@@ -270,4 +267,3 @@ colorscheme dracula
 
 " Lua plugins
 lua require('Comment').setup()
-

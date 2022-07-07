@@ -23,29 +23,26 @@ require("nvim-lsp-installer").setup({
 -- https://github.com/neovim/nvim-lspconfig
 -- See also :help lspconfig.
 
-local function nnoremap(key, command)
-	vim.api.nvim_set_keymap("n", key, command, { noremap = true })
-end
-
 local on_attach = function(_, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-	nnoremap("<localleader>D", ":lua vim.lsp.buf.declaration()<CR>")
-	nnoremap("<localleader>d", ":lua vim.lsp.buf.definition()<CR>")
-	nnoremap("K", ":lua vim.lsp.buf.hover()<CR>")
-	nnoremap("<localleader>i", ":lua vim.lsp.buf.implementation()<CR>")
-	nnoremap("<localleader>k", ":lua vim.lsp.buf.signature_help()<CR>")
-	nnoremap("<localleader>wa", ":lua vim.lsp.buf.add_workspace_folder()<CR>")
-	nnoremap("<localleader>wr", ":lua vim.lsp.buf.remove_workspace_folder()<CR>")
-	nnoremap("<localleader>wl", ":lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>")
-	nnoremap("<localleader>D", ":lua vim.lsp.buf.type_definition()<CR>")
-	nnoremap("<localleader>r", ":lua vim.lsp.buf.rename()<CR>")
-	nnoremap("<localleader>a", ":lua vim.lsp.buf.code_action()<CR>")
-	nnoremap("<localleader>n", ":lua vim.lsp.buf.references()<CR>")
-	nnoremap("<localleader>o", ":lua vim.diagnostic.open_float()<CR>")
-	nnoremap("<localleader>E", ":lua vim.diagnostic.goto_prev()<CR>")
-	nnoremap("<localleader>e", ":lua vim.diagnostic.goto_next()<CR>")
-	nnoremap("<localleader>c", ":lua vim.diagnostic.setloclist()<CR>")
-	nnoremap("<localleader>f", ":lua vim.lsp.buf.formatting()<CR>")
+	local map = vim.keymap.set
+	map("n", "<localleader>D", ":lua vim.lsp.buf.declaration()<CR>")
+	map("n", "<localleader>d", ":lua vim.lsp.buf.definition()<CR>")
+	map("n", "K", ":lua vim.lsp.buf.hover()<CR>")
+	map("n", "<localleader>i", ":lua vim.lsp.buf.implementation()<CR>")
+	map("n", "<localleader>k", ":lua vim.lsp.buf.signature_help()<CR>")
+	map("n", "<localleader>wa", ":lua vim.lsp.buf.add_workspace_folder()<CR>")
+	map("n", "<localleader>wr", ":lua vim.lsp.buf.remove_workspace_folder()<CR>")
+	map("n", "<localleader>wl", ":lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>")
+	map("n", "<localleader>D", ":lua vim.lsp.buf.type_definition()<CR>")
+	map("n", "<localleader>r", ":lua vim.lsp.buf.rename()<CR>")
+	map("n", "<localleader>a", ":lua vim.lsp.buf.code_action()<CR>")
+	map("n", "<localleader>n", ":lua vim.lsp.buf.references()<CR>")
+	map("n", "<localleader>o", ":lua vim.diagnostic.open_float()<CR>")
+	map("n", "<localleader>E", ":lua vim.diagnostic.goto_prev()<CR>")
+	map("n", "<localleader>e", ":lua vim.diagnostic.goto_next()<CR>")
+	map("n", "<localleader>c", ":lua vim.diagnostic.setloclist()<CR>")
+	map("n", "<localleader>f", ":lua vim.lsp.buf.formatting()<CR>")
 end
 
 local lsp = require("lspconfig")

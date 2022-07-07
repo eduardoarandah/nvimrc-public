@@ -7,15 +7,13 @@
 " Basic settings
 """"""""""""""""
 
-" python3 path 
-let g:python3_host_prog='/usr/local/bin/python3'
-
 scriptencoding utf-8 " basic
-set nocompatible " basic
 filetype off " basic
 filetype plugin on " Enable filetype plugins
 filetype indent on " Enable loading the indent file for specific file types
-syntax enable " Enable syntax highlighting
+" syntax enable " Enable syntax highlighting
+
+set nocompatible " basic
 " set redrawtime=5000 " After this milliseconds, stop processing syntax
 " set maxmempattern=1000000 " Max memory for syntax in Kb
 set encoding=utf-8 " Encoding (needed in youcompleteme)
@@ -118,6 +116,7 @@ nnoremap <leader>tt :tabnew<CR>
 nnoremap <leader>tc :tabclose<CR>
 nnoremap ) :tabnext<CR>
 nnoremap ( :tabprevious<CR>
+
 " Move tabs
 nnoremap <leader>) :tabm +1<cr>
 nnoremap <leader>( :tabm -1<cr>
@@ -416,3 +415,4 @@ augroup filetypes
   autocmd BufRead,BufNewFile *.scss setlocal iskeyword+=#,-,$
 
 augroup END
+
