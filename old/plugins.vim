@@ -63,7 +63,6 @@ function! ChangeFZFDir()
   nnoremap <C-p> :Files <c-r>=g:dir<CR><CR>
   echo 'FZF files dir changed to: '. g:dir 
 endfunction
-
 nnoremap <leader>cz :call ChangeFZFDir()<CR>
 
 " Change working directory to frequently used ones registered in z command 

@@ -1,7 +1,8 @@
 require("settings")
 require("mappings")
-vim.cmd("source ~/.config/nvim/plugins.vim")
-vim.cmd("source ~/.config/nvim/extra.vim")
+require("plugins")
 require("syntax")
 require("completion")
 require("lsp")
+vim.cmd("source ~/.config/nvim/commands.vim")
+
