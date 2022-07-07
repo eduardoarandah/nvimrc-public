@@ -1,3 +1,7 @@
+" Edit Vimrc
+:command! V edit $HOME/.config/nvim/init.lua
+:command! Vreload source $HOME/.config/nvim/init.lua
+
 "  Delete all registers
 command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
 
@@ -129,13 +133,6 @@ endfunction
 
 command! Fix :call Fix() 
 
-"""""""""""""""""""""""""
-" Edit Vimrc
-"""""""""""""""""""""""""
-
-:command! Vrc e $HOME/.config/nvim/basic.vim | e $HOME/.config/nvim/plugins.vim | e $HOME/.config/nvim/extra.vim | e $HOME/.config/nvim/syntax.lua | e $HOME/.config/nvim/completion.lua | e $HOME/.config/nvim/lsp.lua
-:command! VrcReload so $HOME/.config/nvim/basic.vim | so $HOME/.config/nvim/plugins.vim | so $HOME/.config/nvim/extra.vim | so $HOME/.config/nvim/syntax.lua | so $HOME/.config/nvim/completion.lua | so $HOME/.config/nvim/lsp.lua
-
 """""""""""""""""""
 " CSS
 """""""""""""""""""
@@ -257,5 +254,3 @@ command! Greport lua require'greport'.greport()<cr>
 """""""""""""""""""""""""
 
 xnoremap <leader>u y:UltiSnipsEdit<cr>Go<cr>snippet key "description"<cr><esc>poendsnippet<esc>
-
-

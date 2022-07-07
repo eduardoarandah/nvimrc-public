@@ -4,5 +4,5 @@ require("plugins")
 require("syntax")
 require("completion")
 require("lsp")
-vim.cmd("source ~/.config/nvim/commands.vim")
-
+local runtimepath = vim.opt.runtimepath:get()[1]
+vim.cmd("source " .. runtimepath .. "/commands.vim")
