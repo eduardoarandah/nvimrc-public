@@ -4,9 +4,10 @@ local cmd = vim.api.nvim_create_user_command
 -- Automatically install packer if not found on disk then set a local variable to show it's just installed
 local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-local packer_just_installed = nil
+local do_packer_sync = nil
+
 if fn.empty(fn.glob(install_path)) > 0 then
-	packer_just_installed = fn.system({
+	do_packer_sync = fn.system({
 		"git",
 		"clone",
 		"--depth",
@@ -50,7 +51,12 @@ return require("packer").startup(function(use)
 	vim.cmd("nnoremap <leader>cd :cd %:p:h<CR>:NERDTreeCWD<CR>")
 
 	-- Comment lines
-	use("numToStr/Comment.nvim")
+	use({
+		"numToStr/Comment.nvim",
+		config = function()
+			require("Comment").setup()
+		end,
+	})
 
 	-- FZF Fuzzy Finder
 	use({ "junegunn/fzf", run = ":call fzf#install()" })
@@ -61,7 +67,7 @@ return require("packer").startup(function(use)
 	map("n", "<leader>j", ":Lines<CR>") -- all lines in all buffers
 	map("n", "<C-f>", ":Buffers<CR>") -- buffers
 
-	vim.cmd([[ 
+	vim.cmd([[
 	if executable('rg')
 		" Use RipGrep to list files for fzf, include dotfiles in current directory
 		let $FZF_DEFAULT_COMMAND='{ rg --files; find . -type f -name ".*" -depth 1 }'
@@ -71,11 +77,11 @@ return require("packer").startup(function(use)
 	endif
 	]])
 
-	vim.cmd([[ 
+	vim.cmd([[
 	function! ChangeFZFDir()
 		let g:dir=expand('%:h')
 		nnoremap <C-p> :Files <c-r>=g:dir<CR><CR>
-		echo 'FZF files dir changed to: '. g:dir 
+		echo 'FZF files dir changed to: '. g:dir
 	endfunction
 	nnoremap <leader>cz :call ChangeFZFDir()<CR>
 	]])
@@ -187,7 +193,7 @@ return require("packer").startup(function(use)
 	-- - dash-case
 	-- K Title-Dash-Case
 	-- . dot.case
-	vim.cmd([[ 
+	vim.cmd([[
 	" Visual select and change case
 	function! Case()
 		 let l:myMakeTargets = ["", "gsc", "gs-", "gsp", "gs_", "gsU", "gst", "gss", "gs\<space>", "gsKse", "gs."]
@@ -256,7 +262,7 @@ return require("packer").startup(function(use)
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
-	if packer_just_installed then
+	if do_packer_sync then
 		require("packer").sync()
 	end
 end)

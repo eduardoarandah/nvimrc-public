@@ -135,7 +135,7 @@ map("n", "<leader><Esc>", ":let @/=''<cr>", { silent = true })
 map("n", "<leader>/", ":nohlsearch<cr>")
 
 -- Makes * and # work on visual mode too.
-vim.cmd([[ 
+vim.cmd([[
 function! s:VSetSearch(cmdtype)
   let temp = @s
   norm! gv"sy
@@ -208,3 +208,9 @@ map("o", "il", ":normal vil<CR>", { silent = true })
 
 -- Indent all document
 map("n", "==", "gg=G")
+
+-------------------------
+-- My plugins
+-------------------------
+
+map("n", "<F12>", require("greport").greport)

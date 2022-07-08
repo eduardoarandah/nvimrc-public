@@ -86,8 +86,8 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 " g flag: repeat on each match in the line
 " n report matches only, don't make any substitutions
 " e no errors please
-" The |submatch()| function can be used to obtain matched text.  The whole matched text can be accessed with submatch(0) 
-" read more 
+" The |submatch()| function can be used to obtain matched text.  The whole matched text can be accessed with submatch(0)
+" read more
 " :h substitute
 " :h s_flags
 " :h submatch()
@@ -98,7 +98,7 @@ command! CopyMatches let hits = [] | %substitute//\=add(hits, submatch(0))/gne |
 """""""""""""""""""""""""
 
 function! FormatDocument()
-  if(&ft == 'blade') 
+  if(&ft == 'blade')
     SpacesClean
     % !npx blade-formatter --stdin --indent-size=2 --wrap=999
   elseif(&ft == 'sql')
@@ -109,7 +109,7 @@ function! FormatDocument()
     PrettierAsync
   elseif( &ft == 'markdown' || &ft  == 'vue')
     PrettierAsync
-  elseif(&ft == 'lua') 
+  elseif(&ft == 'lua')
     write
     " download https://github.com/JohnnyMorganz/StyLua/releases
     silent !stylua %
@@ -125,13 +125,13 @@ nnoremap <leader>f :call FormatDocument()<Cr>
 " Fix
 """""""""""""""""""""""""
 
-function! Fix() 
-  if(&ft == 'javascript') 
+function! Fix()
+  if(&ft == 'javascript')
     silent !npx eslint --fix %
   endif
-endfunction 
+endfunction
 
-command! Fix :call Fix() 
+command! Fix :call Fix()
 
 """""""""""""""""""
 " CSS
@@ -242,12 +242,6 @@ command! Proyectos :Files ~/proyectos
 command! Repos :Files ~/repos
 command! Scripts :Files ~/scripts
 
-
-"""""""""""""""""""""""""
-" Lua modules
-"""""""""""""""""""""""""
-
-command! Greport lua require'greport'.greport()<cr>
 
 """""""""""""""""""""""""
 " Ultisnips
