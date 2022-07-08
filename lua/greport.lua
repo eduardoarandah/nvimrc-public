@@ -1,3 +1,4 @@
+local M = {}
 -- https://dev.to/2nit/how-to-write-neovim-plugins-in-lua-5cca
 local function build_floating_buffer()
 	local api = vim.api
@@ -53,29 +54,26 @@ local function add_mappings_to_buffer(buf)
 	local opts = { nowait = true, noremap = true, silent = true }
 	vim.api.nvim_buf_set_keymap(buf, "n", "<up>", ":lua require'greport'.next()<cr>", opts)
 	vim.api.nvim_buf_set_keymap(buf, "n", "<down>", ":lua require'greport'.prev()<cr>", opts)
+	vim.api.nvim_buf_set_keymap(buf, "n", "<esc>", ":bd<cr>", opts)
 end
 
-local function prev()
+function M.prev()
 	vim.b.greport_number = vim.b.greport_number + 1
 	add_log_to_buffer(0) -- 0 is current buffer
 end
 
-local function next()
+function M.next()
 	if vim.b.greport_number > 0 then
 		vim.b.greport_number = vim.b.greport_number - 1
 		add_log_to_buffer(0) -- 0 is current buffer
 	end
 end
 
-local function greport()
+function M.greport()
 	local buf = build_floating_buffer()
 	add_branch_to_buffer(buf)
 	add_log_to_buffer(buf)
 	add_mappings_to_buffer(buf)
 end
 
-return {
-	greport = greport,
-	prev = prev,
-	next = next,
-}
+return M
