@@ -8,8 +8,8 @@ local function build_floating_buffer()
 	api.nvim_buf_set_option(buf, "filetype", "git")
 
 	-- get dimensions
-	local width = api.nvim_get_option("columns")
-	local height = api.nvim_get_option("lines")
+	local width = vim.o.columns
+	local height = vim.o.lines
 
 	-- calculate our floating window size
 	local win_height = math.ceil(height * 0.8 - 4)
