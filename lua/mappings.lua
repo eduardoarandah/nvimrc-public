@@ -119,11 +119,6 @@ map("n", "F2", ":set pastetoggle<CR>")
 -- Don't lose clipboard when pasting
 map("x", "p", "pgvy")
 
--- delete/change without changing clipboard
-map("n", "<leader>x", '"_x')
-map("n", "<leader>d", '"_d')
-map("n", "<leader>c", '"_c')
-
 ----------------
 -- Search replace
 ----------------

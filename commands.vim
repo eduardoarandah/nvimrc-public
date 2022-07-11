@@ -221,9 +221,6 @@ command PhpIfToBlade :norm 0f{%S@endifD0:s/<?php if/@if
 " html
 """""""""""""""
 
-" go to class
-nnoremap \c ?class<CR>2f":noh<CR>
-
 " Lorem ipsum
 command! LoremHtml :r!curl -Ns https://loripsum.net/api/10/medium/headers/decorate/link/ul/ol/bq/
 
