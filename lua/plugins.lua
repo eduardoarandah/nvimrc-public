@@ -58,33 +58,33 @@ return require("packer").startup(function(use)
 		end,
 	})
 
-	-- FZF Fuzzy Finder
-	use({ "junegunn/fzf", run = ":call fzf#install()" })
-	use("junegunn/fzf.vim")
-	map("n", "<C-p>", "<cmd>Files<CR>") -- all files
-	map("n", "<leader>hi", ":History<CR>") --recent files
-	map("n", "<leader>:", ":History:<CR>") -- commands
-	map("n", "<leader>j", ":Lines<CR>") -- all lines in all buffers
-	map("n", "<C-f>", ":Buffers<CR>") -- buffers
+	-- Telescope fuzzy finder
+	use({
+		"nvim-telescope/telescope.nvim",
+		requires = { { "nvim-lua/plenary.nvim" } },
+	})
 
-	vim.cmd([[
-	if executable('rg')
-		" Use RipGrep to list files for fzf, include dotfiles in current directory
-		let $FZF_DEFAULT_COMMAND='{ rg --files; find . -type f -name ".*" -depth 1 }'
-	else
-		" Open GIT files if is a git repo, otherwise, just list files
-		nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':Files' : ':GFiles --exclude-standard --others --cached')."\<cr>"
-	endif
-	]])
+	-- https://github.com/nvim-telescope/telescope.nvim#file-pickers
+	local t = require("telescope.builtin")
+	map("n", "<C-p>", t.find_files)
+	map("n", "<C-f>", t.buffers)
+	map("n", "<leader>hi", t.oldfiles)
+	map("n", "<leader>:", t.command_history)
+	map("n", "<leader>j", t.current_buffer_fuzzy_find)
+	map("n", "<localleader>c", t.commands) -- available commands
+	cmd("Options", t.vim_options, { bang = true })
+	cmd("GrepString", t.grep_string, { bang = true })
+	cmd("HelpTags", t.help_tags, { bang = true })
+	cmd("ManPages", t.man_pages, { bang = true })
+	cmd("Marks", t.marks, { bang = true })
 
-	vim.cmd([[
-	function! ChangeFZFDir()
-		let g:dir=expand('%:h')
-		nnoremap <C-p> :Files <c-r>=g:dir<CR><CR>
-		echo 'FZF files dir changed to: '. g:dir
-	endfunction
-	nnoremap <leader>cz :call ChangeFZFDir()<CR>
-	]])
+	-- lsp https://github.com/nvim-telescope/telescope.nvim#neovim-lsp-pickers
+	cmd("References", t.lsp_references, { bang = true })
+	cmd("Diagnostics", t.diagnostics, { bang = true })
+	cmd("IncomingCalls", t.lsp_incoming_calls, { bang = true })
+	cmd("OutgoingCalls", t.lsp_outgoing_calls, { bang = true })
+	cmd("DocumentSymbols", t.lsp_document_symbols, { bang = true })
+	cmd("WorkspaceSymbols", t.lsp_workspace_symbols, { bang = true })
 
 	-- Allow repeating for plugin mappings like surround
 	use("tpope/vim-repeat")
