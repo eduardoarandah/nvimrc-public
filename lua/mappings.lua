@@ -100,11 +100,8 @@ map("n", "<leader>cc", ":cclose<CR>")
 -- Macros
 --------
 
--- Execute macro q
-map("n", "Q", "@q")
-
 -- Execute macro q on visual selection
-map("x", "Q", ":normal @q<CR>")
+map("x", "Q", ":normal Q<CR>", { remap = true })
 
 -----------------------
 -- Clipboard / registers
