@@ -72,7 +72,7 @@ return require("packer").startup(function(use)
 	map("n", "<leader>:", t.command_history)
 	map("n", "<leader>j", t.current_buffer_fuzzy_find)
 	map("n", "<localleader>c", t.commands) -- available commands
-	map("n", "<localleader>s", t.lsp_workspace_symbols)
+	map("n", "<localleader>s", t.lsp_document_symbols)
 	map("n", "<localleader>g", t.live_grep)
 	cmd("Options", t.vim_options, { bang = true })
 	cmd("LiveGrep", t.live_grep, { bang = true })
