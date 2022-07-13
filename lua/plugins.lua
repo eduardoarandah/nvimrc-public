@@ -256,8 +256,12 @@ return require("packer").startup(function(use)
 	use("uga-rosa/cmp-dictionary") -- https://github.com/uga-rosa/cmp-dictionary
 
 	-- Snippets ultisnips users.
-	use("SirVer/ultisnips") -- UltiSnips is the ultimate solution for snippets in Vim
-	use("quangnguyen30192/cmp-nvim-ultisnips") -- UltiSnips completion source for nvim-cmp
+	-- use("SirVer/ultisnips") -- UltiSnips is the ultimate solution for snippets in Vim
+	-- use("quangnguyen30192/cmp-nvim-ultisnips") -- UltiSnips completion source for nvim-cmp
+
+	-- Snippets luasnip
+	use("L3MON4D3/LuaSnip")
+	use("saadparwaiz1/cmp_luasnip")
 
 	-- fix things in quickfix list
 	use("stefandtw/quickfix-reflector.vim")

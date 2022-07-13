@@ -244,4 +244,4 @@ command! Scripts :Files ~/scripts
 " Ultisnips
 """""""""""""""""""""""""
 
-xnoremap <leader>u y:UltiSnipsEdit<cr>Go<cr>snippet key "description"<cr><esc>poendsnippet<esc>
+" xnoremap <leader>u y:UltiSnipsEdit<cr>Go<cr>snippet key "description"<cr><esc>poendsnippet<esc>

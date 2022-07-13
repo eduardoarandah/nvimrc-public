@@ -80,6 +80,11 @@ _G.packer_plugins = {
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/HowMuch",
     url = "https://github.com/sk1418/HowMuch"
   },
+  LuaSnip = {
+    loaded = true,
+    path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/LuaSnip",
+    url = "https://github.com/L3MON4D3/LuaSnip"
+  },
   ["auto-pairs"] = {
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/auto-pairs",
@@ -110,15 +115,15 @@ _G.packer_plugins = {
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/cmp-nvim-lua",
     url = "https://github.com/hrsh7th/cmp-nvim-lua"
   },
-  ["cmp-nvim-ultisnips"] = {
-    loaded = true,
-    path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/cmp-nvim-ultisnips",
-    url = "https://github.com/quangnguyen30192/cmp-nvim-ultisnips"
-  },
   ["cmp-path"] = {
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/cmp-path",
     url = "https://github.com/hrsh7th/cmp-path"
+  },
+  cmp_luasnip = {
+    loaded = true,
+    path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
+    url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
   ["dracula.nvim"] = {
     config = { "vim.cmd('colorscheme dracula')" },
@@ -190,11 +195,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/typescript.nvim",
     url = "https://github.com/jose-elias-alvarez/typescript.nvim"
-  },
-  ultisnips = {
-    loaded = true,
-    path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/ultisnips",
-    url = "https://github.com/SirVer/ultisnips"
   },
   ["vim-airline"] = {
     loaded = true,
