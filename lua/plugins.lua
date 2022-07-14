@@ -80,6 +80,12 @@ return require("packer").startup(function(use)
 	cmd("ManPages", t.man_pages, { bang = true })
 	cmd("Marks", t.marks, { bang = true })
 
+	-- git
+	cmd("Branch", t.git_branches, { bang = true }) -- Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>
+	cmd("Commits", t.git_commits, { bang = true }) -- Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h
+	cmd("BufferCommits", t.git_bcommits, { bang = true }) -- Lists buffer's git commits with diff preview and checks them out on <cr>
+	cmd("Diff", t.git_status, { bang = true }) -- Lists buffer's git commits with diff preview and checks them out on <cr>
+
 	-- lsp https://github.com/nvim-telescope/telescope.nvim#neovim-lsp-pickers
 	cmd("References", t.lsp_references, { bang = true })
 	cmd("Diagnostics", t.diagnostics, { bang = true })
