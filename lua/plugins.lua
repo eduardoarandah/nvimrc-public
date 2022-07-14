@@ -96,7 +96,7 @@ return require("packer").startup(function(use)
 
 	-- Git
 	use("tpope/vim-fugitive")
-	map("n", "<leader>gs", ":Git<cr>")
+	map("n", "<leader>gs", ":tabnew | Git | only<cr>")
 	map("n", "<leader>ga", ":Git add %<cr>")
 	map("n", "<leader>gr", ":Gread<cr>")
 	map("n", "<leader>gl", ":Git log --name-only<cr>")
