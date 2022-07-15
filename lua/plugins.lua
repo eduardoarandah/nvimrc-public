@@ -190,6 +190,14 @@ return require("packer").startup(function(use)
 		ft = { "css", "scss" },
 	})
 
+	-- casing https://github.com/johmsalas/text-case.nvim
+	use({
+		"johmsalas/text-case.nvim",
+		config = function()
+			require("textcase").setup({})
+		end,
+	})
+
 	-- Change case (casing)
 	use("arthurxavierx/vim-caser")
 	-- let g:caser_no_mappings = 1
