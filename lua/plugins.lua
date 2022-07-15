@@ -141,13 +141,16 @@ return require("packer").startup(function(use)
 	use("jremmen/vim-ripgrep")
 	vim.g.rg_command = 'rg --vimgrep --pcre2 --type-add="scss:*.scss"'
 
-	-- Sessions
-	use("xolox/vim-misc")
-	use("romgrk/vim-session")
-	vim.g.session_autoload = "no"
-	vim.g.session_autosave = "yes"
-	vim.g.session_directory = "~/.nvim/sessions"
-	vim.g.session_extension = ""
+	-- session https://github.com/rmagatti/auto-session
+	use({
+		"rmagatti/auto-session",
+		config = function()
+			require("auto-session").setup({
+				log_level = "info",
+				auto_session_suppress_dirs = { "~/" },
+			})
+		end,
+	})
 
 	-- Useful commands
 	use("tpope/vim-eunuch")

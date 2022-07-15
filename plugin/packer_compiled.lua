@@ -90,6 +90,12 @@ _G.packer_plugins = {
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/auto-pairs",
     url = "https://github.com/jiangmiao/auto-pairs"
   },
+  ["auto-session"] = {
+    config = { "\27LJ\2\n–\1\0\0\6\0\n\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\b\0006\3\3\0009\3\4\0039\3\5\3'\5\6\0B\3\2\2'\4\a\0&\3\4\3=\3\t\2B\0\2\1K\0\1\0\26auto_session_root_dir\1\0\0\15/sessions/\tdata\fstdpath\afn\bvim\nsetup\17auto-session\frequire\0" },
+    loaded = true,
+    path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/auto-session",
+    url = "https://github.com/rmagatti/auto-session"
+  },
   ["cmp-buffer"] = {
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/cmp-buffer",
@@ -233,11 +239,6 @@ _G.packer_plugins = {
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-maximizer",
     url = "https://github.com/szw/vim-maximizer"
   },
-  ["vim-misc"] = {
-    loaded = true,
-    path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-misc",
-    url = "https://github.com/xolox/vim-misc"
-  },
   ["vim-polyglot"] = {
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-polyglot",
@@ -257,11 +258,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-ripgrep",
     url = "https://github.com/jremmen/vim-ripgrep"
-  },
-  ["vim-session"] = {
-    loaded = true,
-    path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-session",
-    url = "https://github.com/romgrk/vim-session"
   },
   ["vim-signature"] = {
     loaded = true,
@@ -286,20 +282,24 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: Comment.nvim
-time([[Config for Comment.nvim]], true)
-try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
-time([[Config for Comment.nvim]], false)
 -- Config for: dracula.nvim
 time([[Config for dracula.nvim]], true)
 vim.cmd('colorscheme dracula')
 time([[Config for dracula.nvim]], false)
+-- Config for: Comment.nvim
+time([[Config for Comment.nvim]], true)
+try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
+time([[Config for Comment.nvim]], false)
+-- Config for: auto-session
+time([[Config for auto-session]], true)
+try_loadstring("\27LJ\2\n–\1\0\0\6\0\n\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\b\0006\3\3\0009\3\4\0039\3\5\3'\5\6\0B\3\2\2'\4\a\0&\3\4\3=\3\t\2B\0\2\1K\0\1\0\26auto_session_root_dir\1\0\0\15/sessions/\tdata\fstdpath\afn\bvim\nsetup\17auto-session\frequire\0", "config", "auto-session")
+time([[Config for auto-session]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType scss ++once lua require("packer.load")({'vim-css-color'}, { ft = "scss" }, _G.packer_plugins)]]
 vim.cmd [[au FileType css ++once lua require("packer.load")({'vim-css-color'}, { ft = "css" }, _G.packer_plugins)]]
+vim.cmd [[au FileType scss ++once lua require("packer.load")({'vim-css-color'}, { ft = "scss" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end
