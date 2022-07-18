@@ -54,7 +54,7 @@ return require("packer").startup(function(use)
 	use("tpope/vim-fugitive")
 
 	-- Shows a git diff in the sign column.
-	use("mhinz/vim-signify")
+	use("lewis6991/gitsigns.nvim")
 
 	-- Maximizes and restores the current window in Vim.
 	use("szw/vim-maximizer")

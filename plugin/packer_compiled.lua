@@ -140,6 +140,11 @@ _G.packer_plugins = {
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/editorconfig-vim",
     url = "https://github.com/editorconfig/editorconfig-vim"
   },
+  ["gitsigns.nvim"] = {
+    loaded = true,
+    path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
+    url = "https://github.com/lewis6991/gitsigns.nvim"
+  },
   ["markdown-preview.nvim"] = {
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim",
@@ -267,11 +272,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-signature",
     url = "https://github.com/kshenoy/vim-signature"
-  },
-  ["vim-signify"] = {
-    loaded = true,
-    path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-signify",
-    url = "https://github.com/mhinz/vim-signify"
   },
   ["vim-slime"] = {
     loaded = true,
