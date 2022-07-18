@@ -1,0 +1,27 @@
+snippet kv key-value i
+	"$1":"$2"$0
+
+snippet composerinit composer init
+	"autoload": {
+		"psr-4": {
+			"App\\\\": "app/",
+			"Database\\\\Factories\\\\": "database/factories/",
+			"Database\\\\Seeders\\\\": "database/seeders/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Tests\\\\": "tests/"
+		}
+	},
+	"scripts": {
+		"post-autoload-dump": [
+			"@php artisan package:discover --ansi"
+		]
+	},
+	"config": {
+		"optimize-autoloader": true,
+		"preferred-install": "dist",
+		"sort-packages": true,
+		"php": "8.1"
+	},

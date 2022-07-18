@@ -1,0 +1,60 @@
+############
+# tmuxinator
+############
+
+snippet tmuxinatornew tmuxinator
+  # run: tmuxinator start -p .tmuxinator.yml
+  name: $1
+
+  # Runs on project start, always
+  # on_project_start: docker-compose up -d
+  # on_project_exit: docker-compose down &
+
+  # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+  pre_window:
+    - nvm use 16
+    - source init.sh
+
+  # Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+  startup_window: editor
+
+  windows:
+    - server:
+        layout: tiled # even-horizontal, even-vertical, main-horizontal, main-vertical, or tiled
+        panes:
+          - pane1:
+            - cd public
+            - wp core version
+          - pane2:
+            - open http://xxxx.localhost/
+            - open http://localhost:3000
+    - watchers:
+        layout: tiled # even-horizontal, even-vertical, main-horizontal, main-vertical, or tiled
+        panes:
+          - pane1:
+            - cd ./public/wp-content/themes/xxxx/
+            - composer install
+          - pane2:
+            - cd ./public/wp-content/themes/xxxx/
+            - yarn
+            - yarn build
+            - yarn start
+    - editor:
+        - cd ./public/wp-content/themes/xxxx/
+        - $EDITOR
+
+snippet tmuxinatorlayout tmuxinator layout
+
+    - server:
+        layout: tiled # even-horizontal, even-vertical, main-horizontal, main-vertical, or tiled
+        panes:
+          - pane1:
+            - \$EDITOR
+            - yarn dev
+          - pane2:
+            - open http://localhost:8080
+
+snippet tmuxinatorpane tmuxinator pane
+    - watchers:
+        - echo "Commands one after another"
+        - $EDITOR

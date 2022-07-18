@@ -1,0 +1,1199 @@
+extends html
+
+snippet ph PHP <?php ?> i
+	<?php $0 ?>
+
+snippet fun PHP Function i
+	function $1($2){
+		$0
+	}
+
+snippet ddd Dump and die
+	echo "<pre>";
+	var_export(\$${1:this});
+	echo "</pre>";
+	die();
+
+snippet kv key=>value i
+	'${1}' => ${2},$0
+
+snippet st Strip Tags
+	\$${1:var} = strip_tags($0, '<strong><br>');
+
+snippet pad String padding i
+	str_pad($1, 2, '0', STR_PAD_LEFT);
+
+###############
+#  Wordpress  #
+###############
+
+snippet bodyclass Add class to body
+	add_filter('body_class', function (\$classes) {
+		return array_merge(\$classes, array('${1:class}'));
+	});
+
+snippet wpenqueuescripts Wordpress enqueue scripts/styles
+	function ${1:namespace}_register_scripts()
+	{
+		// scripts
+		// get_template_directory_uri()
+		\$script_url = plugins_url('dist/bundle.js', __FILE__);
+		wp_enqueue_script('$1', \$script_url, [], '0.1.0', true);
+
+		// sage
+		wp_enqueue_script('sage/app.js', asset('scripts/app.js')->uri(), ['jquery'], null, true);
+
+		// styles
+		\$style_url = plugins_url('dist/styles.css', __FILE__);
+		wp_enqueue_style('$1', \$style_url, [], '0.1.0', 'screen');
+
+		// sage
+		wp_enqueue_style('sage/app.css', asset('styles/app.css')->uri(), false, null);
+
+		// localize
+		wp_localize_script('sage/app.js', 'globalSettings', [
+				'ajaxUrl' => admin_url('admin-ajax.php'),
+		]);
+	}
+
+	add_action('wp_enqueue_scripts', '$1_register_scripts');
+
+snippet wplocalizescript Wordpress localize scripts
+	function ${1:namespace}_register_scripts()
+	{
+		// localize
+		wp_localize_script('sage/app.js', 'globalSettings', [
+				'ajaxUrl' => admin_url('admin-ajax.php'),
+		]);
+	}
+	add_action('wp_enqueue_scripts', '$1_register_scripts');
+
+snippet wpquerysimple Wordpress query, post object
+	// https://developer.wordpress.org/reference/classes/wp_query/
+	\$query_args = [
+		'post_type'     => 'post',
+		'posts_per_page'=> '-1',
+		'cat'=>\$cat,
+		'tag_id'=>\$tag,
+		'meta_query'    =>[
+			'relation'      =>'and',
+			[
+				'key'           =>'event_date',
+				'value'         =>'2018-01-01',
+				'compare'       =>'>',
+			],
+		],
+		//order by meta
+		'meta_key'      => 'event_date',
+		'orderby'       => 'meta_value',
+		'order'         => 'ASC'
+	];
+	\$the_query = new \WP_Query(\$query_args);
+
+	\$posts = [];
+	\$blog_default_image = get_field('blog_default_image', 'option');
+	foreach (\$the_query->posts as \$post) {
+
+		// image
+		\$image = get_the_post_thumbnail(\$post, 'thumbnail', [ 'class' => 'w-full' ]);
+		if (empty(\$image) && !empty(\$blog_default_image)) {
+			\$image = wp_get_attachment_image( \$blog_default_image['id'], 'thumbnail', false, ['class' => 'w-full']);
+		}
+
+		\$posts[] = [
+			'id'=>\$post->ID,
+			'title' => \$post->post_title,
+			'image'=>\$image,
+			'author'=>\$post->post_author;
+			'date'=>\$post->post_date;
+			'content'=>\$post->post_content;
+			'excerpt'=>\$post->post_excerpt;
+		];
+	}
+
+snippet wpquery Wordpress Query
+
+	\$number=get_field('number') ?? -1;
+	\$cat=get_field('cat');
+	\$tag=get_field('tag');
+
+	// The Query
+	\$the_query = new WP_Query([
+		'post_type'     => 'post',
+		'posts_per_page'=>$number,
+		'cat'=>\$cat,
+		'tag_id'=>\$tag,
+		'meta_query'    =>[
+			'relation'      =>'and',
+			[
+				'key'           =>'event_date',
+				'value'         =>'2018-01-01',
+				'compare'       =>'>',
+			],
+
+			"relation" => "and",
+			[
+					"key" => "video",
+					"value" => "",
+					"compare" => "!=", // checar que campo exista
+			],
+		],
+		//order by meta
+		'meta_key'      => 'event_date',
+		'orderby'       => 'meta_value',
+		'order'         => 'ASC'
+	]);
+
+	// The Loop
+	\$posts=[];
+	if (\$the_query->have_posts()) {
+
+		\$blog_default_image = get_field('blog_default_image', 'option');
+
+		while (\$the_query->have_posts()) {
+			\$the_query->the_post();
+
+			// Image
+			\$image=get_the_post_thumbnail(null, '${1:thumbnail}', ['class'=>'img-fluid']);
+			if (empty(\$image) && !empty(\$blog_default_image)) {
+				\$image='<img src="'.\$blog_default_image['sizes']['$1'].'" alt="'.\$blog_default_image['alt'].'" class="img-fluid"/>';
+			}
+
+			\$posts[]=[
+				'image'=>\$image,
+				'title'=>get_the_title(),
+				'date'=>get_the_date(),
+				'datetime'=>get_post_time('c', true),
+				'link'=>get_the_permalink(),
+				//'event_date'=>get_field('event_date', get_the_ID()) , //ACF
+
+			];
+		}
+		wp_reset_postdata();
+	}
+
+	// Debug SQL
+	//echo \$the_query->request;
+
+	@if (!empty(\$posts))
+	<div class="{{ \$ns }}__posts">
+	@foreach (\$posts as \$post)
+	@php
+	extract(\$post);
+	@endphp
+		<div class="{{ \$ns }}__post">
+				<div class="{{ \$ns }}__image">
+					<a href="{!! \$link !!}">
+						{!! \$image !!}
+					</a>
+				</div>
+				<h3 class="{{ \$ns }}__title">
+					<a href="{!! \$link !!}">
+						{!! \$title !!}
+					</a>
+				</h3>
+			<time class="{{ \$ns }}__date" datetime="{!! \$datetime !!}">{!! \$date !!}</time>
+		</div>
+	@endforeach
+	</div>
+	@endif
+
+	'posts'=>$posts,
+
+snippet wpfilter Add wordpress filter
+	function $1_$2( \$var1 ) {
+		return \$var1;
+	}
+	add_filter( '${1:filter}', '${2:action}' );
+
+#########
+#  ACF  #
+#########
+
+snippet acfgf ACF Function
+	public function ${1:name}() {
+		return get_field('$1');
+	}
+
+snippet acffo ACF Function Option
+	public function option_${1:name}() {
+		return get_field('$1', 'option');
+	}
+
+snippet acfblock ACF Block
+	<?php
+	add_action('acf/init', function () {
+		if (function_exists('acf_register_block')) {
+			acf_register_block([
+				'name' => '${1:block-name}',
+				'title' => __('${2:block title}', 'sage'),
+				'category' => 'sections',
+				'icon' => 'screenoptions',
+				'render_callback' => function (\$block) {
+					// sage 9:echo \App\template('blocks.${1:block-name}', [
+					echo Roots\view('blocks.${1:block-name}', [
+						'class' => \$block['className'] ?? '',
+						'header' => get_field('header'),
+						'text' => get_field('text'),
+						'image' => get_field('image'),
+					]);
+				},
+			]);
+		}
+	});
+
+snippet wpgf ACF Get Field, assign i
+	\$$1 = get_field('${1}');
+
+snippet wpgfo ACF Get Field Option i
+	\$$1 = get_field('${1}', 'option');
+
+snippet acfgroupfields Acf group fields description
+	// types: wysiwyg
+	if (function_exists('acf_add_local_field_group')) {
+		acf_add_local_field_group([
+			'key' => 'group_$1',
+			'title' => 'Block $1',
+			'fields' => [
+				[
+					'key' => 'field_$1-title',
+					'label' => 'Title',
+					'name' => 'title',
+					'type' => 'text',
+					'instructions' => '',
+					'required' => 0,
+					'default_value' => '',
+					'placeholder' => '',
+				],
+				[
+					'key' => 'field_$1-text',
+					'label' => 'Text',
+					'name' => 'text',
+					'type' => 'wysiwyg',
+					'instructions' => '',
+					'required' => 0,
+					'default_value' => '',
+					'placeholder' => '',
+				],
+			],
+			'location' => [
+				[
+					[
+						'param' => 'block',
+						'operator' => '==',
+						'value' => 'acf/$1',
+					],
+				],
+			],
+		]);
+	}
+
+snippet wpimg Wordpress Image with fallback
+	// Image with fallback
+	\$image=get_the_post_thumbnail(\$${1:post}->ID, '${1:thumbnail}', ['class'=>'img-fluid']);
+	if (empty(\$image)) {
+		\$default_$1_image = get_field('default_$1_image', 'option');
+		if (\$default_$1_image) {
+			\$image='<img src="'.\$default_$1_image['sizes']['$1'].'" alt="'.\$default_$1_image['alt'].'" class="img-fluid"/>';
+		}
+	}
+
+snippet wpimgfromid Image from image id
+	wp_get_attachment_image(\$image['id'], 'full', false, ['class' => 'w-full h-auto'])
+
+snippet acfrepeat ACF Repeat
+	// Repeater field
+	\$$1=[];
+	while (have_rows('${1:items}')) {
+		the_row();
+		\$$1[]=[
+		'${3:title}' => get_sub_field('$3'),
+		];
+	}
+
+	'$1' => \$$1,${0}
+
+snippet fore Foreach
+	foreach(\$$1 as \$$2){
+		$0
+	}
+
+snippet foreraw Foreach in raw php
+	<div class="$1">
+	<?php foreach(\$$1 as \$$2):  ?>
+		<div class="$2">
+			<?php echo \$$2 ?>
+			<?php echo htmlspecialchars(\$$2) ?>
+			<?php echo nl2br(htmlspecialchars(\$$2)) ?>
+		</div>
+	<?php endforeach ?>
+	</div>
+
+###############
+#  Gutenberg  #
+###############
+snippet funpar Function partial
+	public function ${1:partial_name}()
+	{
+		return \App\template("partials/$1", [
+			'${2:var}' => \$$2,
+		]);
+	}
+
+snippet __ Translation
+	__('$1', 'sage9')
+
+snippet log PHP log to file
+	file_put_contents(__DIR__."/log.txt", print_r($1, true), FILE_APPEND);
+
+###############
+#  wordpress  #
+###############
+
+snippet wpaction wordpress action hook
+	function ${1:action}_${2:filter}(){
+			$0
+	}
+	add_action( '$1', '$1_$2', 10); // priority: lower first
+
+snippet wpfilter wordpress filter
+	// https://developer.wordpress.org/reference/functions/add_filter/
+	add_filter('$1', function () {
+	return $0
+	}, 10);
+
+snippet wpactionremove wordpress action remove
+	function ${1:custom_remove_action_hook}() {
+		remove_action('hook_name', 'callback_name', 10);
+	}
+	add_action('template_redirect', '$1', 0);
+
+#############
+#  laravel  #
+#############
+
+snippet belongsTo Laravel model relation belongs to
+	public function ${1:model}()
+	{
+		return \$this->belongsTo($0::class);
+	}
+
+snippet hasMany Laravel model relation has many
+	public function ${1:model}s()
+	{
+		return \$this->hasMany($0::class);
+	}
+
+snippet belongsToMany relationship many to many
+	public function ${1:model}s()
+	{
+		return \$this->belongsToMany($0::class);
+	}
+
+snippet migracreate Migration table create
+	Schema::create('$1', function (Blueprint \$table) {
+			\$table->id();
+			$0
+			\$table->timestamps();
+	});
+
+snippet migraupdate Migration table update
+	Schema::table('$1', function (Blueprint \$table) {
+		$0
+	});
+
+snippet migradropcolumn Migration drop column
+	\$table->dropColumn(['$1']);
+
+snippet migraprimarykey Migration:primarykey
+	\$table->id();
+
+snippet migrafk Migration:foreign key
+	//https://laravel.com/docs/9.x/migrations#foreign-key-constraints
+	\$table->foreignId('${1:field_name}_id')->nullable()->constrained('$1');
+
+snippet migrainteger Migration:integer
+	\$table->integer('${1:name}')${2:->nullable()};
+
+snippet migrastring Migration:string
+	\$table->string('${1:name}')${2:->nullable()};
+
+snippet migradate Migration:date
+	\$table->date('${1:name}')${2:->nullable()};
+
+snippet migratext Migration:text
+	\$table->text('${1:name}')${2:->nullable()};
+
+snippet migradecimal Migration:decimal
+	\$table->decimal('$1', 8, 2);
+
+snippet migrahemamodify Migration modify
+	Schema::table('$1', function (Blueprint \$table) {
+			\$table->string('email');
+	});
+
+snippet migradroptable Migration drop table
+	Schema::drop('$1')
+
+snippet migradropforeign Migration drop foreign key
+	\$table->dropForeign('${2:table_name}_${1:column_name}_foreign');
+
+snippet routeresource Route::resource
+	Route::resource('$1', '$2Controller')->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+
+	Route::get('$1', '$2Controller@index')->name('$1.index');
+	Route::get('$1/create', '$2Controller@create')->name('$1.create');
+	Route::post('$1', '$2Controller@store')->name('$1.store');
+	Route::get('$1/{$1}', '$2Controller@show')->name('$1.show');
+	Route::get('$1/{$1}/edit', '$2Controller@edit')->name('$1.edit');
+	Route::put('$1/{$1}', '$2Controller@update')->name('$1.update');
+	Route::delete('$1/{$1}', '$2Controller@destroy')->name('$1.destroy');
+
+snippet lartransaction DB transaction
+	DB::transaction(function () {
+			DB::update('update users set votes = 1');
+			DB::delete('delete from posts');
+	});
+
+snippet carbontoday Today with carbon
+	Carbon::today()->format('Y-m-d')
+
+snippet returnview Return view
+	return view('$1', compact('$2'));
+
+snippet constructor Constructor
+	public function __construct($0)
+	{
+
+	}
+
+snippet routegroup Route Group
+	Route::group(
+			[
+			'prefix' => 'v1',
+			'middleware' => ['auth:api'],
+			],
+			function () {
+			$0
+			}
+	);
+
+snippet scope Laravel scope
+	public function scopeActive($query){
+		return $query->where('status', '1');
+	}
+
+snippet validationcustom Custom validation rule
+	function ($attribute, $value, $fail) {
+		if ($value === 'foo') {
+			$fail($attribute.' is invalid.');
+		}
+	},
+
+snippet modelaccessor Laravel field accesor
+	public function get$1Attribute()
+	{
+		return \$this->$0;
+	}
+
+snippet validatorrequest Custom validator in request
+	public function getValidatorInstance()
+	{
+	// get route params
+	\$raffle = \$this->route()->parameter('raffle');
+		return parent::getValidatorInstance()
+			->after(function (\$validator) {
+					\$validator->errors()->add('dates', "You can't do that");
+					});
+	}
+
+snippet validatorfield Custom field validator
+	function (\$attribute, \$value, \$fail) {
+		if (\$value <= \$this->input('start')) {
+			\$fail(\$attribute . ' is invalid.');
+		}
+	},
+
+snippet dbquery Database raw query
+	\$start = new Carbon('first day of last month');
+	\$end = new Carbon('last day of this month');
+	\$query = "select
+	month(fecha) as mes,
+		sum(abono)-sum(cargo) as cantidad
+		from movimiento
+		where
+		year(fecha)= :anio
+	group by month(fecha)
+		order by month(fecha)";
+
+	\$results = DB::select(DB::raw(\$query), array(
+			'start' => \$start->toDateString(),
+			'end' => \$end->toDateString(),
+				));
+
+	dd(\$results);
+
+snippet configsettings Config snippet i
+	config('settings.$1','$2')
+
+snippet validatorcustom Validator custom
+	use Illuminate\Support\Facades\Validator;
+	\$data = Validator::make($request->all(), [
+	'email' => ['required', 'email:rfc,dns', 'max:255', 'unique:users,id,' . $this->route('user')->id],
+	])->validate();
+
+snippet crudcontroller Controller crud functions
+
+	namespace App\Http\Controllers\\$3;
+
+	use App\Http\Controllers\Controller;
+	use App\\${1:Model};
+	use Exception;
+	use Illuminate\Http\Request;
+
+	class $1Controller extends Controller
+	{
+
+		public function index()
+		{
+			\$$2s = $1::paginate(25);
+			return view('$4.$2.index', compact('$2s'));
+		}
+
+		public function create()
+		{
+			return view('$4.$2.create');
+		}
+
+		public function show(\$id)
+		{
+			\$$2 = $1::findOrFail(\$id);
+			return view('$4.$2.show', compact('$2'));
+		}
+
+		public function edit(\$id)
+		{
+			\$$2 = $1::findOrFail(\$id);
+			return view('$4.$2.edit', compact('$2'));
+		}
+
+		public function store(Request \$request)
+		{
+			\$data = \$request->validate([ ]);
+
+			try {
+				$1::create(\$data);
+				return redirect()->route('$4.$2.index')->with('success', '$1 saved');
+			} catch (Exception \$exception) {
+				return back()->withInput()->withErrors(['error' => 'There was an error while processing your request']);
+			}
+		}
+
+		public function update(\$id, Request \$request)
+		{
+			\$data = \$request->validate([ ]);
+
+			\$$2 = $1::findOrFail(\$id);
+			try {
+				\$$2->update(\$data);
+				return redirect()->route('$4.$2.index')
+					->with('success', '$1 saved');
+			} catch (Exception \$exception) {
+				return back()->withInput()->withErrors(['error' => 'There was an error while processing your request']);
+			}
+		}
+
+		public function destroy(\$id)
+		{
+			\$$2 = $1::findOrFail(\$id);
+			try {
+				\$$2->delete();
+				return redirect()->route('$4.$2.index')->with('success', '$1 deleted');
+			} catch (Exception \$exception) {
+				return back()->withInput()->withErrors(['error' => 'There was an error while processing your request']);
+			}
+		}
+
+	}
+
+snippet validaterequest Request validation
+	use App\Rules\PhoneNumber;
+	use Illuminate\Validation\Rule;
+
+	\$data = \$request->validate([
+		'name' => ['required', 'string', 'max:255'],
+		'email' => [
+			'required', 'email:rfc,dns', 'max:255', 'email' => 'not_regex:/\+/i',
+			Rule::unique('users')->ignore(\$request->route('id'))
+		],
+		'phone' => [
+			'required', new PhoneNumber,
+
+			Rule::unique('users')->ignore(\$request->route('id'))
+		],
+		'password' => ['nullable', 'string', 'min:8'],
+		"fecha" => ["required", "date", "date_format:Y-m-d"],
+
+	]);
+
+snippet cachetagflush Cache tag flush
+	Cache::tags([$1])->flush();
+
+snippet puClass PHPUnit class
+	<?php
+	use PHPUnit\Framework\TestCase;
+
+	class $1 extends BaseTest
+	{
+			function test$2()
+			{
+					\$this->assertTrue(true);
+			}
+	}
+
+snippet putest PHPUnit class
+	function test$1()
+	{
+			$0
+			\$this->assertTrue();
+	}
+
+snippet debug-shell Psy Debug shell
+	eval(\Psy\sh());
+
+snippet fn arrow function i
+	fn($1)=>$2
+
+snippet psf Public static function
+	public static function $1(){
+		$0
+	}
+
+snippet pf Public function
+	public function $1(){
+		$0
+	}
+
+snippet phprender snippet for requiring php with parameter
+	<?php
+
+	namespace App;
+
+	class View
+	{
+		public static function render(string \$view, array \$params): string
+		{
+			ob_start();
+			if (!empty(\$params))
+				extract(\$params);
+			require(__DIR__ . "/../views/\$view.php");
+			return ob_get_clean();
+		}
+	}
+
+snippet testhttp http test
+			public function test_$1()
+			{
+					\$user = User::factory()->create([
+							"role" => "user",
+					]);
+					\$this->actingAs(\$user);
+					\$response = \$this->get(route("$2"));
+					\$response->assertStatus($3);
+			}
+
+snippet phclass PHP Class
+	<?php
+
+	namespace $1;
+
+	class $2
+	{
+	$0
+	}
+
+###########
+# wordpress
+###########
+
+snippet wpshortcode Wordpress shortcode
+	function $1_shortcode(\$atts)
+	{
+		\$out = 'Hello world ';
+		\$out .= var_export(\$atts, true);
+		return \$out;
+	}
+	add_shortcode('$1', '$1_shortcode');
+
+snippet wpplugin wordpress plugin scaffold
+	<?php
+	/**
+	 * Plugin Name:
+	 * Plugin URI: PLUGIN SITE HERE
+	 * Description:
+	 * Author:
+	 * Text Domain:
+	 * Domain Path: /languages
+	 * Version: 0.1
+	 *
+	 */
+
+	// version
+	function the_plugin_version()
+	{
+		return '0.1';
+	}
+
+	// include
+	include_once __DIR__ . '/api-endpoints.php';
+
+snippet wpapiendpoint Wordpress api endpoint
+	<?php
+
+	// search /wp-json/boat-api/v1/search
+	function boat_api_search(WP_REST_Request \$request)
+	{
+			\$param1 = \$request->get_param("param1");
+
+			// query database
+			global \$wpdb;
+			\$table_name = \$wpdb->prefix . "posts";
+
+			\$query = \$wpdb->prepare("select * from \$table_name");
+			\$results = \$wpdb->get_results(\$query, ARRAY_A);
+			if (count(\$results)) {
+					return count(\$results);
+			}
+			return 0;
+	}
+
+	add_action("rest_api_init", function () {
+			register_rest_route("boat-api/v1", "/search", [
+					"methods" => "GET",
+					"callback" => "boat_api_search",
+			]);
+	});
+
+snippet wprestendpoint Wordpress rest endpoint
+	function the_callback(WP_REST_Request \$request)
+	{
+			\$page = \$request->get_param("page");
+			if (empty(\$page)) {
+					return "Error: Missing page parameter";
+			}
+			return "ok";
+	}
+
+	// https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/
+	add_action("rest_api_init", function () {
+			// curl http://seanet.localhost/wp-json/the-rest-endpoint/v1/endpoint?page=1
+			register_rest_route("the-rest-endpoint/v1", "/endpoint", [
+					"methods" => "GET",
+					"callback" => "the_callback",
+					"permission_callback" => "__return_true",
+			]);
+	});
+
+snippet wpwidgetsage Wordpress widget
+	<?php
+
+	namespace App;
+
+	class ${1:TheNameWidget} extends \WP_Widget
+	{
+			function __construct()
+			{
+					parent::__construct(
+							'${2:the-name}', // Base ID
+							esc_html__('${3:The Name}', 'sage'), // Name
+							[
+									'description' => esc_html__('${4:The description}', 'sage')
+							]
+					);
+			}
+
+			function form_values(\$instance, \$name, \$default = null)
+			{
+					return [
+							'id' => \$this->get_field_id(\$name),
+							'name' => \$this->get_field_name(\$name),
+							'value' => \$instance[\$name] ?? '',
+							'default' => \$default,
+					];
+			}
+			function sanitize(\$new_instance, \$name)
+			{
+					if (empty(\$new_instance[\$name]))
+							return '';
+					return strip_tags(\$new_instance[\$name]);
+			}
+
+			public function form(\$instance)
+			{
+					echo \Roots\view('widgets.$2-form', [
+							'title' => \$this->form_values(\$instance, 'title', ''),
+					])->render();
+			}
+
+			public function update(\$new_instance, \$old_instance)
+			{
+					\$instance = array();
+					\$instance['title'] = \$this->sanitize(\$new_instance, "title");
+					return \$instance;
+			}
+
+			public function widget(\$args, \$instance)
+			{
+					echo \$args['before_widget'];
+					echo \Roots\view('widgets.$2', [
+							'instance' => \$instance,
+					])->render();
+					echo \$args['after_widget'];
+			}
+	}
+
+	add_action('widgets_init', function () {
+			register_widget('App\\$1');
+	});
+
+snippet wpwidgetphp wordpress widget template
+	<?php
+
+	namespace ${1:App}\Widgets;
+
+	use $1\View;
+
+	class ${2:ClassName} extends \WP_Widget
+	{
+			public function init()
+			{
+					add_action('widgets_init', function () {
+							register_widget('$1\Widgets\$2');
+					});
+			}
+			function __construct()
+			{
+					parent::__construct(
+							'${3:base-id}', // Base ID
+							esc_html__('${4:The widget title}', 'sage'), // Name
+							[
+									'description' => esc_html__('${5: The widget description}', 'sage')
+							]
+					);
+			}
+
+			function form_values(\$instance, \$name, \$default = null)
+			{
+					return [
+							'id' => \$this->get_field_id(\$name),
+							'name' => \$this->get_field_name(\$name),
+							'value' => \$instance[\$name] ?? '',
+							'default' => \$default,
+					];
+			}
+			function sanitize(\$new_instance, \$name)
+			{
+					if (empty(\$new_instance[\$name]))
+							return '';
+					return strip_tags(\$new_instance[\$name]);
+			}
+
+			public function form(\$instance)
+			{
+					echo (new View('$3-form.php', [
+							'title' => \$this->form_values(\$instance, 'title', ''),
+					]))->render();
+			}
+
+			public function update(\$new_instance, \$old_instance)
+			{
+					\$instance = array();
+					\$instance['title'] = \$this->sanitize(\$new_instance, "title");
+					return \$instance;
+			}
+
+			public function widget(\$args, \$instance)
+			{
+					echo \$args['before_widget'];
+					echo (new View('$3.php', [
+							'title' => \$instance['title'],
+					]))->render();
+					echo \$args['after_widget'];
+			}
+	}
+	?>
+
+snippet wptransient Description
+		\$$1 = $3;
+	if (false === (\$$1 = get_transient("$1_$2"))) {
+
+		$0
+
+		/* MINUTE_IN_SECONDS  = 60 (seconds) */
+		/* HOUR_IN_SECONDS    = 60 * MINUTE_IN_SECONDS */
+		/* DAY_IN_SECONDS     = 24 * HOUR_IN_SECONDS */
+		/* WEEK_IN_SECONDS    = 7 * DAY_IN_SECONDS */
+		/* MONTH_IN_SECONDS   = 30 * DAY_IN_SECONDS */
+		/* YEAR_IN_SECONDS    = 365 * DAY_IN_SECONDS */
+		set_transient('$1_$2', \$$1, MINUTE_IN_SECONDS);
+	}
+	return \$$1;
+
+snippet wpenqueuescript Enqueue script
+	add_action('wp_enqueue_scripts', function () {
+			wp_enqueue_script(
+					'name', // name
+					asset('scripts/customizer.js')->uri(), // url
+					['jquery'], // dependencies
+					null, // version
+					true // in footer
+					);
+		});
+
+snippet wpenqueuesstyle Enqueue style
+	add_action('wp_enqueue_scripts', function () {
+			wp_enqueue_style(
+					'name', // name
+					// plugins_url() . "/the-path/resources/css/styles.css", // url
+					asset('scripts/customizer.js')->uri(), // url
+					[], // dependencies
+					// filemtime(plugin_dir_path(__DIR__ . "/../resources/css/styles.css")), // version
+					null, // version
+					'screen', // media
+					);
+		});
+
+snippet wpsageview sage roots view
+	<?php echo \Roots\view('$1')->render()?>
+
+snippet wpdbquery Custom wordpress query
+	global \$wpdb;
+	\$prefix = \$wpdb->base_prefix;
+	\$query = \$wpdb->prepare(
+			"select * from {\$prefix}user_notifications where user_receieve_id = %d order by ID desc",
+			\$user_id
+			);
+	\$results = \$wpdb->get_results(\$query, ARRAY_A);
+
+snippet wpajax ajax request
+	// in plugins,
+	// https://codex.wordpress.org/AJAX_in_Plugins
+	function $1()
+	{
+		$name = $_POST["name"] ?? "????";
+		// wp_send_json_error([ "hello" => $name ]);
+		ob_clean(); // clear any debug messages
+		wp_send_json_success([ "hello" => $name ]);
+		wp_die();
+	}
+
+	add_action("wp_ajax_$1", "$1");
+	add_action("wp_ajax_nopriv_$1", "$1");
+
+	jQuery.post(
+			// localized global variable
+			// globalSettings.ajaxUrl,
+			'/wp-admin/admin-ajax.php',
+			{
+				'action': '$1',
+				'name':   'world'
+			},
+			function(res) {
+				console.log(res);
+			}
+	);
+
+snippet wpcreatetable create table
+	<?php
+
+	// https://codex.wordpress.org/Creating_Tables_with_Plugins
+
+	global \$$1_db_version;
+	\$$1_db_version = "1.0";
+
+	function $1_install()
+	{
+		global \$wpdb;
+		global \$$1_db_version;
+
+		\$installed_ver = get_option("$1_db_version");
+
+		if (\$installed_ver != \$$1_db_version) {
+			\$table = \$wpdb->prefix . "$2";
+
+			\$sql = "CREATE TABLE \$table (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			fecha datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			nombre tinytext NOT NULL,
+			contenido text NOT NULL,
+			PRIMARY KEY  (id)
+		);";
+
+			require_once ABSPATH . "wp-admin/includes/upgrade.php";
+
+			// note: delta only alters/add columns, doesn't remove
+			dbDelta(\$sql);
+
+			update_option("$1_db_version", \$$1_db_version);
+		}
+	}
+
+	function $1_install_data()
+	{
+		global \$wpdb;
+		\$wpdb->insert(\$wpdb->prefix . "$2", [
+			"time" => current_time("mysql"),
+			"name" => "hello",
+			"text" => "world",
+		]);
+	}
+
+	register_activation_hook(
+		plugin_dir_path(__DIR__ . "..") . "$1-formulario-cv.php",
+		"$1_install"
+	);
+	register_activation_hook(
+		plugin_dir_path(__DIR__ . "..") . "$1-formulario-cv.php",
+		"$1_install_data"
+	);
+
+snippet wpclicommand Description
+	// only in console
+	if (!class_exists("WP_CLI")) {
+			return;
+	}
+
+	// import one or many boats
+	WP_CLI::add_command(
+			"$1",
+			function (array \$args) {
+					foreach (\$args as \$arg) {
+							echo "import \$arg...\n";
+							BoatService::importOne(\$arg);
+					}
+			},
+			[
+					"shortdesc" => "Import by DocumentID, example: import 1 2 3 4",
+			]
+	);
+
+snippet wpinsert Wordpress insert in custom table
+	global \$wpdb;
+	\$prefix = \$wpdb->base_prefix;
+	\$wpdb->insert("{\$prefix}prefix_cv", [
+			"fecha" => date("Y-m-d H:i:s", time()),
+			"nombre" => \$form["nombre"],
+	]);
+
+snippet wpaddmenupage Wordpress add menu page
+	// https://developer.wordpress.org/reference/functions/add_menu_page/
+
+	add_action("admin_menu", function () {
+			add_menu_page(
+					"Page title", // page_title
+					"Page title", // menu_title
+					"edit_users", // capability
+					"menu-slug", // menu_slug
+					"$1", // function
+					"", // icon url
+					null // position
+					);
+			});
+
+	function $1()
+	{
+		echo "<div class='wrap'><h1>prefix CV</h1></div>";
+	}
+
+snippet wpdbgetresults wordpress db get results select
+	global \$wpdb;
+	\$prefix = \$wpdb->base_prefix;
+	\$query = \$wpdb->prepare("SELECT * FROM {\$prefix}prefix_cv %d %s", 1, 'hello');
+	\$rows = \$wpdb->get_results(\$query, ARRAY_A);
+	foreach (\$rows as \$row) {
+		echo \$row['id'];
+	}
+
+snippet wpdbupdate wordpress db update
+	global \$wpdb;
+	\$prefix = \$wpdb->base_prefix;
+	\$rows = \$wpdb->update(
+			"{\$prefix}${1:table_name}",
+			// data
+			[
+			"enviada" => 1,
+			],
+			// where
+			[
+			"id" => 1,
+			],
+			// formats for data
+			["%d", "%s"],
+
+			// formats for where
+			["%d", "%s"]
+			);
+	foreach (\$rows as \$row) {
+		echo \$row->id;
+	}
+
+snippet wpdebug wordpress debug log
+	// debug
+	if (true === WP_DEBUG) {
+		error_log("$1");
+	}
+
+snippet wpcronjob wordpress agregar cron job
+	// https://developer.wordpress.org/plugins/cron/scheduling-wp-cron-events/
+
+	// intervalo personalizado https://developer.wordpress.org/plugins/cron/understanding-wp-cron-scheduling/
+	add_filter("cron_schedules", "prefix_add_cron_interval");
+	function prefix_add_cron_interval(\$schedules)
+	{
+		\$schedules["every_minute"] = [
+			"interval" => 60,
+			"display" => esc_html__("Every minute"),
+		];
+		return \$schedules;
+	}
+
+	// agregar scheduled job si no existe ya
+	function prefix_add_scheduled_job()
+	{
+		if (!wp_next_scheduled("prefix_custom_hook")) {
+			wp_schedule_event(time(), "every_minute", "prefix_custom_hook");
+		}
+	}
+	register_activation_hook(
+			plugin_dir_path(__DIR__ . "..") . "plugin-main-file.php", // plugin base dir, can be __FILE__
+			"prefix_add_scheduled_job"
+			);
+
+	// quitar scheduled job
+	function prefix_remove_scheduled_job()
+	{
+		\$timestamp = wp_next_scheduled("prefix_custom_hook");
+		wp_unschedule_event(\$timestamp, "prefix_custom_hook");
+	}
+	register_deactivation_hook(
+			plugin_dir_path(__DIR__ . "..") . "plugin-main-file.php", // plugin base dir, can be __FILE__
+			"prefix_remove_scheduled_job"
+			);
+
+snippet wplog Agregar al log de errores
+	if (true === WP_DEBUG) {
+		error_log($1);
+	}
+
+snippet wpdate wordpress local date
+	\$local_date = date_i18n('Y-m-d H:i:s');
+
+snippet wpactiondebug debug do_action
+	global \$wp_filter;
+	echo '<pre>';
+	var_dump( \$wp_filter['$1'] );
+	echo '</pre>';
+
+snippet wpterms get first taxonomy term
+	\$terms = get_the_terms(\$post, "taxonomy");
+	\$first_term = \$terms && !is_wp_error(\$terms) ? \$terms[0]->name : '';

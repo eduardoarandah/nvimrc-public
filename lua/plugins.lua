@@ -66,16 +66,7 @@ return require("packer").startup(function(use)
 	use("jremmen/vim-ripgrep")
 
 	-- session https://github.com/rmagatti/auto-session
-	use({
-		"rmagatti/auto-session",
-		config = function()
-			require("auto-session").setup({
-				log_level = "info",
-				auto_session_suppress_dirs = { "~/" },
-				auto_session_enabled = true,
-			})
-		end,
-	})
+	use("rmagatti/auto-session")
 
 	-- Useful commands
 	use("tpope/vim-eunuch")

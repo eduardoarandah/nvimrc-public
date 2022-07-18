@@ -1,0 +1,786 @@
+extends html
+
+snippet break @break
+		@break
+
+snippet component @component directive
+	@component('$1')
+		${2:${VISUAL}}
+	@endcomponent
+
+snippet each @each directive
+	@each('$1', $$2, '$3')
+
+snippet else @else directive
+	@else
+
+snippet eif @else if directive
+	@else if ($1)
+		${2:${VISUAL}}
+
+snippet for @for directive
+	@for ($1)
+		${2:${VISUAL}}
+	@endfor
+
+snippet foreach @foreach directive
+	@foreach ($$1 as $$2)
+		${3:${VISUAL}}
+	@endforeach
+
+snippet extends @extends directive
+	@extends('$1')
+
+snippet if @if directive
+	@if ($1)
+		${2:${VISUAL}}
+	@endif
+
+snippet ife @if @else structure
+	@if ($1)
+		${2:${VISUAL}}
+	@else
+		${3:${VISUAL}}
+	@endif
+
+snippet include @include directive
+	@include('$1')
+
+snippet includeIf @includeIf directive
+	@includeIf('$1')
+
+snippet isset @isset directive
+	@isset
+		${1:${VISUAL}}
+	@endisset
+
+snippet inject @inject directive
+	@inject('$1', '$2')
+
+snippet lang @lang directive i
+	@lang('$1')
+
+snippet php @php directive
+	@php
+		${1:${VISUAL}}
+	@endphp
+
+snippet push @push directive
+	@push('$1')
+		${2:${VISUAL}}
+	@endpush
+
+snippet section @section directive
+	@section('$1')
+
+snippet show @show directive
+	@show
+
+snippet slot @slot directive
+	@slot('$1')
+		${2:${VISUAL}}
+	@endslot
+
+snippet unless @unless directive
+	@unless
+		${1:${VISUAL}}
+	@endunless
+
+snippet verbatim @verbatim directive
+	@verbatim
+		${0:$VISUAL}
+	@endverbatim
+
+snippet wh @while directive
+	@while ($1)
+		${2:${VISUAL}}
+	@endwhile
+
+snippet yield @yield directive
+	@yield('$1')
+
+snippet { {{ }} statement. i
+	{{ $1 }}
+
+snippet ! {!! !!} statement i
+	{!! $0 !!}
+
+# vim:ft=snippets:
+
+########################################
+# Custom
+########################################
+
+#########
+#  ACF  #
+#########
+
+snippet acf ACF Standard
+	@if (!empty(\$${1:name}))
+	<${2:div} class="">{{ \$$1 }}</$2>
+	@endif
+
+snippet acfi ACF Image
+	@if (!empty(\$${1:name}))
+		{!! wp_get_attachment_image(\$$1['id'], 'full', false, ['class' => 'w-full h-auto']) !!}
+	@endif
+
+snippet acfl ACF Link
+	@if (!empty(\$${1:name}))
+	<div class="">
+		<a class="${2:btn btn-primary}" href="{{\$$1['url']}}" target="{{\$$1['target']}}">{{\$$1['title']}}</a>
+	</div>
+	@endif
+
+snippet acft ACF Text
+	@if (!empty(\$${1:name}))
+	<${2:div} class="">{!! nl2br(htmlspecialchars(\$$1)) !!}</$2>
+	@endif
+
+snippet acfh ACF Html
+	@if (!empty(\$${1:name}))
+	<${2:div} class="">{!! \$$1 !!}</$2>
+	@endif
+
+snippet acfb ACF Background Image
+	@if (!empty(\$${1:background})) style="background-image: url({{ \$$1['sizes']['large'] }})" @endif
+
+snippet acfbf ACF Background Field
+	@if (!empty(\$${1:image}))
+	<div class="bg-cover" style="background-image: url({{ \$$1['url'] }})"></div>
+	@endif
+
+snippet acfrepeat ACF Repeater
+	@if (!empty(\$${1:items}))
+	<div class="">
+		@foreach (\$$1 as \$${2:item})
+		<div class="">
+
+			$0
+
+		</div>
+		@endforeach
+	</div>
+	@endif
+
+snippet acfblock ACF Block
+	<div class="{{ \$class }} dummy">
+		<div class="container mx-auto md:py-12 px-4 py-8">
+
+			@if (!empty(\$header))
+				<h3 class="">
+					{{ \$header }}
+				</h3>
+			@endif
+
+			@if (!empty(\$title))
+				<h4 class="">
+					{{ \$title }}
+				</h4>
+			@endif
+
+			@if (!empty(\$image))
+				{!! wp_get_attachment_image(\$image['id'], 'full', false, ['class' => 'w-full h-auto']) !!}
+			@endif
+
+			@if (!empty(\$link))
+				<a class="btn btn-primary" href="{{ \$link['url'] }}" target="{{ \$link['target'] }}">{{ \$link['title'] }}</a>
+			@endif
+
+		</div>
+	</div>
+
+###########
+#  Blade  #
+###########
+
+snippet c Comment
+	{{-- $1 --}}
+
+snippet bladet Blade Encode Text
+	{!! nl2br(htmlspecialchars(\$${1:name})) !!}
+
+#################
+#  Bootstrap 4  #
+#################
+
+snippet tabs Boostrap Tabs
+	{{-- tabs headings --}}
+	<div class="tab-headings">
+		<ul class="nav nav-tabs justify-content-center" role="tablist">
+			@php
+			\$classes=["active"];
+			@endphp
+			@foreach (\$${1:item}s as \$$1)
+			<li class="nav-item">
+				<a class="nav-link {{ array_shift(\$classes) }}" id="tab-{{\$id}}" data-toggle="tab" href="#content-{{\$id}}">
+					{{ \$title }}
+				</a>
+			</li>
+			@endforeach
+		</ul>
+	</div>
+	{{-- /tabs headings --}}
+
+	{{-- tabs content --}}
+	<div class="tab-content">
+		@php
+		\$classes=["show active"];
+		@endphp
+		@foreach (\$$1s as  \$$1)
+		<div class="tab-pane fade {{ array_shift(\$classes) }}" id="content-{{\$id}}" role="tabpanel" aria-labelledby="{{\$id}}-tab">
+			{{-- inside tab --}}
+			{{ \$title }}
+			{{-- /inside tab --}}
+		</div>
+		@endforeach
+	</div>
+	{{-- /tabs content --}}
+
+###############
+#  Gutenberg  #
+###############
+
+snippet gut Gutenberg Block
+	<div class="{{ \$class }}">
+	<div class="{{ \$ns }}">
+	<div class="{{\$ns}}__inner container">
+
+		@if ( !empty(\$header) )
+		<h2 class="{{\$ns}}__header">{{ \$header }}</h2>
+		@endif
+
+		@if ( !empty(\$text) )
+		<div class="{{\$ns}}__text">{!! \$text !!}</div>
+		@endif
+
+		@if ( !empty(\$link) )
+		<div class="{{\$ns}}__link">
+		<a class="btn btn-primary" href="{{\$link['url']}}" target="{{\$link['target']}}">{{\$link['title']}}</a>
+		</div>
+		@endif
+
+		@if ( !empty(\$image) )
+		<div class="{{ \$ns }}__image">
+		<img src="{{ \$image['sizes']['${2:thumbnail}'] }}" alt="{{ \$image['alt'] }}" class="img-fluid"/>
+		</div>
+		@endif
+
+	</div>
+	</div>
+	</div>
+
+###########
+#  sage9  #
+###########
+
+snippet sidebar Sidebar Definition
+	@if (is_active_sidebar( '${1:footer1}' ))
+	<div class="$1">
+	@php dynamic_sidebar( '$1' ) @endphp
+	</div>
+	@endif
+	register_sidebar([
+		'name'            => __('${2:name}', 'sage'),
+		'id'              => '$1',
+		'description'     => '${3:description}',
+	] + $config);
+
+snippet assetsage @asset image
+	@asset('${1:images/footer_bg.png}')
+
+###############
+#  bootstrap  #
+###############
+
+snippet baccordion Bootstrap Accordion
+	// Repeater field
+	$items=[];
+	while (have_rows('items')) {
+		the_row();
+		$items[]=[
+			'id'=>'item'.uniqid(),
+			'title' => get_sub_field('title'),
+			'text' => get_sub_field('text'),
+			'link' => get_sub_field('link'),
+		];
+	}
+	'items' => $items,
+
+	.card-header{
+		cursor: pointer;
+		padding: 20px 30px;
+		background-color: theme-color("secondary");
+		.btn{
+			padding: 0;
+		}
+		&:hover{
+			background-color: lighten(theme-color("secondary"),5%);
+		}
+	}
+	.card-body{
+		padding: 36px 30px;
+	}
+	.card{
+		margin-bottom: 10px;
+	}
+	<div class="accordion" id="block-accordion">
+		@php
+			$show="show";
+		@endphp
+		@foreach ($items as $item)
+			@php
+				extract($item);
+			@endphp
+			<div class="card">
+				<div class="card-header" id="heading{{$id}}" data-toggle="collapse" data-target="#{{ $id }}" aria-expanded="true" aria-controls="{{ $id }}">
+							@if (!empty($title))
+								<h3 class="{{ $ns }}__title mb-0">{{ $title }}</h3>
+							@endif
+				</div>
+				<div id="{{ $id }}" class="collapse {{$show}}" aria-labelledby="heading{{$id}}" data-parent="#block-accordion">
+					<div class="{{ $ns }}__body card-body">
+						@if (!empty($text))
+							<div class="{{ $ns }}__text">{!! $text !!}</div>
+						@endif
+						@if ( !empty($link) )
+							<div class="{{$ns}}__link">
+								<a class="btn btn-primary" href="{{$link['url']}}" target="{{$link['target']}}">
+									{{$link['title']}}
+								</a>
+							</div>
+						@endif
+					</div>
+				</div>
+			</div>
+			@php
+				if($show)
+					$show="";
+				@endphp
+			@endforeach
+	</div>
+
+snippet _ Translation i
+	__('${1}','sage')
+
+snippet lang lang i
+	@lang('$1')
+
+snippet __ trans with __
+	{{ __('$1', 'sage') }}
+
+snippet dd Dump and die
+	@php
+		echo "<pre>";
+		var_dump($1);
+		echo "</pre>";
+		die();
+	@endphp
+
+snippet str string field
+	@if (!empty(\$${1:model}->${2:field}))
+		<div class="${3:namespace}__$2">
+			{{ \$$1->$2 }}
+		</div>
+	@endif
+	$0
+
+snippet componentboilerplate Blade component boilerplate
+	<div {{ \$attributes->merge(['class' => '']) }}>
+	$0
+	</div>
+
+snippet formboilerplate Laravel form boilderplate
+	si hay upload: enctype="multipart/form-data"
+	<form method="post" action="{{ route('$1', [ '$2'=>\$$2 ]) }}" >
+	@csrf
+	@method('DELETE') -> route('test.destroy')
+	@method('PUT')    -> route('test.update')
+	@method('POST')   -> route('test.store')
+
+	@if (\$errors->any())
+	<ul class="bg-orange-200 px-4 py-10 w-full mt-10">
+		@foreach (\$errors->all() as \$error)
+				<li>{{ \$error }}</li>
+		@endforeach
+	</ul>
+	@endif
+
+	<div class="mt-5">
+
+	</div>
+
+	<button type="submit" class="mt-10 uppercase block align-middle text-center select-none border font-bold whitespace-no-wrap py-2 px-4 rounded text-sm leading-normal no-underline text-gray-100 bg-black hover:bg-gray-900 ">
+		$3
+	</button>
+	</form>
+
+snippet formmini Mini form for post actions like logout
+	@method('DELETE') ->    route('test.destroy')
+	@method('PUT')    ->    route('test.update')
+	@method('POST')   ->    route('test.store')
+
+	<form action="{!! route('$1') !!}" method="POST"> @csrf
+	$4
+	@method('DELETE')
+	@method('PUT')
+	@method('POST')
+		<button onclick="return confirm('Are you sure?')">
+		$2
+		</button>
+	</form>
+
+snippet returnredirect Return redirect
+	return redirect()
+		->route('$1')
+		->with([
+			'flash' => '$2',
+		]);
+snippet flash Laravel flash
+
+	return redirect()
+		->route('$1')
+		->with([
+			'flash' => '$2',
+		]);
+
+	bootstrap
+	@if (session('flash'))
+	<div class="alert alert-success">
+	{{ session('flash') }}
+	</div>
+	@endif
+
+	tailwind
+	@if (session('flash'))
+		<div class="bg-green-300 text-center font-semibold text-lg md:text-2xl px-5 py-10 mt-10">
+			{{ session('flash') }}
+		</div>
+	@endif
+
+snippet laraerrorsummary Laravel error summary
+	@if (\$errors->any())
+		<ul class="border border-red-500 px-10 py-5 mb-5 text-gray-900">
+		@foreach (\$errors->all() as \$error)
+			<li>{{ \$error }}</li>
+		@endforeach
+		</ul>
+	@endif
+
+snippet livewireform Livewire Form
+
+	<form wire:submit.prevent="submit">
+
+		<label for="name" class="block text-gray-700 text-sm font-bold">
+			{{ \$label }}
+		</label>
+
+		<input wire:model="settingValue" class="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mt-2 w-full" type="text">
+		@error('settingValue')
+		<p class="text-red-500 text-xs italic mt-1">
+			{{ \$message }}
+		</p>
+		@enderror
+
+		<button type="submit" class="text-white text-xs bg-teal-500 border-0 py-2 px-4 focus:outline-none hover:bg-teal-600 rounded text-lg mt-4">
+			@if (\$saved)
+				Saved!
+			@else
+				Save
+			@endif
+		</button>
+
+	</form>
+
+snippet bladeview Blade View
+	@extends(backpack_view('blank'))
+	@section('content')
+		<h1 class="mb-4">Title</h1>
+
+		@if (session('success'))
+			<div class="alert alert-success">
+				{{ session('success') }}
+			</div>
+		@endif
+		@if (session('error'))
+			<div class="alert alert-danger">
+				{{ session('error') }}
+			</div>
+		@endif
+
+		<div class="card">
+			<div class="card-header">
+				<h2>Subtitle</h2>
+			</div>
+			<div class="card-body">
+
+				--
+
+			</div>
+		</div>
+	@endsection
+	@section('before_scripts')
+	@endsection
+	@section('after_scripts')
+	@endsection
+
+snippet inputtextbs4laravel input text laravel bootstrap4
+	<div class="form-group{{ \$errors->has('name') ? ' has-error' : '' }}">
+		<label for="name" class="control-label">Name</label>
+		<input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+		@if (\$errors->has('name'))
+			<span class="help-block">
+				<strong>{{ \$errors->first('name') }}</strong>
+			</span>
+		@endif
+	</div>
+
+snippet inputemailbs4laravel input text laravel bootstrap4
+	<div class="form-group{{ \$errors->has('email') ? ' has-error' : '' }}">
+		<label for="email" class="control-label">E-Mail Address</label>
+		<input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+		@if (\$errors->has('email'))
+			<span class="help-block">
+				<strong>{{ \$errors->first('email') }}</strong>
+			</span>
+		@endif
+	</div>
+
+snippet inputsubmitbs4laravel input submit bootstrap 4 laravel
+	<div class="form-group">
+	<button type="submit" class="btn btn-primary">
+		$0
+	</button>
+	</div>
+
+#######################
+# Tailwind
+#######################
+
+snippet tailbutton Tailwind Button
+	<button type="submit" class="mt-10 py-2 px-4 font-bold uppercase bg-black hover:bg-gray-900 text-gray-100 text-center whitespace-no-wrap rounded text-sm leading-normal no-underline">
+		update
+	</button>
+
+snippet tailinputtext Tailwind input Text (custom forms)
+	<label class="block mt-5 w-full">
+		<span class="text-gray-700">$2</span>
+		<input name="$1" type="text" class="form-input mt-3 block w-full" placeholder="$2">
+		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ $message }} </p> @enderror
+	</label>
+
+	$0
+
+snippet tailinputtextarea Tailwind input Textarea (custom forms)
+	<label class="block mt-5 w-full">
+		<span class="text-gray-700">$2</span>
+		<textarea name="$1" class="form-textarea mt-3 block w-full" rows="3" placeholder="$2"></textarea>
+		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ $message }} </p> @enderror
+	</label>
+
+	$0
+
+snippet tailinputselect Tailwind input Select (custom forms)
+	<label class="block mt-5 w-full">
+		<span class="text-gray-700">Select</span>
+		<select name="$1" class="form-select block w-full mt-3">
+			<option>Option 1</option>
+		</select>
+		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ $message }} </p> @enderror
+	</label>
+
+	$0
+
+snippet tailinputcheckbox Tailwind input Checkbox (custom forms)
+	<div class="block mt-5 w-full">
+		<span class="text-gray-700">Checkboxes</span>
+		<div class="mt-2">
+
+			<div>
+				<label class="inline-flex items-center">
+					<input name="$1" type="checkbox" class="form-checkbox">
+					<span class="ml-2">$2</span>
+				</label>
+			</div>
+
+		</div>
+		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ $message }} </p> @enderror
+	</div>
+
+	$0
+
+snippet tailinputradio Tailwind input Radio (custom forms)
+	<div class="block mt-5 w-full">
+		<span class="text-gray-700">Radio Buttons</span>
+		<div class="mt-2">
+			<div>
+				<label class="inline-flex items-center">
+					<input name="$1" value="1" type="radio" class="form-radio" name="radio" >
+					<span class="ml-2">$2</span>
+				</label>
+			</div>
+		</div>
+		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ $message }} </p> @enderror
+	</div>
+
+	$0
+
+snippet old Old statement i
+	{{ old('$2', optional(\$$1)->$2) }}
+
+#########################
+# CRUD
+#########################
+
+snippet crudindex CRUD Index template tailwind
+	@extends('layouts.app')
+	@section('content')
+		<div class="container mx-auto py-10">
+
+		<h1 class="text-2xl">$2</h1>
+
+		<!-- messages -->
+		@if(Session::has('success'))
+			<div class="bg-green-200 px-4 py-10 w-full mt-5">
+				{!! session('success') !!}
+			</div>
+		@endif
+		<!-- /messages -->
+
+		<!-- actions -->
+		<div class="md:flex mt-5">
+			<a href="{{ route('$1.$2.create') }}" class="py-2 px-4 font-bold uppercase bg-blue-500 hover:bg-blue-400 text-white text-center whitespace-no-wrap rounded text-sm leading-normal no-underline" title="Create New User">
+				Nuevo Usuario
+			</a>
+		</div>
+		<!-- /actions -->
+
+		<div class="mt-5">
+
+			@if(count(\$$2s) == 0)
+				<div class="bg-gray-200 px-4 py-10 w-full mt-5">
+					<h4>No data</h4>
+				</div>
+			@else
+
+				<table class="table table-auto mt-2 text-sm">
+					<thead>
+						<tr>
+							<th class="border px-2 py-2">ID</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach(\$$2s as \$$2)
+							<tr>
+								<td class="border px-2 py-2">{{ \$$2->id }}</td>
+								<td class="border px-2 py-2">
+									<div class="flex flex-col md:flex-row items-center justify-center">
+									<a href="{{ route('$1.$2.show', \$$2->id) }}" class="m-2" title="Show $2">Ver</a>
+									<a href="{{ route('$1.$2.edit', \$$2->id) }}" class="m-2" title="Edit $2">Editar</a>
+									<form id="delete-form" action="{!! route('$1.$2.destroy', \$$2->id) !!}" method="POST"> @method('DELETE') @csrf
+										<button class="m-2" onclick="return confirm('Are you sure?')"> Borrar </button>
+									</form>
+									</div>
+								</td>
+							</tr>
+						@endforeach
+					</tbody>
+				</table>
+
+				<div class="mt-5">{!! \$$2s->render() !!}</div>
+
+			@endif
+
+		</div>
+		</div>
+	@endsection
+
+snippet crudedit CRUD Edit template tailwind
+	@extends('layouts.app')
+	@section('content')
+		<div class="container mx-auto py-10">
+
+			<h4 class="text-2xl">{{ !empty(\$$2->name) ? \$$2->name : '$2' }}</h4>
+
+			<!-- /actions -->
+			<div class="md:flex">
+				<a href="{{ route('$1.$2.index') }}" class="mt-5 py-2 px-4 font-bold uppercase bg-blue-500 hover:bg-green-400 text-white text-center whitespace-no-wrap rounded text-sm leading-normal no-underline" title="Show All $2">
+					Ver todos
+				</a>
+			</div>
+
+			<!-- messages -->
+			@if (\$errors->any())
+				<ul class="bg-orange-200 px-4 py-10 w-full mt-5">
+					@foreach (\$errors->all() as \$error)
+						<li>{{ \$error }}</li>
+					@endforeach
+				</ul>
+			@endif
+
+			<!-- form -->
+			<form class="mt-5" method="post" action="{{ route('$1.$2.update', ['$2' => \$$2]) }}"> @csrf @method('put')
+				@include ('$1.$2.form')
+				<button type="submit" class="mt-5 py-2 px-4 font-bold uppercase text-center whitespace-no-wrap rounded text-sm leading-normal no-underline text-white bg-green-500 hover:bg-green-400">
+					Guardar
+				</button>
+			</form>
+
+		</div>
+	@endsection
+
+snippet crudcreate CRUD create template tailwind
+	@extends('layouts.app')
+	@section('content')
+		<div class="container mx-auto py-10">
+
+			<h4 class="text-2xl">Crear nuevo usuario</h4>
+
+			<!-- /actions -->
+			<div class="md:flex">
+				<a href="{{ route('$1.$2.index') }}" class="mt-5 py-2 px-4 font-bold uppercase bg-blue-500 hover:bg-green-400 text-white text-center whitespace-no-wrap rounded text-sm leading-normal no-underline" title="Show All $2">
+					Ver todos
+				</a>
+			</div>
+
+			<!-- messages -->
+			@if (\$errors->any())
+				<ul class="bg-orange-200 px-4 py-10 w-full mt-5">
+					@foreach (\$errors->all() as \$error)
+						<li>{{ \$error }}</li>
+					@endforeach
+				</ul>
+			@endif
+
+			<!-- form -->
+			<form class="mt-5" method="post" action="{{ route('$1.$2.store') }}"> @csrf @method('post')
+				@include ('$1.$2.form',['$2'=>null])
+				<button type="submit" class="mt-5 py-2 px-4 font-bold uppercase text-center whitespace-no-wrap rounded text-sm leading-normal no-underline text-white bg-green-500 hover:bg-green-400">
+					Guardar
+				</button>
+			</form>
+
+		</div>
+	@endsection
+
+snippet imgasset Image asset
+	<img class="mx-auto" src="{{ asset('img/$1.png') }}" alt="$1"/>
+
+snippet svgtailwindclass SVG class for tailwind i
+	w-5 h-5 fill-current
+
+snippet svguploaded uploaded svg with log1x/sage-svg
+	{!! get_svg($1, 'h-24 w-auto fill-current') !!}
+
+snippet svg svg with log1x/sage-svg (use dot notation)
+	{!! get_svg(${images.logo}, 'h-24 w-auto') !!}
+
+snippet kv key value
+	'$1' => $2
+
+snippet wordpresswidgetform Wordpress widget form
+	<p>
+	<label>Field 1
+	<input type="text" class="widefat" id="{{ \$$1['id'] }}" name="{{ \$$1['name'] }}" value="{{ \$$1['value'] }}">
+	</label>
+	</p>

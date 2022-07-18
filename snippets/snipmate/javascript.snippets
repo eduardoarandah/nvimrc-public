@@ -1,0 +1,227 @@
+snippet ff arrow function i
+	($1)=>$2
+
+snippet fun Function
+	function($1){
+		$0
+	}
+
+snippet imp import from
+	import { $0 } from '$1'
+
+snippet kv Key : Value iA
+	'$1': $2,
+	$0
+
+snippet jqueryinit JQuery init
+	import 'jquery';
+	jQuery(document).ready(function(\$) {
+		$0
+	});
+
+snippet ajax wordpress ajax
+
+	public static function wc_remove_product()
+	{
+		\$key = \$_POST['key'];
+		WC()->cart->remove_cart_item(\$key);
+		echo "ok";
+		wp_die();
+	}
+
+	// Remove product
+	add_action('wp_ajax_wc_remove_product', '\App\Controllers\App::wc_remove_product'); // wp_ajax_{action}
+	add_action('wp_ajax_nopriv_wc_remove_product', '\App\Controllers\App::wc_remove_product'); // wp_ajax_{action}
+
+	\$.ajax({
+		type: 'POST',
+		url: ajaxurl,
+		data: {
+			action: 'wc_refresh_cart',
+			url: ajaxurl,
+			key: key,
+		},
+		beforeSend: () => {
+			console.log('deleting item...');
+		},
+		success: data => {
+			console.log('success!');
+			console.log(data);
+			\$(document.body).trigger('removed_from_cart');
+		},
+	});
+
+snippet clo Console.log
+	console.log($0);
+
+snippet axiosget Axios get
+	try {
+		const response = await axios.get($1)
+		//console.log(response.data)
+	} catch (error) {
+		const { errors, message } = error.response.data
+		if (errors || message) {
+			this.message = message
+			this.errors = errors
+		}
+		//console.log(response.data)
+	}
+
+snippet axiospost Axios post
+	try {
+		const response = await axios.post($1)
+		//console.log(response.data)
+	} catch (error) {
+		const { errors, message } = error.response.data
+		if (errors || message) {
+			this.message = message
+			this.errors = errors
+		}
+		//console.log(response.data)
+	}
+
+snippet fetchFormData Fetch form data
+	const formData = new FormData();
+	formData.append('action', 'notifications_get');
+	formData.append('perPage', '2');
+	formData.append('page', '1');
+	fetch(bidstitchSettings.ajaxUrl, {
+			method: 'POST',
+			body: formData
+	})
+			.then((r) => r.json())
+			.then(
+					(r) => {
+							console.log(r);
+					}
+			)
+
+snippet fetchpost Description
+	const response = fetch(url, {
+			method: 'POST', // *GET, POST, PUT, DELETE, etc.
+			mode: 'cors', // no-cors, *cors, same-origin
+			cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+			credentials: 'same-origin', // include, *same-origin, omit
+			headers: {
+				'Content-Type': 'application/json'
+				// 'Content-Type': 'application/x-www-form-urlencoded',
+				'X-CSRF-TOKEN': '{{ csrf_token() }}'
+			},
+			redirect: 'follow', // manual, *follow, error
+			referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+			body: JSON.stringify(data) // body data type must match "Content-Type" header
+		})
+		.then(r=>r.json()); // parses JSON response into native JavaScript objects
+
+snippet timeout Set Timeout
+	setTimeout(() => {
+		$0
+	}, ${1:5000});
+
+snippet tailwindconfig tailwind example config
+
+	module.exports = {
+		purge: ['./resources/views/**/*.blade.php', './resources/css/**/*.css'],
+		theme: {
+			colors: {
+				white: '#fff',
+				black: '#000',
+			},
+			fontFamily: {
+				nunito: ['Nunito', 'Helvetica', 'Arial', 'sans-serif'],
+				opensans: ['Open Sans', 'Helvetica', 'Arial', 'sans-serif'],
+			},
+			fontSize: {
+				xs: '0.563rem',
+				sm: '0.625rem',
+				base: '0.75rem',
+				lg: '0.875rem',
+				xl: '1rem',
+				'2xl': '1.125rem',
+				'3xl': '1.25rem',
+				'4xl': '1.375rem',
+				'5xl': '1.625rem',
+			},
+			screens: {
+				sm: '640px',
+				md: '768px',
+				lg: '1024px',
+				xl: '1280px',
+				xxl: '1440px',
+			},
+			letterSpacing: {
+				tighter: '-.05em',
+				tight: '-.025em',
+				normal: '0',
+				wide: '.025em',
+				wider: '.05em',
+				widest: '.4em',
+			},
+			extend: {
+				colors: {
+					primary: '#001965',
+					secondary: '#FE543C',
+					facebook: '#3977f2',
+					twitter: '#40a1f2',
+					whatsapp: '#43e676',
+					gray: {
+						'100': '#eeeeee',
+						'200': '#dddddd',
+						'300': '#cccccc',
+						'400': '#afafaf',
+						'500': '#999999',
+						'600': '#707070',
+						'700': '#555555',
+						'800': '#424242',
+						'900': '#212121',
+					},
+				},
+			},
+			fontSize: {
+				xs: '.75rem',
+				sm: '.875rem',
+				base: '1rem',
+				lg: '1.125rem',
+				xl: '1.25rem',
+				'2xl': '1.5rem',
+				'3xl': '1.875rem',
+				'4xl': '2.5rem',
+			},
+		},
+		variants: {},
+		plugins: [require('@tailwindcss/custom-forms'), require('@tailwindcss/typography')],
+	};
+
+snippet modexp Module exports
+	module.exports = {
+	$0
+	}
+
+snippet expd export default
+	export default
+
+snippet exportjs export js
+	import $1 from '$1.js'
+	$1();
+	export default function() {
+
+	}
+
+snippet elementexists element exists
+	//Attempt to get the element using document.getElementById
+	var element = document.getElementById("$1");
+
+	//If it isn't "undefined" and it isn't "null", then it exists.
+	if(typeof(element) != 'undefined' && element != null){
+		alert('Element exists!');
+	} else{
+		alert('Element does not exist!');
+	}
+
+snippet datetimezone Description
+	formatter = new Intl.DateTimeFormat([], {
+		timeZone: 'UTC',
+		timeStyle:"medium"
+	});
+	let time = formatter.format(new Date())
+	console.log(time);

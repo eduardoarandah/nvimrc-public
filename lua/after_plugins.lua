@@ -3,11 +3,17 @@ local cmd = vim.api.nvim_create_user_command
 local vimscript = vim.cmd
 local g = vim.g
 
+----------
 -- dracula
+----------
+
 vimscript("colorscheme dracula")
 g.rehash256 = 1
 
+--------------
 -- vim-airline
+--------------
+
 vimscript("let g:airline#extensions#tabline#enabled = 1")
 -- Show just the filename
 vimscript("let g:airline#extensions#tabline#fnamemod = ':t'")
@@ -16,14 +22,20 @@ vimscript(
 	"let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'"
 )
 
+-----------
 -- nerdtree
+-----------
+
 vimscript("let NERDTreeShowHidden=1")
 map("n", "<F7>", ":NERDTreeToggle<CR>")
 map("n", "<F8>", ":NERDTreeFind<CR>")
 -- Change current dir to current file
 vimscript("nnoremap <leader>cd :cd %:p:h<CR>:NERDTreeCWD<CR>")
 
+------------
 -- telescope
+------------
+
 -- https://github.com/nvim-telescope/telescope.nvim#file-pickers
 local t = require("telescope.builtin")
 map("n", "<C-p>", t.find_files)
@@ -54,7 +66,10 @@ cmd("OutgoingCalls", t.lsp_outgoing_calls, { bang = true })
 cmd("DocumentSymbols", t.lsp_document_symbols, { bang = true })
 cmd("WorkspaceSymbols", t.lsp_workspace_symbols, { bang = true })
 
+---------------
 -- vim-fugitive
+---------------
+
 map("n", "<leader>gs", ":tabnew | Git | only<cr>")
 map("n", "<leader>ga", ":Git add %<cr>")
 map("n", "<leader>gr", ":Gread<cr>")
@@ -77,18 +92,40 @@ cmd("Ghistory", ":Gclog", { bang = true })
 -- Commits for current file
 cmd("Ghistoryfile", ":0Gclog!", { bang = true })
 
+----------------
 -- vim-maximizer
+----------------
+
 map("n", "<leader>z", ":MaximizerToggle<CR>")
 map("x", "<leader>z", ":MaximizerToggle<CR>gv")
 
+-------------
 -- auto-pairs
+-------------
+
 g.AutoPairsShortcutToggle = ""
 g.AutoPairsMapCh = 0 -- don't map this one
 
+--------------
 -- vim-ripgrep
+--------------
+
 g.rg_command = 'rg --vimgrep --pcre2 --type-add="scss:*.scss"'
 
+---------------
+-- auto-session
+---------------
+
+require("auto-session").setup({
+	log_level = "info",
+	auto_session_suppress_dirs = { "~/" },
+	auto_session_enabled = false,
+})
+
+----------
 -- HowMuch
+----------
+
 g.HowMuch_scale = 8
 map("n", "<leader>hm", "V<Plug>AutoCalcAppendWithEq")
 map("x", "<leader>hm", "<Plug>AutoCalcAppendWithEq")
@@ -122,7 +159,10 @@ vimscript([[
 	xnoremap <leader>c :call Case()<cr>
 	]])
 
+------------
 -- vim-slime
+------------
+
 g.slime_target = "tmux"
 
 -- target_pane
@@ -133,9 +173,14 @@ g.slime_no_mappings = 1
 map("x", "<F9>", "<Plug>SlimeRegionSend")
 map("n", "<F9>", "<Plug>SlimeParagraphSend")
 
+----------
 -- LuaSnip
+----------
+
 -- https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md#loaders
 require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "./snippets/snipmate" } })
+-- https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md#lua
+require("luasnip.loaders.from_lua").lazy_load({ paths = { "./snippets/luasnip" } })
 cmd("SnipEdit", require("luasnip.loaders").edit_snippet_files, { bang = true })
 
 -- jump on snippet positions

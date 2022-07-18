@@ -1,0 +1,103 @@
+extends css
+
+snippet breakpoint breakpoint (no mixin)
+	@media (min-width: map-get($grid-breakpoints, $1 )) {
+		$0
+	}
+
+snippet sm breakpoint sm
+	@include media-breakpoint-up(sm) {
+		${1}
+	}
+
+snippet md breakpoint md
+	@include media-breakpoint-up(md) {
+		${1}
+	}
+
+snippet lg breakpoint lg
+	@include media-breakpoint-up(lg) {
+		${1}
+	}
+
+snippet xl breakpoint xl
+	@include media-breakpoint-up(xl) {
+		${1}
+	}
+
+snippet xxl breakpoint xxl
+	@include media-breakpoint-up(xxl) {
+		${1}
+	}
+
+#########
+#  css  #
+#########
+
+snippet grid Grid basic
+	@supports (display: grid) {
+		display: grid;
+		grid-gap: 1rem;
+		@include media-breakpoint-up(lg) {
+			grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+		}
+	}
+
+snippet overlay CSS Overlay
+	position: relative;
+	&__overlay {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-color: theme-color('secondary');
+		opacity: 0.7;
+	}
+
+snippet pseudo Pseudo Element
+	position: relative;
+	// &:not(:last-child):after {
+	&::${1:after} {
+			display: block;
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: $3;
+			height: $4;
+			background-color: $2;
+	}
+
+snippet list-image List item with image
+	li {
+		list-style: none;
+		margin-bottom: 0.5rem;
+		display: flex;
+		align-items: center;
+		&:before {
+			content: '';
+			display: inline-block;
+			background-image: url(../images/check.png);
+			background-size: cover;
+			margin-right: 3px;
+			width: 15px;
+			height: 14px;
+			@include media-breakpoint-up(lg) {
+				width: 21px;
+				height: 20px;
+			}
+		}
+	}
+
+snippet not :not statement
+	&:not(${1::first-child}){
+		$0
+	}
+
+snippet notfirstchild :not first child
+	> *:not(:first-child) {
+			margin-left: 10px;
+	}

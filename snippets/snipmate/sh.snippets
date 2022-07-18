@@ -1,0 +1,138 @@
+snippet case case .. esac (case)
+	case ${1:word} in
+		${2:pattern} )
+			$0;;
+	esac
+
+snippet elif elif .. (elif)
+	elif ${2:[[ ${1:condition} ]]}; then
+		${0:#statements}
+
+snippet for for ... done (for)
+	for (( i = 0; i < ${1:10}; i++ )); do
+		${0:#statements}
+	done
+
+snippet forin for ... in ... done (forin)
+	declare -a $1s=("a" "b" "c")
+	for $1 in ${$1s[@]}; do
+		echo $$1;
+	done
+
+snippet if if ... then (if)
+	if ${2:[[ ${1:condition} ]]}; then
+		${0:#statements}
+	fi
+
+snippet until until ... (done)
+	until ${2:[[ ${1:condition} ]]}; do
+		${0:#statements}
+	done
+
+snippet while while ... (done)
+	while ${2:[[ ${1:condition} ]]}; do
+		${0:#statements}
+	done
+
+# vim:ft=snippets:
+
+####################################################################################
+# Custom
+####################################################################################
+
+snippet bash Bash Init
+	#!/bin/bash
+	# safer settings https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+	set u # Exit if var doesn't exist
+	set e # Exit on error
+	set -o pipefail # Fail on error on a pipeline |
+	set x # Show all commands
+	set uexo
+
+snippet conf confirm
+	read -p "${1:Confirm} (y/n)?" CONT
+	if [ "\$CONT" = "y" ]; then
+		$0
+	else
+		$2
+	fi
+
+snippet sed Sed
+	# -i guardar mismo archivo
+	# -r regex
+	# mac os: sed -i'' -e 'expresion'
+
+	# replace
+	sed "s/^${2:search}.*/${3:replace}/g" ${1:file}
+
+	# append line
+	sed "s/^$2.*/&\n$3/g" $1
+
+	# add to 2nd line
+	sed -i '2idefine("WP_SITEURL", "\$HTTP");' wp-config.php
+
+snippet eol agregar texto varias líneas
+	# ${1:full_path}
+	cat > $1 << 'EOL'
+	# 'EOL' ignora variables con \$ $0
+	EOL
+
+snippet timestamp Description
+	TIMESTAMP=`date +%Y-%m-%d-%H-%M-%S`
+
+snippet ifdir If directory exists
+	if [ -d "${1:dir}" ]; then
+		$0
+	fi
+
+snippet iffile If file exists
+	if [ -f "${1:file}" ]; then
+		$0
+	fi
+
+snippet ftp FTP con ncftp
+	ncftp -u ${1:USER} -p '${2:PASS}' ${3:HOST} <<EOT
+	cd /public_html/wp-content/themes
+	put method.tgz
+	EOT
+
+snippet rsync Rsync
+	rsync -avz --info=progress2 --delete app dist config resources vendor user@host:/path/to/dirs/end/with/slash/
+
+snippet mydump MySqlDump
+	mysqldump -u${1:user} -p${2:pass} ${3:db_name} > $3.sql
+	mysqldump -u${1:user} -p${2:pass} ${3:db_name} | gzip > $3.sql.gz
+
+snippet tar Tar
+	tar -czf $1.tgz $1
+	tar -xzf $1.tgz
+
+snippet timestamp bash timestamp
+	TIMESTAMP=`date +%Y-%m-%d-%H-%M-%S`
+
+############
+#  wp-cli  #
+############
+
+snippet wppostcreate WP Cli Post Create
+	wp post create --post_status=publish --post_title="$1" --post_type="${2:page}"
+
+snippet wpsearchreplace WP search replace
+
+	wp option get home
+	wp db export $1-backup-before-domain-change.sql
+
+	wp search-replace "${1:http}://$2" "${3:http}://$4"
+	wp search-replace "$1:\/\/$2" "$3:\/\/$4"
+	wp search-replace "//$2" "//$4"
+	wp search-replace "\/\/$2" "\/\/$4"
+	# cuidado, este puede salir mal, si el 2do contiene al primero
+	wp search-replace "$2" "$4"
+
+	wp option get home
+
+snippet wpusercreate WP user create
+	wp user create ${1:dev} ${2:dev@example.com} --user_pass=${3:asdf} --role=administrator
+
+snippet wpuserupdate WP user update
+	wp user update ${1:dev} --user_pass=${3:asdf}

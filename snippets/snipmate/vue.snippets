@@ -1,0 +1,71 @@
+extends html, javascript
+
+snippet vuecomponent Vue Component
+  <template>
+  <div class="wrapper">
+  $0
+  </div>
+  </template>
+  <script>
+  export default {
+    props: {},
+    components: {},
+    data() {
+      return {
+        ready: false,
+      };
+    },
+    computed(){},
+    mounted(){},
+    methods: {
+      update(){},
+    },
+  };
+  </script>
+  <style scoped></style>
+
+snippet for v-for
+  <div v-for="$1 in $2" :key="$1.id">
+  {{ $1.$0 }}
+  </div>
+
+snippet script script
+  <script>
+  $0
+  </script>
+
+snippet importcomponent Import vue component
+  import $1 from '../components/$1'
+
+snippet vprop Vue prop i
+  $1: {
+    type: ${2:String},
+    default: ${3:null},
+  },
+
+snippet try trycatch
+  try{
+  $0
+  }catch(error){
+  }
+
+snippet datavuecomponent vue component data
+  data() {
+    return {
+      $0: null,
+    }
+  },
+
+snippet computedvue Vue computed
+  computed: {
+    $1() {
+      return $2
+    },
+  },
+
+snippet fetchnuxt NuxtJs fetch
+  async fetch(){
+    const data = await this.\$axios.\$get(`$1`)
+      console.log(data);
+      this.title = data.title;
+  }

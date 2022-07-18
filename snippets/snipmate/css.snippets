@@ -1,0 +1,486 @@
+snippet p padding
+  padding: ${1:0};$0
+
+snippet m margin
+  margin: ${1:0};$0
+
+snippet mb margin bottom
+  margin-bottom: ${1};
+
+snippet mw Max width
+  max-width: $1;
+
+snippet mh min-height
+  min-height: $1;
+
+snippet bd border
+  border: ${1:0};$0
+
+snippet bg background
+  background: ${1:none};$0
+
+snippet bgc background-color
+  background-color: $0;
+
+snippet ff font-family
+  font-family: ${1};$0
+
+snippet h height
+  height: ${1:auto};$0
+
+snippet w width
+  width: ${1:auto};$0
+
+snippet pos position
+  position: ${1:relative};$0
+
+snippet ! !important CSS (!)
+  !important
+
+snippet tsh text-shadow: color-hex x y blur (text)
+  text-shadow: ${1:${2:color} ${3:offset-x} ${4:offset-y} ${5:blur}};$0
+
+snippet bxsh box-shadow: color-hex x y blur (text)
+  box-shadow: 1px -1px 16px -1px rgba(0, 0, 0, 0.25);
+  box-shadow: ${1:${2:offset-x} ${3:offset-y} ${4:blur} ${5:spread} ${6:color}};$0
+
+#
+# Colors
+#
+
+snippet rgb color rgb
+  rgb(${1:255}, ${2:255}, ${3:255})$0
+
+snippet rgba color rgba
+  rgba(${1:255}, ${2:255}, ${3:255}, ${4:0.5})$0
+
+snippet hsl color hsl
+  hsl(${1:360}, ${2:100}%, ${3:100}%)$0
+
+snippet hsla color hsla
+  hsla(${1:360}, ${2:100}%, ${3:100}%, ${4:0.5})$0
+
+#
+# Selectors
+#
+
+snippet :fc
+  :first-child
+
+snippet :lc
+  :last-child
+
+snippet :nc
+  :nth-child($0)
+
+snippet :nlc
+  :nth-last-child($0)
+
+snippet :oc
+  :only-child
+
+#
+# Pseudo-elements
+#
+
+snippet :a
+  :after
+
+snippet :b
+  :before
+
+snippet ::a
+  ::after
+
+snippet ::b
+  ::before
+
+###########################################################################
+#                    Most of these came from TextMate                     #
+###########################################################################
+
+snippet background background-attachment: scroll:fixed (background)
+  background-attachment: ${1:scroll/fixed};$0
+
+snippet background background-color:  color-hex (background)
+  background-color: #${1:DDD};$0
+
+snippet background background-color:  color-name (background)
+  background-color: ${1:red};$0
+
+snippet background background-color:  color-rgb (background)
+  background-color: rgb(${1:255},${2:255},${3:255});$0
+
+snippet background background-color:  transparent (background)
+  background-color: transparent;$0
+
+snippet background background-image:  none (background)
+  background-image: none;$0
+
+snippet background background-image:  url (background)
+  background-image: url($1);$0
+
+snippet background background-position:  position (background)
+  background-position: ${1:top left/top center/top right/center left/center center/center right/bottom left/bottom center/bottom right/x-% y-%/x-pos y-pos};$0
+
+snippet background background-repeat:  r:r-x:r-y:n-r (background)
+  background-repeat: ${1:repeat/repeat-x/repeat-y/no-repeat};$0
+
+snippet background background:  color image repeat attachment position (background)
+  background:${6: #${1:DDD}} url($2) ${3:repeat/repeat-x/repeat-y/no-repeat} ${4:scroll/fixed} ${5:top left/top center/top right/center left/center center/center right/bottom left/bottom center/bottom right/x-% y-%/x-pos y-pos};$0
+
+snippet bo border
+  border: $0;
+
+# snippet border "border-bottom-color: size style color (border)"
+# border-bottom-color: #${1:999};$0
+# endsnippet
+
+# snippet border "border-bottom-style: size style color (border)"
+# border-bottom-style: ${1:none/hidden/dotted/dashed/solid/double/groove/ridge/inset/outset};$0
+# endsnippet
+
+# snippet border "border-bottom-width: size style color (border)"
+# border-bottom-width: ${1:1}px ${2:solid} #${3:999};$0
+# endsnippet
+
+# snippet border "border-bottom: size style color (border)"
+# border-bottom: ${1:1}px ${2:solid} #${3:999};$0
+# endsnippet
+
+# snippet border "border-color: color (border)"
+# border-color: ${1:999};$0
+# endsnippet
+
+# snippet border "border-left-color: color (border)"
+# border-right-color: #${1:999};$0
+# endsnippet
+
+# snippet border "border-left-style: style (border)"
+# border-left-style: ${1:none/hidden/dotted/dashed/solid/double/groove/ridge/inset/outset};$0
+# endsnippet
+
+# snippet border "border-left-width: size (border)"
+# border-left-width: ${1:1}px
+# endsnippet
+
+# snippet border "border-left: size style color (border)"
+# border-left: ${1:1}px ${2:solid} #${3:999};$0
+# endsnippet
+
+# snippet border "border-right-color: color (border)"
+# border-right-color: #${1:999};$0
+# endsnippet
+
+# snippet border "border-right-style: style (border)"
+# border-right-style: ${1:none/hidden/dotted/dashed/solid/double/groove/ridge/inset/outset};$0
+# endsnippet
+
+# snippet border "border-right-width: size (border)"
+# border-right-width: ${1:1}px
+# endsnippet
+
+# snippet border "border-right: size style color (border)"
+# border-right: ${1:1}px ${2:solid} #${3:999};$0
+# endsnippet
+
+# snippet border "border-style: style (border)"
+# border-style: ${1:none/hidden/dotted/dashed/solid/double/groove/ridge/inset/outset};$0
+# endsnippet
+
+# snippet border "border-top-color: color (border)"
+# border-top-color: #${1:999};$0
+# endsnippet
+
+# snippet border "border-top-style: style (border)"
+# border-top-style: ${1:none/hidden/dotted/dashed/solid/double/groove/ridge/inset/outset};$0
+# endsnippet
+
+# snippet border "border-top-width: size (border)"
+# border-top-width: ${1:1}px
+# endsnippet
+
+# snippet border "border-top: size style color (border)"
+# border-top: ${1:1}px ${2:solid} #${3:999};$0
+# endsnippet
+
+# snippet border "border-width: width (border)"
+# border-width: ${1:1px};$0
+# endsnippet
+
+# snippet border "border:   size style color (border)"
+# border: ${1:1px} ${2:solid} #${3:999};$0
+# endsnippet
+
+snippet clear clear: value (clear)
+  clear: ${1:left/right/both/none};$0
+
+snippet c color:
+  color: $0;
+
+snippet cursor cursor: type (cursor)
+  cursor: ${1:default/auto/crosshair/pointer/move/*-resize/text/wait/help};$0
+
+snippet cursor cursor: url (cursor)
+  cursor: url($1);$0
+
+snippet direction direction: ltr|rtl (direction)
+  direction: ${1:ltr|rtl};$0
+
+snippet display display: common-types (display)
+  display: ${1:none};$0
+
+snippet float float: left:right:none (float)
+  float: ${1:left/right/none};$0
+
+snippet font font-family:   family (font)
+  font-family: ${1:Arial, "MS Trebuchet"}, ${2:sans-}serif;$0
+
+snippet font font-size: size (font)
+  font-size: ${1:100%};$0
+
+snippet font font-style:   normal:italic:oblique (font)
+  font-style: ${1:normal/italic/oblique};$0
+
+snippet font font-variant:   normal:small-caps (font)
+  font-variant: ${1:normal/small-caps};$0
+
+snippet font font-weight: weight (font)
+  font-weight: ${1:normal/bold};$0
+
+snippet font font:   style variant weight size:line-height font -family (font)
+  font: ${1:normal/italic/oblique} ${2:normal/small-caps} ${3:normal/bold} ${4:1em/1.5em} ${5:Arial}, ${6:sans-}serif;$0
+
+snippet font font: size font (font)
+  font: ${1:75%} ${2:"Lucida Grande", "Trebuchet MS", Verdana,} ${3:sans-}serif;$0
+
+snippet letter letter-spacing:   length-em (letter)
+  letter-spacing: $1em;$0
+
+snippet letter letter-spacing:   length-px (letter)
+  letter-spacing: $1px;$0
+
+snippet list list-style-image: url (list)
+  list-style-image: url($1);$0
+
+snippet list list-style-position: pos (list)
+  list-style-position: ${1:inside/outside};$0
+
+snippet list list-style-type: asian (list)
+  list-style-type: ${1:cjk-ideographic/hiragana/katakana/hiragana-iroha/katakana-iroha};$0
+
+snippet list list-style-type: marker(list)
+  list-style-type: ${1:none/disc/circle/square};$0
+
+snippet list list-style-type: numeric (list)
+  list-style-type: ${1:decimal/decimal-leading-zero/zero};$0
+
+snippet list list-style-type: other (list)
+  list-style-type: ${1:hebrew/armenian/georgian};$0
+
+snippet list list-style-type: roman-alpha-greek (list)
+  list-style-type: ${1:lower-roman/upper-roman/lower-alpha/upper-alpha/lower-greek/lower-latin/upper-latin};$0
+
+snippet list list-style: type position image (list)
+  list-style: ${1:none/disc/circle/square/decimal/zero} ${2:inside/outside} url($3);$0
+
+snippet margin margin-bottom: length (margin)
+  margin-bottom: ${1:20px};$0
+
+snippet margin margin-left: length (margin)
+  margin-left: ${1:20px};$0
+
+snippet margin margin-right: length (margin)
+  margin-right: ${1:20px};$0
+
+snippet margin margin-top: length (margin)
+  margin-top: ${1:20px};$0
+
+snippet margin margin:   all (margin)
+  margin: ${1:20px};$0
+
+snippet margin margin: T R B L (margin)
+  margin: ${1:20px} ${2:0px} ${3:40px} ${4:0px};$0
+
+snippet margin margin: V H (margin)
+  margin: ${1:20px} ${2:0px};$0
+
+snippet marker marker-offset: auto (marker)
+  marker-offset: auto;$0
+
+snippet marker marker-offset: length (marker)
+  marker-offset: ${1:10px};$0
+
+snippet overflow overflow: type (overflow)
+  overflow: ${1:visible/hidden/scroll/auto};$0
+
+snippet padding padding-bottom: length (margin)
+  padding-bottom: ${1:20px};$0
+
+snippet padding padding-left: length (margin)
+  padding-left: ${1:20px};$0
+
+snippet padding padding-right: length (margin)
+  padding-right: ${1:20px};$0
+
+snippet padding padding-top: length (margin)
+  padding-top: ${1:20px};$0
+
+snippet padding padding:   T R B L (padding)
+  padding: ${1:20px} ${2:0px} ${3:40px} ${4:0px};$0
+
+snippet padding padding:   V H (padding)
+  padding: ${1:20px} ${2:0px};$0
+
+snippet padding padding:   all (padding)
+  padding: ${1:20px};$0
+
+snippet position position: type (position)
+  position: ${1:static/relative/absolute/fixed};$0
+
+snippet { properties { } ( } )
+  {
+    /* $1 */
+    $0
+
+snippet scrollbar scrollbar
+  scrollbar-base-color:       ${1:#CCCCCC};${2:
+  scrollbar-arrow-color:      ${3:#000000};
+  scrollbar-track-color:      ${4:#999999};
+  scrollbar-3dlight-color:    ${5:#EEEEEE};
+  scrollbar-highlight-color:  ${6:#FFFFFF};
+  scrollbar-face-color:       ${7:#CCCCCC};
+  scrollbar-shadow-color:     ${9:#999999};
+  scrollbar-darkshadow-color: ${8:#666666};}
+
+snippet selection selection
+  $1::-moz-selection,
+  $1::selection {
+    color: ${2:inherit};
+    background: ${3:inherit};
+  }
+
+snippet ta text-align
+  text-align: ${1:center};$0
+
+snippet text text-decoration: none:underline:overline:line-through:blink (text)
+  text-decoration: ${1:none/underline/overline/line-through/blink};$0
+
+snippet text text-indent: length (text)
+  text-indent: ${1:10}px;$0
+
+snippet tt text-transform: capitalize:upper:lower (text)
+  text-transform: ${1:uppercase};$0
+
+snippet vertical vertical-align: type (vertical)
+  vertical-align: ${1:baseline/sub/super/top/text-top/middle/bottom/text-bottom/length/%};$0
+
+snippet visibility visibility: type (visibility)
+  visibility: ${1:visible/hidden/collapse};$0
+
+snippet white white-space:  normal:pre:nowrap (white)
+  white-space: ${1:normal/pre/nowrap};$0
+
+snippet word word-spacing:  length (word)
+  word-spacing: ${1:10px};$0
+
+snippet z z-index: index (z)
+  z-index: $0;
+
+# vim:ft=snippets:
+
+############################################################
+#  Custom  #
+############################################################
+
+snippet out outline all elements
+  * {
+    outline: 1px solid lightgray;
+  }
+
+snippet bb Border bottom
+  border-bottom: 1px solid $0;
+
+snippet trans Transition
+  transition: ${1:opacity} ${2:100}ms ${3:linear};
+
+snippet media media query
+  @media(${1:min}-width: ${2:375}px){
+    $0
+  }
+
+# tailwind
+
+snippet twmd Tailwind md
+  @screen md {
+    $0
+  }
+
+snippet twlg Tailwind lg
+  @screen lg {
+    $0
+  }
+
+snippet twxl Tailwind xl
+  @screen xl {
+    $0
+  }
+
+snippet twxxl Tailwind xxl
+  @screen xxl {
+    $0
+  }
+
+snippet pseudo Pseudo element
+  .$1 {
+    position: relative;
+  }
+  .$1::before {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: ;
+    height: ;
+    background-color: ;
+  }
+
+snippet imgurl Postcss Tailwind image url in dist folder
+  url('../images/${1:image.png}');
+
+snippet grid Grid
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+
+snippet lh line height
+  line-height: 1$0;
+
+snippet flex Flex
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+
+snippet contain Contain
+  max-width:$1;
+  margin-left: auto;
+  margin-right:auto;
+
+snippet mlr Margin left, right
+  margin-left: ${1:auto};
+  margin-right: ${2:auto};
+
+snippet tt Text transform
+  text-transform: ${1:uppercase};
+
+snippet bgi Background image
+  background-image: url(../images/$1);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+snippet dummy dummy classes
+  .dummy, .dummy * { outline: 1px dashed red; }
