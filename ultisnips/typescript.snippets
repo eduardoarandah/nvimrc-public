@@ -16,3 +16,21 @@ endsnippet
 snippet afc "arrow function as a constant"
 const $1 = ($2) => { $3 }
 endsnippet
+
+snippet reduxreducer "Reducer action"
+case 'NAMESPACE_SET_$1':
+return {
+	...state,
+		${1:name}: action.value
+}
+endsnippet
+
+snippet reduxaction "Redux reducer"
+const namespaceSet$1 = (value: string) => {
+	return {
+				type: 'NAMESPACE_SET_$1',
+				value
+	};
+}
+
+endsnippet
