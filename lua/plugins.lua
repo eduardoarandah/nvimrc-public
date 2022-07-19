@@ -41,7 +41,8 @@ return require("packer").startup(function(use)
 	-- Telescope fuzzy finder
 	use({
 		"nvim-telescope/telescope.nvim",
-		requires = { "nvim-lua/plenary.nvim", config = require("plugins_config").telescope },
+		requires = { "nvim-lua/plenary.nvim" },
+		config = require("plugins_config").telescope,
 	})
 
 	-- Allow repeating for plugin mappings like surround
