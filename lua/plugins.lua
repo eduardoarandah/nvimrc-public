@@ -22,13 +22,13 @@ return require("packer").startup(function(use)
 	use("sheerun/vim-polyglot")
 
 	-- Theme
-	use("Mofiqul/dracula.nvim")
+	use({ "Mofiqul/dracula.nvim", config = require("plugins_config").dracula })
 
 	-- Status/tabline
-	use("vim-airline/vim-airline")
+	use({ "vim-airline/vim-airline", config = require("plugins_config").vim_airline })
 
 	-- File explorer
-	use("scrooloose/nerdtree")
+	use({ "scrooloose/nerdtree", config = require("plugins_config").nerdtree })
 
 	-- Comment lines
 	use({
@@ -41,7 +41,7 @@ return require("packer").startup(function(use)
 	-- Telescope fuzzy finder
 	use({
 		"nvim-telescope/telescope.nvim",
-		requires = { "nvim-lua/plenary.nvim" },
+		requires = { "nvim-lua/plenary.nvim", config = require("plugins_config").telescope },
 	})
 
 	-- Allow repeating for plugin mappings like surround
@@ -51,28 +51,28 @@ return require("packer").startup(function(use)
 	use("tpope/vim-surround")
 
 	-- Git
-	use("tpope/vim-fugitive")
+	use({ "tpope/vim-fugitive", config = require("plugins_config").vim_fugitive })
 
 	-- Shows a git diff in the sign column.
-	use("lewis6991/gitsigns.nvim")
+	use({ "lewis6991/gitsigns.nvim", config = require("plugins_config").gitsigns })
 
 	-- Maximizes and restores the current window in Vim.
-	use("szw/vim-maximizer")
+	use({ "szw/vim-maximizer", config = require("plugins_config").vim_maximizer })
 
 	-- Auto close brackets
-	use("jiangmiao/auto-pairs")
+	use({ "jiangmiao/auto-pairs", config = require("plugins_config").auto_pairs })
 
 	-- Search with ripgrep :Rg
-	use("jremmen/vim-ripgrep")
+	use({ "jremmen/vim-ripgrep", config = require("plugins_config").vim_ripgrep })
 
 	-- session https://github.com/rmagatti/auto-session
-	use("rmagatti/auto-session")
+	use({ "rmagatti/auto-session", config = require("plugins_config").auto_session })
 
 	-- Useful commands
 	use("tpope/vim-eunuch")
 
 	-- Calculate simple formulas
-	use("sk1418/HowMuch")
+	use({ "sk1418/HowMuch", config = require("plugins_config").how_much })
 
 	-- Align in | with :Tabularize /|
 	use("godlygeek/tabular")
@@ -87,15 +87,7 @@ return require("packer").startup(function(use)
 	})
 
 	-- casing https://github.com/johmsalas/text-case.nvim
-	use({
-		"johmsalas/text-case.nvim",
-		config = function()
-			require("textcase").setup({})
-		end,
-	})
-
-	-- Change case (casing)
-	use("arthurxavierx/vim-caser")
+	use({ "johmsalas/text-case.nvim", config = require("plugins_config").text_case })
 
 	-- Markdown
 	use({
@@ -110,7 +102,7 @@ return require("packer").startup(function(use)
 	})
 
 	-- REPL, send commands to another window
-	use("jpalardy/vim-slime")
+	use({ "jpalardy/vim-slime", config = require("plugins_config").vim_slime })
 
 	-- editorconfig respect .editorconfig settings like indenting
 	use("editorconfig/editorconfig-vim")
@@ -154,7 +146,7 @@ return require("packer").startup(function(use)
 	-- use("quangnguyen30192/cmp-nvim-ultisnips") -- UltiSnips completion source for nvim-cmp
 
 	-- Snippets luasnip
-	use("L3MON4D3/LuaSnip")
+	use({ "L3MON4D3/LuaSnip", config = require("plugins_config").lua_snip })
 	use({
 		"saadparwaiz1/cmp_luasnip",
 		requires = {

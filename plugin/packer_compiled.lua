@@ -76,21 +76,25 @@ _G.packer_plugins = {
     url = "https://github.com/numToStr/Comment.nvim"
   },
   HowMuch = {
+    config = { "\27LJ\2\n´\2\0\0\6\0\14\0\0286\0\0\0009\0\1\0009\0\2\0006\1\0\0009\1\3\1)\2\b\0=\2\4\1\18\1\0\0'\3\5\0'\4\6\0'\5\a\0B\1\4\1\18\1\0\0'\3\b\0'\4\6\0'\5\t\0B\1\4\1\18\1\0\0'\3\b\0'\4\n\0'\5\v\0B\1\4\1\18\1\0\0'\3\b\0'\4\f\0'\5\r\0B\1\4\1K\0\1\0\26<Plug>AutoCalcReplace\16<leader>hmr%<Plug>AutoCalcAppendWithEqAndSum\16<leader>hms\31<Plug>AutoCalcAppendWithEq\6x V<Plug>AutoCalcAppendWithEq\15<leader>hm\6n\18HowMuch_scale\6g\bset\vkeymap\bvim\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/HowMuch",
     url = "https://github.com/sk1418/HowMuch"
   },
   LuaSnip = {
+    config = { "\27LJ\2\n?\0\0\3\1\2\0\n-\0\0\0009\0\0\0B\0\1\2\15\0\0\0X\1\4Ä-\0\0\0009\0\1\0)\2\1\0B\0\2\1K\0\1\0\2¿\tjump\rjumpable?\0\0\3\1\2\0\n-\0\0\0009\0\0\0B\0\1\2\15\0\0\0X\1\4Ä-\0\0\0009\0\1\0)\2ˇˇB\0\2\1K\0\1\0\2¿\tjump\rjumpable∆\3\1\0\b\0\25\0-6\0\0\0009\0\1\0009\0\2\0006\1\0\0009\1\3\0019\1\4\0016\2\5\0'\4\6\0B\2\2\0029\2\a\0025\4\t\0005\5\b\0=\5\n\4B\2\2\0016\2\5\0'\4\v\0B\2\2\0029\2\a\0025\4\r\0005\5\f\0=\5\n\4B\2\2\1\18\2\1\0'\4\14\0006\5\5\0'\a\15\0B\5\2\0029\5\16\0055\6\17\0B\2\4\0016\2\5\0'\4\18\0B\2\2\2\18\3\0\0005\5\19\0'\6\20\0003\a\21\0B\3\4\1\18\3\0\0005\5\22\0'\6\23\0003\a\24\0B\3\4\0012\0\0ÄK\0\1\0\0\n<C-k>\1\3\0\0\6s\6i\0\n<C-j>\1\3\0\0\6s\6i\fluasnip\1\0\1\tbang\2\23edit_snippet_files\20luasnip.loaders\rSnipEdit\1\0\0\1\2\0\0\23./snippets/luasnip\29luasnip.loaders.from_lua\npaths\1\0\0\1\2\0\0\24./snippets/snipmate\14lazy_load\"luasnip.loaders.from_snipmate\frequire\29nvim_create_user_command\bapi\bset\vkeymap\bvim\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
   ["auto-pairs"] = {
+    config = { "\27LJ\2\nY\0\0\2\0\5\0\t6\0\0\0009\0\1\0'\1\3\0=\1\2\0006\0\0\0009\0\1\0)\1\0\0=\1\4\0K\0\1\0\19AutoPairsMapCh\5\28AutoPairsShortcutToggle\6g\bvim\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/auto-pairs",
     url = "https://github.com/jiangmiao/auto-pairs"
   },
   ["auto-session"] = {
+    config = { "\27LJ\2\nê\1\0\0\4\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\2B\0\2\1K\0\1\0\31auto_session_suppress_dirs\1\2\0\0\a~/\1\0\2\14log_level\tinfo\25auto_session_enabled\1\nsetup\17auto-session\frequire\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/auto-session",
     url = "https://github.com/rmagatti/auto-session"
@@ -131,6 +135,7 @@ _G.packer_plugins = {
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
   ["dracula.nvim"] = {
+    config = { "\27LJ\2\nS\0\0\3\0\5\0\t6\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\0\0009\0\3\0)\1\1\0=\1\4\0K\0\1\0\14rehash256\6g\24colorscheme dracula\bcmd\bvim\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/dracula.nvim",
     url = "https://github.com/Mofiqul/dracula.nvim"
@@ -141,6 +146,7 @@ _G.packer_plugins = {
     url = "https://github.com/editorconfig/editorconfig-vim"
   },
   ["gitsigns.nvim"] = {
+    config = { "\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
@@ -151,6 +157,7 @@ _G.packer_plugins = {
     url = "https://github.com/iamcco/markdown-preview.nvim"
   },
   nerdtree = {
+    config = { "\27LJ\2\nÔ\1\0\0\6\0\v\0\0226\0\0\0009\0\1\0009\0\2\0006\1\0\0009\1\3\1'\3\4\0B\1\2\1\18\1\0\0'\3\5\0'\4\6\0'\5\a\0B\1\4\1\18\1\0\0'\3\5\0'\4\b\0'\5\t\0B\1\4\0016\1\0\0009\1\3\1'\3\n\0B\1\2\1K\0\1\0006nnoremap <leader>cd :cd %:p:h<CR>:NERDTreeCWD<CR>\22:NERDTreeFind<CR>\t<F8>\24:NERDTreeToggle<CR>\t<F7>\6n\29let NERDTreeShowHidden=1\bcmd\bset\vkeymap\bvim\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/nerdtree",
     url = "https://github.com/scrooloose/nerdtree"
@@ -201,7 +208,7 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["text-case.nvim"] = {
-    config = { "\27LJ\2\n:\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\rtextcase\frequire\0" },
+    config = { "\27LJ\2\né\2\0\0\6\0\14\0\0296\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\0016\0\0\0'\2\3\0B\0\2\0029\0\4\0'\2\1\0B\0\2\0016\0\5\0009\0\6\0009\0\a\0'\2\b\0'\3\t\0'\4\n\0005\5\v\0B\0\5\0016\0\5\0009\0\6\0009\0\a\0'\2\f\0'\3\t\0'\4\n\0005\5\r\0B\0\5\1K\0\1\0\1\0\1\tdesc\14Telescope\6v\1\0\1\tdesc\14Telescope#<cmd>TextCaseOpenTelescope<CR>\bga.\6n\20nvim_set_keymap\bapi\bvim\19load_extension\14telescope\nsetup\rtextcase\frequire\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/text-case.nvim",
     url = "https://github.com/johmsalas/text-case.nvim"
@@ -212,14 +219,10 @@ _G.packer_plugins = {
     url = "https://github.com/jose-elias-alvarez/typescript.nvim"
   },
   ["vim-airline"] = {
+    config = { "\27LJ\2\nè\2\0\0\3\0\5\0\r6\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\0\0009\0\1\0'\2\3\0B\0\2\0016\0\0\0009\0\1\0'\2\4\0B\0\2\1K\0\1\0rlet g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'5let g:airline#extensions#tabline#fnamemod = ':t'1let g:airline#extensions#tabline#enabled = 1\bcmd\bvim\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-airline",
     url = "https://github.com/vim-airline/vim-airline"
-  },
-  ["vim-caser"] = {
-    loaded = true,
-    path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-caser",
-    url = "https://github.com/arthurxavierx/vim-caser"
   },
   ["vim-css-color"] = {
     loaded = false,
@@ -234,6 +237,7 @@ _G.packer_plugins = {
     url = "https://github.com/tpope/vim-eunuch"
   },
   ["vim-fugitive"] = {
+    config = { "\27LJ\2\n—\5\0\0\a\0\"\0H6\0\0\0009\0\1\0009\0\2\0006\1\0\0009\1\3\0019\1\4\1\18\2\0\0'\4\5\0'\5\6\0'\6\a\0B\2\4\1\18\2\0\0'\4\5\0'\5\b\0'\6\t\0B\2\4\1\18\2\0\0'\4\5\0'\5\n\0'\6\v\0B\2\4\1\18\2\0\0'\4\5\0'\5\f\0'\6\r\0B\2\4\1\18\2\0\0'\4\5\0'\5\14\0'\6\15\0B\2\4\1\18\2\0\0'\4\5\0'\5\16\0'\6\17\0B\2\4\1\18\2\0\0'\4\5\0'\5\18\0'\6\19\0B\2\4\1\18\2\0\0'\4\5\0'\5\20\0'\6\21\0B\2\4\1\18\2\0\0'\4\5\0'\5\22\0'\6\23\0B\2\4\1\18\2\0\0'\4\5\0'\5\24\0'\6\25\0B\2\4\1\18\2\0\0'\4\5\0'\5\26\0'\6\27\0B\2\4\1\18\2\1\0'\4\28\0'\5\29\0005\6\30\0B\2\4\1\18\2\1\0'\4\31\0'\5 \0005\6!\0B\2\4\1K\0\1\0\1\0\1\tbang\2\r:0Gclog!\17Ghistoryfile\1\0\1\tbang\2\v:Gclog\rGhistory\21:diffget //3<cr>\15<leader>ml\21:diffget //2<cr>\15<leader>mh\20:Gdiffsplit<cr>\15<leader>gd\18:Git push<cr>\15<leader>gp\28:Git checkout -b<space>\16<leader>gcb\25:Git checkout<space>\16<leader>gco\20:Git add -A<cr>\15<leader>gA\29:Git log --name-only<cr>\15<leader>gl\15:Gread<cr>\15<leader>gr\19:Git add %<cr>\15<leader>ga\29:tabnew | Git | only<cr>\15<leader>gs\6n\29nvim_create_user_command\bapi\bset\vkeymap\bvim\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
@@ -244,6 +248,7 @@ _G.packer_plugins = {
     url = "https://github.com/andrejlevkovitch/vim-lua-format"
   },
   ["vim-maximizer"] = {
+    config = { "\27LJ\2\nà\1\0\0\6\0\b\0\0146\0\0\0009\0\1\0009\0\2\0\18\1\0\0'\3\3\0'\4\4\0'\5\5\0B\1\4\1\18\1\0\0'\3\6\0'\4\4\0'\5\a\0B\1\4\1K\0\1\0\27:MaximizerToggle<CR>gv\6x\25:MaximizerToggle<CR>\14<leader>z\6n\bset\vkeymap\bvim\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-maximizer",
     url = "https://github.com/szw/vim-maximizer"
@@ -264,6 +269,7 @@ _G.packer_plugins = {
     url = "https://github.com/tpope/vim-repeat"
   },
   ["vim-ripgrep"] = {
+    config = { "\27LJ\2\nZ\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0002rg --vimgrep --pcre2 --type-add=\"scss:*.scss\"\15rg_command\6g\bvim\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-ripgrep",
     url = "https://github.com/jremmen/vim-ripgrep"
@@ -274,6 +280,7 @@ _G.packer_plugins = {
     url = "https://github.com/kshenoy/vim-signature"
   },
   ["vim-slime"] = {
+    config = { "\27LJ\2\nÃ\1\0\0\6\0\f\0\0226\0\0\0009\0\1\0009\0\2\0006\1\0\0009\1\3\1'\2\5\0=\2\4\0016\1\0\0009\1\3\1)\2\1\0=\2\6\1\18\1\0\0'\3\a\0'\4\b\0'\5\t\0B\1\4\1\18\1\0\0'\3\n\0'\4\b\0'\5\v\0B\1\4\1K\0\1\0\29<Plug>SlimeParagraphSend\6n\26<Plug>SlimeRegionSend\t<F9>\6x\22slime_no_mappings\ttmux\17slime_target\6g\bset\vkeymap\bvim\0" },
     loaded = true,
     path = "/Users/lalo/.local/share/nvim/site/pack/packer/start/vim-slime",
     url = "https://github.com/jpalardy/vim-slime"
@@ -286,20 +293,68 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: HowMuch
+time([[Config for HowMuch]], true)
+try_loadstring("\27LJ\2\n´\2\0\0\6\0\14\0\0286\0\0\0009\0\1\0009\0\2\0006\1\0\0009\1\3\1)\2\b\0=\2\4\1\18\1\0\0'\3\5\0'\4\6\0'\5\a\0B\1\4\1\18\1\0\0'\3\b\0'\4\6\0'\5\t\0B\1\4\1\18\1\0\0'\3\b\0'\4\n\0'\5\v\0B\1\4\1\18\1\0\0'\3\b\0'\4\f\0'\5\r\0B\1\4\1K\0\1\0\26<Plug>AutoCalcReplace\16<leader>hmr%<Plug>AutoCalcAppendWithEqAndSum\16<leader>hms\31<Plug>AutoCalcAppendWithEq\6x V<Plug>AutoCalcAppendWithEq\15<leader>hm\6n\18HowMuch_scale\6g\bset\vkeymap\bvim\0", "config", "HowMuch")
+time([[Config for HowMuch]], false)
+-- Config for: vim-ripgrep
+time([[Config for vim-ripgrep]], true)
+try_loadstring("\27LJ\2\nZ\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0002rg --vimgrep --pcre2 --type-add=\"scss:*.scss\"\15rg_command\6g\bvim\0", "config", "vim-ripgrep")
+time([[Config for vim-ripgrep]], false)
+-- Config for: nerdtree
+time([[Config for nerdtree]], true)
+try_loadstring("\27LJ\2\nÔ\1\0\0\6\0\v\0\0226\0\0\0009\0\1\0009\0\2\0006\1\0\0009\1\3\1'\3\4\0B\1\2\1\18\1\0\0'\3\5\0'\4\6\0'\5\a\0B\1\4\1\18\1\0\0'\3\5\0'\4\b\0'\5\t\0B\1\4\0016\1\0\0009\1\3\1'\3\n\0B\1\2\1K\0\1\0006nnoremap <leader>cd :cd %:p:h<CR>:NERDTreeCWD<CR>\22:NERDTreeFind<CR>\t<F8>\24:NERDTreeToggle<CR>\t<F7>\6n\29let NERDTreeShowHidden=1\bcmd\bset\vkeymap\bvim\0", "config", "nerdtree")
+time([[Config for nerdtree]], false)
+-- Config for: text-case.nvim
+time([[Config for text-case.nvim]], true)
+try_loadstring("\27LJ\2\né\2\0\0\6\0\14\0\0296\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\0016\0\0\0'\2\3\0B\0\2\0029\0\4\0'\2\1\0B\0\2\0016\0\5\0009\0\6\0009\0\a\0'\2\b\0'\3\t\0'\4\n\0005\5\v\0B\0\5\0016\0\5\0009\0\6\0009\0\a\0'\2\f\0'\3\t\0'\4\n\0005\5\r\0B\0\5\1K\0\1\0\1\0\1\tdesc\14Telescope\6v\1\0\1\tdesc\14Telescope#<cmd>TextCaseOpenTelescope<CR>\bga.\6n\20nvim_set_keymap\bapi\bvim\19load_extension\14telescope\nsetup\rtextcase\frequire\0", "config", "text-case.nvim")
+time([[Config for text-case.nvim]], false)
+-- Config for: auto-pairs
+time([[Config for auto-pairs]], true)
+try_loadstring("\27LJ\2\nY\0\0\2\0\5\0\t6\0\0\0009\0\1\0'\1\3\0=\1\2\0006\0\0\0009\0\1\0)\1\0\0=\1\4\0K\0\1\0\19AutoPairsMapCh\5\28AutoPairsShortcutToggle\6g\bvim\0", "config", "auto-pairs")
+time([[Config for auto-pairs]], false)
+-- Config for: vim-slime
+time([[Config for vim-slime]], true)
+try_loadstring("\27LJ\2\nÃ\1\0\0\6\0\f\0\0226\0\0\0009\0\1\0009\0\2\0006\1\0\0009\1\3\1'\2\5\0=\2\4\0016\1\0\0009\1\3\1)\2\1\0=\2\6\1\18\1\0\0'\3\a\0'\4\b\0'\5\t\0B\1\4\1\18\1\0\0'\3\n\0'\4\b\0'\5\v\0B\1\4\1K\0\1\0\29<Plug>SlimeParagraphSend\6n\26<Plug>SlimeRegionSend\t<F9>\6x\22slime_no_mappings\ttmux\17slime_target\6g\bset\vkeymap\bvim\0", "config", "vim-slime")
+time([[Config for vim-slime]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
+time([[Config for gitsigns.nvim]], false)
+-- Config for: auto-session
+time([[Config for auto-session]], true)
+try_loadstring("\27LJ\2\nê\1\0\0\4\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\2B\0\2\1K\0\1\0\31auto_session_suppress_dirs\1\2\0\0\a~/\1\0\2\14log_level\tinfo\25auto_session_enabled\1\nsetup\17auto-session\frequire\0", "config", "auto-session")
+time([[Config for auto-session]], false)
+-- Config for: vim-fugitive
+time([[Config for vim-fugitive]], true)
+try_loadstring("\27LJ\2\n—\5\0\0\a\0\"\0H6\0\0\0009\0\1\0009\0\2\0006\1\0\0009\1\3\0019\1\4\1\18\2\0\0'\4\5\0'\5\6\0'\6\a\0B\2\4\1\18\2\0\0'\4\5\0'\5\b\0'\6\t\0B\2\4\1\18\2\0\0'\4\5\0'\5\n\0'\6\v\0B\2\4\1\18\2\0\0'\4\5\0'\5\f\0'\6\r\0B\2\4\1\18\2\0\0'\4\5\0'\5\14\0'\6\15\0B\2\4\1\18\2\0\0'\4\5\0'\5\16\0'\6\17\0B\2\4\1\18\2\0\0'\4\5\0'\5\18\0'\6\19\0B\2\4\1\18\2\0\0'\4\5\0'\5\20\0'\6\21\0B\2\4\1\18\2\0\0'\4\5\0'\5\22\0'\6\23\0B\2\4\1\18\2\0\0'\4\5\0'\5\24\0'\6\25\0B\2\4\1\18\2\0\0'\4\5\0'\5\26\0'\6\27\0B\2\4\1\18\2\1\0'\4\28\0'\5\29\0005\6\30\0B\2\4\1\18\2\1\0'\4\31\0'\5 \0005\6!\0B\2\4\1K\0\1\0\1\0\1\tbang\2\r:0Gclog!\17Ghistoryfile\1\0\1\tbang\2\v:Gclog\rGhistory\21:diffget //3<cr>\15<leader>ml\21:diffget //2<cr>\15<leader>mh\20:Gdiffsplit<cr>\15<leader>gd\18:Git push<cr>\15<leader>gp\28:Git checkout -b<space>\16<leader>gcb\25:Git checkout<space>\16<leader>gco\20:Git add -A<cr>\15<leader>gA\29:Git log --name-only<cr>\15<leader>gl\15:Gread<cr>\15<leader>gr\19:Git add %<cr>\15<leader>ga\29:tabnew | Git | only<cr>\15<leader>gs\6n\29nvim_create_user_command\bapi\bset\vkeymap\bvim\0", "config", "vim-fugitive")
+time([[Config for vim-fugitive]], false)
+-- Config for: dracula.nvim
+time([[Config for dracula.nvim]], true)
+try_loadstring("\27LJ\2\nS\0\0\3\0\5\0\t6\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\0\0009\0\3\0)\1\1\0=\1\4\0K\0\1\0\14rehash256\6g\24colorscheme dracula\bcmd\bvim\0", "config", "dracula.nvim")
+time([[Config for dracula.nvim]], false)
 -- Config for: Comment.nvim
 time([[Config for Comment.nvim]], true)
 try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
 time([[Config for Comment.nvim]], false)
--- Config for: text-case.nvim
-time([[Config for text-case.nvim]], true)
-try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\rtextcase\frequire\0", "config", "text-case.nvim")
-time([[Config for text-case.nvim]], false)
+-- Config for: vim-airline
+time([[Config for vim-airline]], true)
+try_loadstring("\27LJ\2\nè\2\0\0\3\0\5\0\r6\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\0\0009\0\1\0'\2\3\0B\0\2\0016\0\0\0009\0\1\0'\2\4\0B\0\2\1K\0\1\0rlet g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'5let g:airline#extensions#tabline#fnamemod = ':t'1let g:airline#extensions#tabline#enabled = 1\bcmd\bvim\0", "config", "vim-airline")
+time([[Config for vim-airline]], false)
+-- Config for: LuaSnip
+time([[Config for LuaSnip]], true)
+try_loadstring("\27LJ\2\n?\0\0\3\1\2\0\n-\0\0\0009\0\0\0B\0\1\2\15\0\0\0X\1\4Ä-\0\0\0009\0\1\0)\2\1\0B\0\2\1K\0\1\0\2¿\tjump\rjumpable?\0\0\3\1\2\0\n-\0\0\0009\0\0\0B\0\1\2\15\0\0\0X\1\4Ä-\0\0\0009\0\1\0)\2ˇˇB\0\2\1K\0\1\0\2¿\tjump\rjumpable∆\3\1\0\b\0\25\0-6\0\0\0009\0\1\0009\0\2\0006\1\0\0009\1\3\0019\1\4\0016\2\5\0'\4\6\0B\2\2\0029\2\a\0025\4\t\0005\5\b\0=\5\n\4B\2\2\0016\2\5\0'\4\v\0B\2\2\0029\2\a\0025\4\r\0005\5\f\0=\5\n\4B\2\2\1\18\2\1\0'\4\14\0006\5\5\0'\a\15\0B\5\2\0029\5\16\0055\6\17\0B\2\4\0016\2\5\0'\4\18\0B\2\2\2\18\3\0\0005\5\19\0'\6\20\0003\a\21\0B\3\4\1\18\3\0\0005\5\22\0'\6\23\0003\a\24\0B\3\4\0012\0\0ÄK\0\1\0\0\n<C-k>\1\3\0\0\6s\6i\0\n<C-j>\1\3\0\0\6s\6i\fluasnip\1\0\1\tbang\2\23edit_snippet_files\20luasnip.loaders\rSnipEdit\1\0\0\1\2\0\0\23./snippets/luasnip\29luasnip.loaders.from_lua\npaths\1\0\0\1\2\0\0\24./snippets/snipmate\14lazy_load\"luasnip.loaders.from_snipmate\frequire\29nvim_create_user_command\bapi\bset\vkeymap\bvim\0", "config", "LuaSnip")
+time([[Config for LuaSnip]], false)
+-- Config for: vim-maximizer
+time([[Config for vim-maximizer]], true)
+try_loadstring("\27LJ\2\nà\1\0\0\6\0\b\0\0146\0\0\0009\0\1\0009\0\2\0\18\1\0\0'\3\3\0'\4\4\0'\5\5\0B\1\4\1\18\1\0\0'\3\6\0'\4\4\0'\5\a\0B\1\4\1K\0\1\0\27:MaximizerToggle<CR>gv\6x\25:MaximizerToggle<CR>\14<leader>z\6n\bset\vkeymap\bvim\0", "config", "vim-maximizer")
+time([[Config for vim-maximizer]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType css ++once lua require("packer.load")({'vim-css-color'}, { ft = "css" }, _G.packer_plugins)]]
 vim.cmd [[au FileType scss ++once lua require("packer.load")({'vim-css-color'}, { ft = "scss" }, _G.packer_plugins)]]
+vim.cmd [[au FileType css ++once lua require("packer.load")({'vim-css-color'}, { ft = "css" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end
