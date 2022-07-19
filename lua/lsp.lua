@@ -16,6 +16,7 @@ require("nvim-lsp-installer").setup({
 		"yamlls",
 		"sumneko_lua",
 		"html",
+		"emmet_ls",
 	},
 })
 
@@ -60,6 +61,7 @@ lsp.tsserver.setup({ on_attach = on_attach })
 lsp.vimls.setup({ on_attach = on_attach })
 lsp.vuels.setup({ on_attach = on_attach })
 lsp.yamlls.setup({ on_attach = on_attach })
+lsp.emmet_ls.setup({ on_attach = on_attach })
 lsp.sumneko_lua.setup({
 	on_attach = on_attach,
 	settings = {
