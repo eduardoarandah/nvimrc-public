@@ -1,19 +1,20 @@
 -- treesitter enable
 require("nvim-treesitter.configs").setup({
 	ensure_installed = {
-		"javascript",
-		"json",
+		"bash",
 		"css",
 		"html",
+		"javascript",
+		"json",
+		"jsonc",
+		"lua",
+		"php",
 		"python",
-		"bash",
 		"regex",
 		"ruby",
-		"yaml",
-		"jsonc",
 		"tsx",
-		"lua",
 		"vue",
+		"yaml",
 	}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
 	highlight = {
 		enable = true,

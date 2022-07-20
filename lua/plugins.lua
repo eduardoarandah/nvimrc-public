@@ -19,7 +19,6 @@ return require("packer").startup(function(use)
 
 	-- Syntax
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-	use("sheerun/vim-polyglot")
 
 	-- Theme
 	use({ "Mofiqul/dracula.nvim", config = require("plugins_config").dracula })
@@ -141,10 +140,6 @@ return require("packer").startup(function(use)
 			requires = { "hrsh7th/nvim-cmp" },
 		})
 	end
-
-	-- Snippets ultisnips users.
-	-- use("SirVer/ultisnips") -- UltiSnips is the ultimate solution for snippets in Vim
-	-- use("quangnguyen30192/cmp-nvim-ultisnips") -- UltiSnips completion source for nvim-cmp
 
 	-- Snippets luasnip
 	use({ "L3MON4D3/LuaSnip", config = require("plugins_config").lua_snip })

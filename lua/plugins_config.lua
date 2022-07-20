@@ -49,7 +49,10 @@ function M.telescope()
 	map("n", "<C-f>", t.buffers)
 	map("n", "<leader>hi", t.oldfiles)
 	map("n", "<leader>:", t.command_history)
-	map("n", "<leader>j", t.current_buffer_fuzzy_find)
+	map("n", "<leader>j", function()
+		require("telescope.builtin").live_grep({ grep_open_files = true })
+	end)
+
 	map("n", "<localleader>c", t.commands) -- available commands
 	map("n", "<localleader>s", t.lsp_document_symbols)
 	map("n", "<localleader>g", t.live_grep)
