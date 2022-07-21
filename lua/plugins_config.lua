@@ -23,6 +23,16 @@ function M.vim_airline()
 	)
 end
 
+--------------
+-- tabline
+--------------
+
+function M.tabline()
+	require("tabline").setup()
+	local map = vim.keymap.set
+	map("n", "<leader>tr", ":TablineTabRename ")
+end
+
 -----------
 -- nerdtree
 -----------
@@ -107,13 +117,6 @@ function M.vim_fugitive()
 	cmd("Ghistoryfile", ":0Gclog!", { bang = true })
 end
 
------------
--- gitsigns
------------
-
-function M.gitsigns()
-	require("gitsigns").setup()
-end
 ----------------
 -- vim-maximizer
 ----------------

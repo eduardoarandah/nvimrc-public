@@ -23,8 +23,21 @@ return require("packer").startup(function(use)
 	-- Theme
 	use({ "Mofiqul/dracula.nvim", config = require("plugins_config").dracula })
 
-	-- Status/tabline
-	use({ "vim-airline/vim-airline", config = require("plugins_config").vim_airline })
+	-- status line
+	use({
+		"nvim-lualine/lualine.nvim",
+		requires = { "kyazdani42/nvim-web-devicons", opt = true },
+		config = function()
+			require("lualine").setup()
+		end,
+	})
+
+	-- tabs https://github.com/kdheepak/tabline.nvim
+	use({
+		"kdheepak/tabline.nvim",
+		requires = { { "hoob3rt/lualine.nvim", opt = true }, { "kyazdani42/nvim-web-devicons", opt = true } },
+		config = require("plugins_config").tabline,
+	})
 
 	-- File explorer
 	use({ "scrooloose/nerdtree", config = require("plugins_config").nerdtree })
@@ -54,7 +67,12 @@ return require("packer").startup(function(use)
 	use({ "tpope/vim-fugitive", config = require("plugins_config").vim_fugitive })
 
 	-- Shows a git diff in the sign column.
-	use({ "lewis6991/gitsigns.nvim", config = require("plugins_config").gitsigns })
+	use({
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("gitsigns").setup()
+		end,
+	})
 
 	-- Maximizes and restores the current window in Vim.
 	use({ "szw/vim-maximizer", config = require("plugins_config").vim_maximizer })
