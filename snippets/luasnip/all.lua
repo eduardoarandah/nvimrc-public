@@ -38,9 +38,9 @@ return {
 		end, { 1 }),
 	}),
 
-	-- hello
+	-- xxx
 	s(
-		"hello",
+		"xxx",
 		fmt("your name {1} Hello {2}", {
 			i(1, "ed"),
 			f(function(args)

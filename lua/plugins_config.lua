@@ -214,18 +214,18 @@ function M.lua_snip()
 	local map = vim.keymap.set
 	local cmd = vim.api.nvim_create_user_command
 
-  -- configs
-	l.config.set_config({
+	-- configs
+	l.config.setup({
 		update_events = "TextChanged,TextChangedI", -- change on every keystroke
 	})
 
-  -- loaders
+	-- loaders
 	-- https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md#loaders
 	require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "./snippets/snipmate" } })
 	-- https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md#lua
 	require("luasnip.loaders.from_lua").lazy_load({ paths = { "./snippets/luasnip" } })
 
-  -- commands
+	-- commands
 	cmd("SnipEdit", require("luasnip.loaders").edit_snippet_files, { bang = true })
 
 	-- jump on snippet positions
