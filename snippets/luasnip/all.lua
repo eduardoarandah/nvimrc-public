@@ -21,6 +21,8 @@ local types = require("luasnip.util.types")
 local conds = require("luasnip.extras.expand_conditions")
 
 return {
+
+	-- hello
 	s("hello", {
 		t("Hello, my name is "),
 		i(1, "eduardo"),
@@ -36,12 +38,27 @@ return {
 		end, { 1 }),
 	}),
 
+	-- hello
+	s(
+		"hello",
+		fmt("your name {1} Hello {2}", {
+			i(1, "ed"),
+			f(function(args)
+				print(vim.inspect(args))
+				-- return args[1][1]
+				return "??"
+			end),
+		})
+	),
+
+	-- branch
 	s(
 		"branch",
 		f(function()
 			return vim.fn.system({ "git", "branch" })
 		end)
 	),
+	-- date
 	s("date", {
 		t("today's date is: "),
 		f(function()

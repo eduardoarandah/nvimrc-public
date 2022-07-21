@@ -142,7 +142,10 @@ return require("packer").startup(function(use)
 	end
 
 	-- Snippets luasnip
-	use({ "L3MON4D3/LuaSnip", config = require("plugins_config").lua_snip })
+	use({
+		"L3MON4D3/LuaSnip",
+		config = require("plugins_config").lua_snip,
+	})
 	use({
 		"saadparwaiz1/cmp_luasnip",
 		requires = {
