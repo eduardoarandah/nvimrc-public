@@ -10,27 +10,18 @@ function M.dracula()
 end
 
 --------------
--- vim-airline
+-- lualine
 --------------
 
-function M.vim_airline()
-	vim.cmd("let g:airline#extensions#tabline#enabled = 1")
-	-- Show just the filename
-	vim.cmd("let g:airline#extensions#tabline#fnamemod = ':t'")
-	-- Show terminal buffers
-	vim.cmd(
-		"let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'"
-	)
-end
-
---------------
--- tabline
---------------
-
-function M.tabline()
-	require("tabline").setup()
+function M.lualine()
+	require("lualine").setup({
+		tabline = {
+			lualine_a = { "buffers" },
+			lualine_z = { { "tabs", mode = 2 } },
+		},
+	})
 	local map = vim.keymap.set
-	map("n", "<leader>tr", ":TablineTabRename ")
+	map("n", "<leader>tr", ":LualineRenameTab ")
 end
 
 -----------

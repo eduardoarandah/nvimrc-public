@@ -23,20 +23,11 @@ return require("packer").startup(function(use)
 	-- Theme
 	use({ "Mofiqul/dracula.nvim", config = require("plugins_config").dracula })
 
-	-- status line
+	-- Status line / tabs
 	use({
 		"nvim-lualine/lualine.nvim",
 		requires = { "kyazdani42/nvim-web-devicons", opt = true },
-		config = function()
-			require("lualine").setup()
-		end,
-	})
-
-	-- tabs https://github.com/kdheepak/tabline.nvim
-	use({
-		"kdheepak/tabline.nvim",
-		requires = { { "hoob3rt/lualine.nvim", opt = true }, { "kyazdani42/nvim-web-devicons", opt = true } },
-		config = require("plugins_config").tabline,
+		config = require("plugins_config").lualine,
 	})
 
 	-- File explorer
