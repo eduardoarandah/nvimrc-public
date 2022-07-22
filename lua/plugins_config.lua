@@ -17,7 +17,13 @@ function M.lualine()
 	require("lualine").setup({
 		tabline = {
 			lualine_a = { "buffers" },
-			lualine_z = { { "tabs", mode = 2 } },
+			lualine_z = {
+				{
+					"tabs",
+					mode = 2,
+					max_length = vim.o.columns, -- full width
+				},
+			},
 		},
 	})
 	local map = vim.keymap.set
@@ -25,16 +31,14 @@ function M.lualine()
 end
 
 -----------
--- nerdtree
+-- tree
 -----------
 
-function M.nerdtree()
+function M.nvim_tree()
+	require("nvim-tree").setup()
 	local map = vim.keymap.set
-	vim.cmd("let NERDTreeShowHidden=1")
-	map("n", "<F7>", ":NERDTreeToggle<CR>")
-	map("n", "<F8>", ":NERDTreeFind<CR>")
-	-- Change current dir to current file
-	vim.cmd("nnoremap <leader>cd :cd %:p:h<CR>:NERDTreeCWD<CR>")
+	map("n", "<F7>", ":NvimTreeToggle<CR>")
+	map("n", "<F8>", ":NvimTreeFindFileToggle<CR>")
 end
 
 ------------
@@ -54,7 +58,7 @@ function M.telescope()
 		require("telescope.builtin").live_grep({ grep_open_files = true })
 	end)
 
-	map("n", "<localleader>c", t.commands) -- available commands
+	map("n", "<leader><leader>", t.commands)
 	map("n", "<localleader>s", t.lsp_document_symbols)
 	map("n", "<localleader>g", t.live_grep)
 	cmd("Options", t.vim_options, { bang = true })

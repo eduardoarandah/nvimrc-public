@@ -31,7 +31,14 @@ return require("packer").startup(function(use)
 	})
 
 	-- File explorer
-	use({ "scrooloose/nerdtree", config = require("plugins_config").nerdtree })
+	use({
+		"kyazdani42/nvim-tree.lua",
+		requires = {
+			"kyazdani42/nvim-web-devicons", -- optional, for file icons
+		},
+		tag = "nightly", -- optional, updated every week.
+		config = require("plugins_config").nvim_tree,
+	})
 
 	-- Comment lines
 	use({
