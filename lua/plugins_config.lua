@@ -38,7 +38,7 @@ function M.nvim_tree()
 	require("nvim-tree").setup()
 	local map = vim.keymap.set
 	map("n", "<F7>", ":NvimTreeToggle<CR>")
-	map("n", "<F8>", ":NvimTreeFindFileToggle<CR>")
+	map("n", "<F8>", ":NvimTreeFindFile<CR>")
 end
 
 ------------
@@ -120,15 +120,6 @@ function M.vim_maximizer()
 
 	map("n", "<leader>z", ":MaximizerToggle<CR>")
 	map("x", "<leader>z", ":MaximizerToggle<CR>gv")
-end
-
--------------
--- auto-pairs
--------------
-
-function M.auto_pairs()
-	vim.g.AutoPairsShortcutToggle = ""
-	vim.g.AutoPairsMapCh = 0 -- don't map this one
 end
 
 --------------

@@ -55,9 +55,6 @@ return require("packer").startup(function(use)
 		config = require("plugins_config").telescope,
 	})
 
-	-- Allow repeating for plugin mappings like surround
-	use("tpope/vim-repeat")
-
 	-- Surround with ys
 	use("tpope/vim-surround")
 
@@ -76,7 +73,6 @@ return require("packer").startup(function(use)
 	use({ "szw/vim-maximizer", config = require("plugins_config").vim_maximizer })
 
 	-- Auto close brackets
-	use({ "jiangmiao/auto-pairs", config = require("plugins_config").auto_pairs })
 
 	-- Search with ripgrep :Rg
 	use({ "jremmen/vim-ripgrep", config = require("plugins_config").vim_ripgrep })
