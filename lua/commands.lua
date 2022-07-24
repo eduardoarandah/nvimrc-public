@@ -1,8 +1,23 @@
 local cmd = vim.api.nvim_create_user_command
 local args = { bang = true }
+local home = vim.fn.stdpath("config")
+
+-- vimrc
+
+cmd("Init", function()
+	vim.cmd("edit " .. home .. "/init.lua")
+end, args)
+
+cmd("Reload", function()
+	vim.cmd("luafile " .. home .. "/init.lua")
+end, args)
+
+cmd("SaveCompile", function()
+	vim.cmd("luafile % || PackerCompile")
+end, args)
 
 -- git report
---
+
 cmd("Greport", require("greport").greport, args)
 
 -- Search on relevant directories

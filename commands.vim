@@ -1,7 +1,3 @@
-" Edit Vimrc
-command! V edit $HOME/.config/nvim/init.lua
-command! Vreload source $HOME/.config/nvim/init.lua
-
 "  Delete all registers
 command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
 

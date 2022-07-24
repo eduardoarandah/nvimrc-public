@@ -15,90 +15,39 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 return require("packer").startup(function(use)
+	local conf = require("plugins_config")
+
+	-- packer
 	use("wbthomason/packer.nvim")
+
+	------------
+	-- Interface
+	------------
 
 	-- Syntax
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 
 	-- Theme
-	use({ "Mofiqul/dracula.nvim", config = require("plugins_config").dracula })
+	use({ "Mofiqul/dracula.nvim", config = conf.dracula })
 
-	-- Status line / tabs
+	-- status line / tabs
 	use({
 		"nvim-lualine/lualine.nvim",
 		requires = { "kyazdani42/nvim-web-devicons", opt = true },
-		config = require("plugins_config").lualine,
+		config = conf.lualine,
 	})
 
-	-- File explorer
+	-- file explorer
 	use({
 		"kyazdani42/nvim-tree.lua",
 		requires = {
 			"kyazdani42/nvim-web-devicons", -- optional, for file icons
 		},
 		tag = "nightly", -- optional, updated every week.
-		config = require("plugins_config").nvim_tree,
+		config = conf.nvim_tree,
 	})
 
-	-- Comment lines
-	use({
-		"numToStr/Comment.nvim",
-		config = function()
-			require("Comment").setup()
-		end,
-	})
-
-	-- Telescope fuzzy finder
-	use({
-		"nvim-telescope/telescope.nvim",
-		requires = { "nvim-lua/plenary.nvim" },
-		config = require("plugins_config").telescope,
-	})
-
-	-- Surround with ys
-	use("tpope/vim-surround")
-
-	-- Git
-	use({ "tpope/vim-fugitive", config = require("plugins_config").vim_fugitive })
-
-	-- Shows a git diff in the sign column.
-	use({
-		"lewis6991/gitsigns.nvim",
-		config = function()
-			require("gitsigns").setup()
-		end,
-	})
-
-	-- Maximize current window
-	use({
-		"nyngwang/NeoZoom.lua",
-		config = require("plugins_config").neozoom,
-	})
-
-	-- Auto close brackets
-	use({
-		"windwp/nvim-autopairs",
-		config = function()
-			require("nvim-autopairs").setup({})
-		end,
-	})
-
-	-- Search with ripgrep :Rg
-	use({ "jremmen/vim-ripgrep", config = require("plugins_config").vim_ripgrep })
-
-	-- session https://github.com/rmagatti/auto-session
-	use({ "rmagatti/auto-session", config = require("plugins_config").auto_session })
-
-	-- Useful commands
-	use("tpope/vim-eunuch")
-
-	-- Calculate simple formulas
-	use({ "sk1418/HowMuch", config = require("plugins_config").how_much })
-
-	-- Align in | with :Tabularize /|
-	use("godlygeek/tabular")
-
-	-- Display markers
+	-- show markers
 	use({
 		"chentoast/marks.nvim",
 		config = function()
@@ -106,38 +55,26 @@ return require("packer").startup(function(use)
 		end,
 	})
 
-	-- Css Color
+	-- show git diffs
 	use({
-		"ap/vim-css-color",
-		ft = { "css", "scss" },
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("gitsigns").setup()
+		end,
 	})
 
-	-- casing https://github.com/johmsalas/text-case.nvim
-	use({ "johmsalas/text-case.nvim", config = require("plugins_config").text_case })
-
-	-- Markdown
+	-- zoom in / out
 	use({
-		"iamcco/markdown-preview.nvim",
-		run = "cd app & yarn install",
+		"nyngwang/NeoZoom.lua",
+		config = conf.neozoom,
 	})
 
-	-- Prettier
-	use({
-		"prettier/vim-prettier",
-		run = "yarn install",
-	})
+	------------
+	-- IDE
+	------------
 
-	-- REPL, send commands to another window
-	use({ "jpalardy/vim-slime", config = require("plugins_config").vim_slime })
-
-	-- editorconfig respect .editorconfig settings like indenting
-	use("editorconfig/editorconfig-vim")
-
-	-- lua format
-	use("andrejlevkovitch/vim-lua-format")
-
-	-- typescript
-	use("jose-elias-alvarez/typescript.nvim")
+	-- Git
+	use({ "tpope/vim-fugitive", config = conf.vim_fugitive })
 
 	-- lsp
 	use("neovim/nvim-lspconfig") -- A collection of common configurations for Neovim's built-in language server client.
@@ -167,10 +104,63 @@ return require("packer").startup(function(use)
 		})
 	end
 
+	-- .editorconfig compatibilty
+	use("editorconfig/editorconfig-vim")
+
+  ----------
+  -- Actions
+  ----------
+
+	-- prettify
+	use({
+		"prettier/vim-prettier",
+		run = "yarn install",
+	})
+
+	-- comment
+	use({
+		"numToStr/Comment.nvim",
+		config = function()
+			require("Comment").setup()
+		end,
+	})
+
+	-- surround with ys
+	use("tpope/vim-surround")
+
+	-- auto pairs
+	use({
+		"windwp/nvim-autopairs",
+		config = function()
+			require("nvim-autopairs").setup({})
+		end,
+	})
+
+	-- change case https://github.com/johmsalas/text-case.nvim
+	use({ "johmsalas/text-case.nvim", config = conf.text_case })
+
+	--------------
+	-- Find things
+	--------------
+
+	-- Telescope fuzzy finder
+	use({
+		"nvim-telescope/telescope.nvim",
+		requires = { "nvim-lua/plenary.nvim" },
+		config = conf.telescope,
+	})
+
+	-- Search with ripgrep :Rg
+	use({ "jremmen/vim-ripgrep", config = conf.vim_ripgrep })
+
+	-----------
+	-- snippets
+	-----------
+
 	-- Snippets luasnip
 	use({
 		"L3MON4D3/LuaSnip",
-		config = require("plugins_config").lua_snip,
+		config = conf.lua_snip,
 	})
 	use({
 		"saadparwaiz1/cmp_luasnip",
@@ -180,11 +170,51 @@ return require("packer").startup(function(use)
 		},
 	})
 
+	----------------
+	-- lang specific
+	----------------
+
+	-- typescript
+	use("jose-elias-alvarez/typescript.nvim")
+
+	-- lua format
+	use("andrejlevkovitch/vim-lua-format")
+
+	-- Css Color
+	use({
+		"ap/vim-css-color",
+		ft = { "css", "scss" },
+	})
+
+	-- Markdown
+	use({
+		"iamcco/markdown-preview.nvim",
+		run = "cd app & yarn install",
+	})
+
+	--------
+	-- utils
+	--------
+
+	-- Useful commands like :Delete
+	use("tpope/vim-eunuch")
+
 	-- fix things in quickfix list
 	use("stefandtw/quickfix-reflector.vim")
 
+	-- align in | with :Tabularize /|
+	use("godlygeek/tabular")
+
+	-- session https://github.com/rmagatti/auto-session
+	use({ "rmagatti/auto-session", config = conf.auto_session })
+
+	-- REPL, send commands to another window
+	use({ "jpalardy/vim-slime", config = conf.vim_slime })
+
+	-- calculate
+	use({ "sk1418/HowMuch", config = conf.how_much })
+
 	-- Automatically set up your configuration after cloning packer.nvim
-	-- Put this at the end after all plugins
 	if do_packer_sync then
 		require("packer").sync()
 	end
