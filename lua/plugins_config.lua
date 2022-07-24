@@ -186,6 +186,7 @@ end
 function M.vim_slime()
 	local map = vim.keymap.set
 	vim.g.slime_target = "tmux"
+	vim.cmd('let g:slime_default_config = {"socket_name": "default", "target_pane": "{last}"}')
 
 	-- target_pane
 	-- {last} current window, last pane,
