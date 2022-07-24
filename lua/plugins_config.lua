@@ -112,14 +112,16 @@ function M.vim_fugitive()
 	cmd("Ghistoryfile", ":0Gclog!", { bang = true })
 end
 
-----------------
--- vim-maximizer
-----------------
-function M.vim_maximizer()
+----------
+-- NeoZoom
+----------
+function M.neozoom()
 	local map = vim.keymap.set
-
-	map("n", "<leader>z", ":MaximizerToggle<CR>")
-	map("x", "<leader>z", ":MaximizerToggle<CR>gv")
+	require("neo-zoom").setup({
+		width_ratio = 1,
+		height_ratio = 1,
+	})
+	map("n", "<CR>", require("neo-zoom").neo_zoom)
 end
 
 --------------

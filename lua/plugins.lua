@@ -69,8 +69,11 @@ return require("packer").startup(function(use)
 		end,
 	})
 
-	-- Maximizes and restores the current window in Vim.
-	use({ "szw/vim-maximizer", config = require("plugins_config").vim_maximizer })
+	-- Maximize current window
+	use({
+		"nyngwang/NeoZoom.lua",
+		config = require("plugins_config").neozoom,
+	})
 
 	-- Auto close brackets
 	use({
