@@ -99,7 +99,12 @@ return require("packer").startup(function(use)
 	use("godlygeek/tabular")
 
 	-- Display markers
-	use("kshenoy/vim-signature")
+	use({
+		"chentoast/marks.nvim",
+		config = function()
+			require("marks").setup({})
+		end,
+	})
 
 	-- Css Color
 	use({
