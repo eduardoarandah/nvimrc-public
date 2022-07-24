@@ -73,6 +73,12 @@ return require("packer").startup(function(use)
 	use({ "szw/vim-maximizer", config = require("plugins_config").vim_maximizer })
 
 	-- Auto close brackets
+	use({
+		"windwp/nvim-autopairs",
+		config = function()
+			require("nvim-autopairs").setup({})
+		end,
+	})
 
 	-- Search with ripgrep :Rg
 	use({ "jremmen/vim-ripgrep", config = require("plugins_config").vim_ripgrep })
