@@ -1,6 +1,6 @@
 " Edit Vimrc
-:command! V edit $HOME/.config/nvim/init.lua
-:command! Vreload source $HOME/.config/nvim/init.lua
+command! V edit $HOME/.config/nvim/init.lua
+command! Vreload source $HOME/.config/nvim/init.lua
 
 "  Delete all registers
 command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
@@ -198,9 +198,6 @@ command! DictionaryDistStylesApp :call DictionaryDistStylesApp()
 """""""""""""""
 
 :command! Lararoutes 0,$d | read !php artisan route:list
-:command! -nargs=1 Lararoutegrep read !php artisan route:list | grep <args>
-:command! LaravelRouteResourceExplicit :normal 0iroute::WWyiwg;a"viwguea('WWWWyiWg;Pla,'WWWWWWWWyiWg;Pf)a->name('WWWWWWyiWg;Pf)a;lD
-:command! CommentsHtmlToLaravel :%s/<!--\(.*\)-->/{{-- \1 --}}
 
 function! PhpToBlade()
   s/<?php/{{/e
@@ -213,10 +210,6 @@ function! PhpToBlade()
 endfunction
 command! PhpToBlade :call PhpToBlade()
 
-command! PhpVarToItemVar :norm viwoaitem['ea']
-
-command PhpIfToBlade :norm 0f{%S@endifD0:s/<?php if/@if
-
 """""""""""""""
 " html
 """""""""""""""
@@ -228,20 +221,3 @@ command! LoremHtml :r!curl -Ns https://loripsum.net/api/10/medium/headers/decora
 nmap <localleader>t yslt
 imap <localleader>t <esc>yslt
 
-"""""""""""""""""""""""""
-" Search on relevant directories
-"""""""""""""""""""""""""
-
-command! Clientes :Files ~/clientes
-command! Colegas :Files ~/colegas
-command! Conocimiento :Files ~/conocimiento
-command! Proyectos :Files ~/proyectos
-command! Repos :Files ~/repos
-command! Scripts :Files ~/scripts
-
-
-"""""""""""""""""""""""""
-" Ultisnips
-"""""""""""""""""""""""""
-
-" xnoremap <leader>u y:UltiSnipsEdit<cr>Go<cr>snippet key "description"<cr><esc>poendsnippet<esc>

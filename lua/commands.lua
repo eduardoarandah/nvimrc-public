@@ -1,29 +1,34 @@
 local cmd = vim.api.nvim_create_user_command
+local args = { bang = true }
 
-cmd("Greport", require("greport").greport, { bang = true })
+-- git report
+--
+cmd("Greport", require("greport").greport, args)
 
--- brew install silicon
-cmd("Silicon", function(opts)
-	local lines = vim.api.nvim_buf_get_lines(0, opts.line1 - 1, opts.line2 + 1, false)
-	vim.fn.system({
-		"silicon",
-		"--to-clipboard",
-		"--theme",
-		"gruvbox",
-		"--background",
-		"#D6D6D6",
-		"--shadow-blur-radius",
-		"5",
-		"--shadow-offset-x",
-		"10",
-		"--shadow-offset-y",
-		"8",
-		"--pad-horiz",
-		"40",
-		"--pad-vert",
-		"40",
-		"--language",
-		vim.bo.filetype,
-	}, lines)
-end, { range = true })
-vim.keymap.set("x", "SS", ":Silicon<CR>")
+-- Search on relevant directories
+
+local tfind = require("telescope.builtin").find_files
+
+cmd("Clientes", function()
+	tfind({ cwd = "~/clientes" })
+end, args)
+
+cmd("Colegas", function()
+	tfind({ cwd = "~/colegas" })
+end, args)
+
+cmd("Conocimiento", function()
+	tfind({ cwd = "~/conocimiento" })
+end, args)
+
+cmd("Proyectos", function()
+	tfind({ cwd = "~/proyectos" })
+end, args)
+
+cmd("Repos", function()
+	tfind({ cwd = "~/repos" })
+end, args)
+
+cmd("Scripts", function()
+	tfind({ cwd = "~/scripts" })
+end, args)
