@@ -1,19 +1,21 @@
 local cmd = vim.api.nvim_create_user_command
 local args = { bang = true }
 local home = vim.fn.stdpath("config")
+local vimscript = vim.cmd
 
 -- vimrc
 
 cmd("Init", function()
-	vim.cmd("edit " .. home .. "/init.lua")
+	vimscript("edit " .. home .. "/init.lua")
 end, args)
 
 cmd("Reload", function()
-	vim.cmd("luafile " .. home .. "/init.lua")
+	vimscript("luafile " .. home .. "/init.lua")
 end, args)
 
 cmd("SaveCompile", function()
-	vim.cmd("luafile % || PackerCompile")
+	vimscript("luafile %")
+	vimscript("PackerCompile")
 end, args)
 
 -- git report
@@ -46,4 +48,24 @@ end, args)
 
 cmd("Scripts", function()
 	tfind({ cwd = "~/scripts" })
+end, args)
+
+-- custom dictionaries
+
+cmd("DictBoostrap4", function()
+	local dic = require("cmp_dictionary")
+	-- Download boostrap and generate classes:
+	-- curl -s https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/bootstrap4
+	dic.setup({ dic = { ["php,html,blade"] = { "~/.nvim/dict/bootstrap4" } } })
+	dic.update()
+end, args)
+
+cmd("DictTailwind", function()
+	local dic = require("cmp_dictionary")
+	-- mkdir -p ~/.nvim/dict
+	-- https://tailwindcss.com/docs/installation#using-tailwind-without-post-css
+	-- npx tailwindcss-cli@latest build -o ~/.nvim/dict/tailwind.css
+	-- cat ~/.nvim/dict/tailwind.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/tailwind
+	dic.setup({ dic = { ["php,html,blade"] = { "~/.nvim/dict/tailwind" } } })
+	dic.update()
 end, args)
