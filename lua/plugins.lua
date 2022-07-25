@@ -24,11 +24,11 @@ return require("packer").startup(function(use)
 	-- Interface
 	------------
 
-	-- Syntax
-	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-
 	-- Theme
 	use({ "Mofiqul/dracula.nvim", config = conf.dracula })
+
+	-- Syntax
+	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", config = conf.treesitter })
 
 	-- status line / tabs
 	use({
@@ -77,16 +77,17 @@ return require("packer").startup(function(use)
 	use({ "tpope/vim-fugitive", config = conf.vim_fugitive })
 
 	-- lsp
-	use("neovim/nvim-lspconfig") -- A collection of common configurations for Neovim's built-in language server client.
+	use({ "neovim/nvim-lspconfig", config = conf.lsp_config }) -- A collection of common configurations for Neovim's built-in language server client.
 	use({
 		"williamboman/nvim-lsp-installer",
 		requires = {
 			"neovim/nvim-lspconfig",
 		},
+		config = conf.lsp_installer,
 	}) -- Allows you to seamlessly install LSP servers locally
 
 	-- Completion
-	use("hrsh7th/nvim-cmp") -- A completion engine plugin for neovim written in Lua.
+	use({ "hrsh7th/nvim-cmp", config = conf.cmp }) -- A completion engine plugin for neovim written in Lua.
 
 	-- Completion sources
 	local completion_sources = {
@@ -107,9 +108,9 @@ return require("packer").startup(function(use)
 	-- .editorconfig compatibilty
 	use("editorconfig/editorconfig-vim")
 
-  ----------
-  -- Actions
-  ----------
+	----------
+	-- Actions
+	----------
 
 	-- prettify
 	use({

@@ -234,4 +234,252 @@ function M.lua_snip()
 	end)
 end
 
+-------------
+-- treesitter
+-------------
+
+function M.treesitter()
+	require("nvim-treesitter.configs").setup({
+		ensure_installed = {
+			"bash",
+			"css",
+			"html",
+			"javascript",
+			"json",
+			"jsonc",
+			"lua",
+			"php",
+			"python",
+			"regex",
+			"ruby",
+			"tsx",
+			"vue",
+			"yaml",
+		}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+		highlight = {
+			enable = true,
+		},
+		indent = {
+			enable = true,
+		},
+		context_commentstring = {
+			enable = true,
+		},
+	})
+end
+
+-----------------------------------------------------------------------------
+-- nvim-cmp
+-- A completion engine plugin for neovim written in Lua.
+-- Completion sources are installed from external repositories and "sourced".
+-- https://github.com/hrsh7th/nvim-cmp
+-----------------------------------------------------------------------------
+
+function M.cmp()
+	local cmp = require("cmp")
+	local api = vim.api
+
+	cmp.setup({
+		snippet = {
+			-- REQUIRED - you must specify a snippet engine
+			expand = function(args)
+				-- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+				require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+				-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+				-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+			end,
+		},
+		mapping = {
+			["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+			["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+			["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+			["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+			["<C-e>"] = cmp.mapping({
+				i = cmp.mapping.abort(),
+				c = cmp.mapping.close(),
+			}),
+			["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+			["<tab>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+			["<C-n>"] = function(fallback)
+				if cmp.visible() then
+					cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+				else
+					fallback()
+				end
+			end,
+			["<down>"] = function(fallback)
+				if cmp.visible() then
+					cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+				else
+					fallback()
+				end
+			end,
+			["<C-p>"] = function(fallback)
+				if cmp.visible() then
+					cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
+				else
+					fallback()
+				end
+			end,
+			["<up>"] = function(fallback)
+				if cmp.visible() then
+					cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+				else
+					fallback()
+				end
+			end,
+		},
+		sources = cmp.config.sources({
+			{ name = "luasnip" },
+			{ name = "nvim_lsp" },
+			{ name = "nvim_lua" },
+			{ name = "buffer" },
+			{ name = "path" },
+			{ name = "dictionary", keyword_length = 2 },
+		}),
+	})
+
+	-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+	cmp.setup.cmdline("/", {
+		sources = {
+			{ name = "buffer" },
+		},
+	})
+
+	-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+	cmp.setup.cmdline(":", {
+		sources = cmp.config.sources({
+			{ name = "path" },
+		}, {
+			{ name = "cmdline" },
+		}),
+	})
+
+	---------------------------------------------
+	-- dictionary
+	-- https://github.com/uga-rosa/cmp-dictionary
+	---------------------------------------------
+
+	require("cmp_dictionary").setup({
+		dic = {},
+		async = true,
+		debug = false,
+	})
+
+	function DictBoostrap4()
+		local dic = require("cmp_dictionary")
+		-- Download boostrap and generate classes:
+		-- curl -s https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/bootstrap4
+		dic.setup({ dic = { ["php,html,blade"] = { "~/.nvim/dict/bootstrap4" } } })
+		dic.update()
+	end
+
+	api.nvim_command("command! DictBoostrap4 :lua DictBoostrap4()")
+
+	function DictTailwind()
+		local dic = require("cmp_dictionary")
+		-- mkdir -p ~/.nvim/dict
+		-- https://tailwindcss.com/docs/installation#using-tailwind-without-post-css
+		-- npx tailwindcss-cli@latest build -o ~/.nvim/dict/tailwind.css
+		-- cat ~/.nvim/dict/tailwind.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/tailwind
+		dic.setup({ dic = { ["php,html,blade"] = { "~/.nvim/dict/tailwind" } } })
+		dic.update()
+	end
+
+	api.nvim_command("command! DictTailwind :lua DictTailwind()")
+end
+
+--------------------------------------------------------------------------
+-- LSP installer
+-- Neovim plugin that allows you to seamlessly install LSP servers locally
+-- :LspInstallInfo - opens a graphical overview of your language servers
+-- https://github.com/williamboman/nvim-lsp-installer
+--------------------------------------------------------------------------
+
+function M.lsp_installer()
+	require("nvim-lsp-installer").setup({
+		ensure_installed = {
+			"cssls",
+			"eslint",
+			"intelephense",
+			"jsonls",
+			"tailwindcss",
+			"tsserver",
+			"vimls",
+			"vuels",
+			"yamlls",
+			"sumneko_lua",
+			"html",
+			"emmet_ls",
+		},
+	})
+end
+
+--------------------------------------------------------------------------------------
+-- LSP config
+-- A collection of common configurations for Neovim's built-in language server client.
+-- https://github.com/neovim/nvim-lspconfig
+-- See also :help lspconfig.
+--------------------------------------------------------------------------------------
+
+function M.lsp_config()
+	local on_attach = function(_, bufnr)
+		vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+		local map = vim.keymap.set
+		local cmd = vim.api.nvim_create_user_command
+		local b = vim.lsp.buf
+		local d = vim.diagnostic
+		map("n", "<localleader>D", b.declaration)
+		map("n", "<localleader>d", b.definition)
+		map("n", "K", b.hover)
+		map("n", "<localleader>i", b.implementation)
+		map("n", "<localleader>k", b.signature_help)
+		map("n", "<localleader>D", b.type_definition)
+		map("n", "<localleader>r", b.rename)
+		map("n", "<localleader>a", b.code_action)
+		map("n", "<localleader>o", d.open_float)
+		map("n", "[d", d.goto_prev)
+		map("n", "]d", d.goto_next)
+		cmd("LspFormat", b.formatting, { bang = true })
+		cmd("LspReferences", b.references, { bang = true })
+		cmd("LspSetqflist", d.setqflist, { bang = true })
+		cmd("LspWorkspaceAdd", b.add_workspace_folder, { bang = true })
+		cmd("LspWorkspaceRemove", b.remove_workspace_folder, { bang = true })
+		cmd("LspWorkspaceList", function()
+			print(vim.inspect(b.list_workspace_folders()))
+		end, { bang = true })
+	end
+
+	local lsp = require("lspconfig")
+	lsp.cssls.setup({ on_attach = on_attach })
+	lsp.eslint.setup({ on_attach = on_attach })
+	lsp.html.setup({ on_attach = on_attach })
+	lsp.intelephense.setup({ on_attach = on_attach })
+	lsp.jsonls.setup({ on_attach = on_attach })
+	lsp.tailwindcss.setup({ on_attach = on_attach })
+	lsp.tsserver.setup({ on_attach = on_attach })
+	lsp.vimls.setup({ on_attach = on_attach })
+	lsp.vuels.setup({ on_attach = on_attach })
+	lsp.yamlls.setup({ on_attach = on_attach })
+	lsp.emmet_ls.setup({ on_attach = on_attach })
+	lsp.sumneko_lua.setup({
+		on_attach = on_attach,
+		settings = {
+			Lua = {
+				diagnostics = {
+					globals = { "vim" }, -- Get the language server to recognize the `vim` global
+				},
+			},
+		},
+	})
+
+	-- typescript
+	-- https://github.com/jose-elias-alvarez/typescript.nvim
+	require("typescript").setup({
+		server = { -- pass options to lspconfig's setup method
+			on_attach = on_attach,
+		},
+	})
+end
+
 return M
