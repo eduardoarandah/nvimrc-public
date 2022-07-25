@@ -20,35 +20,41 @@ local fmta = require("luasnip.extras.fmt").fmta
 local types = require("luasnip.util.types")
 local conds = require("luasnip.extras.expand_conditions")
 
+local function camel(string)
+	return require("textcase").api.to_camel_case(string)
+end
+local function upper(string)
+	return require("textcase").api.to_upper_case(string)
+end
+local function snake(string)
+	return require("textcase").api.to_snake_case(string)
+end
+
 return {
-
 	-- hello
-	s("hello", {
-		t("Hello, my name is "),
-		i(1, "eduardo"),
-		t("welcome in multiple casings: "),
-		f(function(args)
-			return require("textcase").api.to_snake_case(args[1][1])
-		end, { 1 }),
-		f(function(args)
-			return require("textcase").api.to_camel_case(args[1][1])
-		end, { 1 }),
-		f(function(args)
-			return require("textcase").api.to_dash_case(args[1][1])
-		end, { 1 }),
-	}),
-
-	-- xxx
 	s(
-		"xxx",
-		fmt("your name {1} Hello {2}", {
-			i(1, "ed"),
-			f(function(args)
-				print(vim.inspect(args))
-				-- return args[1][1]
-				return "??"
-			end),
-		})
+		"hello",
+		fmt(
+			[[
+Write your name {1}
+
+Camel: {2}
+Upper: {3}
+Snake: {4}
+    ]],
+			{
+				i(1, "ed"),
+				f(function(args)
+					return camel(args[1][1])
+				end, { 1 }),
+				f(function(args)
+					return upper(args[1][1])
+				end, { 1 }),
+				f(function(args)
+					return snake(args[1][1])
+				end, { 1 }),
+			}
+		)
 	),
 
 	-- branch
