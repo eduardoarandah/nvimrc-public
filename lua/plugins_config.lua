@@ -37,8 +37,12 @@ end
 function M.nvim_tree()
 	require("nvim-tree").setup()
 	local map = vim.keymap.set
+	local cmd = vim.api.nvim_create_user_command
 	map("n", "<F7>", ":NvimTreeToggle<CR>")
 	map("n", "<F8>", ":NvimTreeFindFile<CR>")
+	cmd("NvimTreeDefaultMappings", function()
+		vim.cmd("help nvim-tree-default-mappings")
+	end, { bang = true })
 end
 
 ------------
@@ -121,7 +125,7 @@ function M.neozoom()
 		width_ratio = 1,
 		height_ratio = 1,
 	})
-	map("n", "<CR>", require("neo-zoom").neo_zoom)
+	map("n", "<leader>z", require("neo-zoom").neo_zoom)
 end
 
 --------------
@@ -299,7 +303,7 @@ function M.cmp()
 			end,
 			["<tab>"] = function(fallback)
 				if cmp.visible() then
-					cmp.select_next_item()
+					cmp.confirm({ select = true })
 				else
 					fallback()
 				end

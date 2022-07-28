@@ -13,11 +13,6 @@ cmd("Reload", function()
 	vimscript("luafile " .. home .. "/init.lua")
 end, args)
 
-cmd("SaveCompile", function()
-	vimscript("luafile %")
-	vimscript("PackerCompile")
-end, args)
-
 -- git report
 
 cmd("Greport", require("greport").greport, args)
