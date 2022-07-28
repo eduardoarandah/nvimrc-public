@@ -247,6 +247,7 @@ function M.treesitter()
 		ensure_installed = {
 			"bash",
 			"css",
+			"emmet_ls",
 			"html",
 			"javascript",
 			"json",
@@ -437,6 +438,8 @@ function M.lsp_config()
 	end
 
 	local lsp = require("lspconfig")
+	local capabilities = vim.lsp.protocol.make_client_capabilities()
+	capabilities.textDocument.completion.completionItem.snippetSupport = true
 	lsp.cssls.setup({ on_attach = on_attach })
 	lsp.eslint.setup({ on_attach = on_attach })
 	lsp.html.setup({ on_attach = on_attach })
@@ -447,7 +450,19 @@ function M.lsp_config()
 	lsp.vimls.setup({ on_attach = on_attach })
 	lsp.vuels.setup({ on_attach = on_attach })
 	lsp.yamlls.setup({ on_attach = on_attach })
-	lsp.emmet_ls.setup({ on_attach = on_attach })
+	lsp.emmet_ls.setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+		filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
+		init_options = {
+			html = {
+				options = {
+					-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+					["bem.enabled"] = true,
+				},
+			},
+		},
+	})
 	lsp.sumneko_lua.setup({
 		on_attach = on_attach,
 		settings = {

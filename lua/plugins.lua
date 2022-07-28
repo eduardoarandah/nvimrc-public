@@ -27,9 +27,6 @@ return require("packer").startup(function(use)
 	-- Theme
 	use({ "Mofiqul/dracula.nvim", config = conf.dracula })
 
-	-- Syntax
-	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", config = conf.treesitter })
-
 	-- status line / tabs
 	use({
 		"nvim-lualine/lualine.nvim",
@@ -73,6 +70,9 @@ return require("packer").startup(function(use)
 	-- IDE
 	------------
 
+	-- Syntax
+	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", config = conf.treesitter })
+
 	-- Git
 	use({ "tpope/vim-fugitive", config = conf.vim_fugitive })
 
@@ -82,6 +82,7 @@ return require("packer").startup(function(use)
 		"williamboman/nvim-lsp-installer",
 		requires = {
 			"neovim/nvim-lspconfig",
+			"nvim-treesitter/nvim-treesitter",
 		},
 		config = conf.lsp_installer,
 	}) -- Allows you to seamlessly install LSP servers locally
