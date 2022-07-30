@@ -109,6 +109,9 @@ return require("packer").startup(function(use)
 	-- .editorconfig compatibilty
 	use("editorconfig/editorconfig-vim")
 
+	-- emmet
+	use({ "mattn/emmet-vim", config = conf.emmet })
+
 	----------
 	-- Actions
 	----------

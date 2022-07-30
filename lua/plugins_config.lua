@@ -163,6 +163,7 @@ end
 
 ------------
 -- text-case
+-- https://github.com/johmsalas/text-case.nvim#setup
 ------------
 
 -- gau Upper case	LOREM IPSUM
@@ -179,8 +180,43 @@ end
 function M.text_case()
 	require("textcase").setup({})
 	require("telescope").load_extension("textcase")
-	vim.api.nvim_set_keymap("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
-	vim.api.nvim_set_keymap("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+	local map = vim.keymap.set
+	local operator = require("textcase").operator
+	map("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+	map("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+	map("n", "gau", function()
+		operator("to_upper_case")
+	end)
+	map("n", "gal", function()
+		operator("to_lower_case")
+	end)
+	map("n", "gas", function()
+		operator("to_snake_case")
+	end)
+	map("n", "gad", function()
+		operator("to_dash_case")
+	end)
+	map("n", "gan", function()
+		operator("to_constant_case")
+	end)
+	map("n", "gad", function()
+		operator("to_dot_case")
+	end)
+	map("n", "gaa", function()
+		operator("to_phrase_case")
+	end)
+	map("n", "gac", function()
+		operator("to_camel_case")
+	end)
+	map("n", "gap", function()
+		operator("to_pascal_case")
+	end)
+	map("n", "gat", function()
+		operator("to_title_case")
+	end)
+	map("n", "gaf", function()
+		operator("to_path_case")
+	end)
 end
 
 ------------
@@ -247,7 +283,6 @@ function M.treesitter()
 		ensure_installed = {
 			"bash",
 			"css",
-			"emmet_ls",
 			"html",
 			"javascript",
 			"json",
@@ -339,12 +374,12 @@ function M.cmp()
 			end,
 		},
 		sources = cmp.config.sources({
-			{ name = "luasnip" },
 			{ name = "nvim_lsp" },
 			{ name = "nvim_lua" },
 			{ name = "buffer" },
 			{ name = "path" },
 			{ name = "dictionary", keyword_length = 2 },
+			{ name = "luasnip" },
 		}),
 	})
 
@@ -397,7 +432,6 @@ function M.lsp_installer()
 			"yamlls",
 			"sumneko_lua",
 			"html",
-			"emmet_ls",
 		},
 	})
 end
@@ -438,8 +472,6 @@ function M.lsp_config()
 	end
 
 	local lsp = require("lspconfig")
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	capabilities.textDocument.completion.completionItem.snippetSupport = true
 	lsp.cssls.setup({ on_attach = on_attach })
 	lsp.eslint.setup({ on_attach = on_attach })
 	lsp.html.setup({ on_attach = on_attach })
@@ -450,19 +482,6 @@ function M.lsp_config()
 	lsp.vimls.setup({ on_attach = on_attach })
 	lsp.vuels.setup({ on_attach = on_attach })
 	lsp.yamlls.setup({ on_attach = on_attach })
-	lsp.emmet_ls.setup({
-		on_attach = on_attach,
-		capabilities = capabilities,
-		filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
-		init_options = {
-			html = {
-				options = {
-					-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
-					["bem.enabled"] = true,
-				},
-			},
-		},
-	})
 	lsp.sumneko_lua.setup({
 		on_attach = on_attach,
 		settings = {
@@ -481,6 +500,11 @@ function M.lsp_config()
 			on_attach = on_attach,
 		},
 	})
+end
+
+function M.emmet()
+	-- expand automatically
+	vim.keymap.set("i", ",,", "<C-y>,", { remap = true })
 end
 
 return M
