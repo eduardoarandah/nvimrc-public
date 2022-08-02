@@ -515,6 +515,14 @@ function M.dadbodui()
 	vim.cmd(
 		[[autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })]]
 	)
+	-- use tpope/vim-dotenv to leverage .env variables like this:
+	-- DB_CONNECTION=mysql
+	-- DB_HOST=127.0.0.1
+	-- DB_PORT=3306
+	-- DB_DATABASE=mydbname
+	-- DB_USERNAME=root
+	-- DB_PASSWORD=asdf
+	-- DB_UI_DEV="${DB_CONNECTION}://${DB_USERNAME}:${DB_PASSWORD}@127.0.0.1:${DB_PORT}/${DB_DATABASE}"
 end
 
 return M
