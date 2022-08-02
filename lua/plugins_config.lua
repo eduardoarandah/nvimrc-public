@@ -507,4 +507,14 @@ function M.emmet()
 	vim.keymap.set("i", ",,", "<C-y>,", { remap = true })
 end
 
+function M.dadbodui()
+	vim.g.db_ui_use_nerd_fonts = 1
+	vim.g.db_ui_show_database_icon = 1
+
+	-- add autocompletion to cmp
+	vim.cmd(
+		[[autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })]]
+	)
+end
+
 return M

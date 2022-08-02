@@ -219,6 +219,17 @@ return require("packer").startup(function(use)
 	-- calculate
 	use({ "sk1418/HowMuch", config = conf.how_much })
 
+	-- sql client
+	use({
+		"kristijanhusak/vim-dadbod-ui",
+		requires = {
+			"tpope/vim-dadbod",
+			"kristijanhusak/vim-dadbod-completion",
+			"tpope/vim-dotenv",
+		},
+		config = conf.dadbodui,
+	})
+
 	-- Automatically set up your configuration after cloning packer.nvim
 	if do_packer_sync then
 		require("packer").sync()
