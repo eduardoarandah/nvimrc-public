@@ -14,6 +14,13 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	})
 end
 
+-- Automatically resource and compile when this file is saved
+vim.api.nvim_create_autocmd( "BufWritePost", {
+  group=vim.api.nvim_create_augroup('AutoCompilePlugins', { clear = true }),
+  pattern = "lua/plugins.lua,lua/plugins_config.lua",
+  command = "echo 'compiling...' | source % | PackerCompile"
+})
+
 return require("packer").startup(function(use)
 	local conf = require("plugins_config")
 
