@@ -97,8 +97,8 @@ function! FormatDocument()
   if(&ft == 'blade')
     SpacesClean
     % !npx blade-formatter --stdin --indent-size=2 --wrap=999
-  elseif(&ft == 'sql')
-    % !sqlformat --reindent --keywords upper --identifiers lower %
+  elseif(&ft == 'sql' || &ft == 'mysql')
+    %!sqlformat --reindent --keywords upper --identifiers lower '%'
   elseif( &ft == 'css' || &ft == 'scss')
     " % !npx stylelint --fix --stdin-filename %
     DeleteBlankLines

@@ -317,7 +317,29 @@ end
 
 function M.cmp()
 	local cmp = require("cmp")
-	local cmd = vim.api.nvim_create_user_command
+
+	-- fallback to be safe in case of plugins mappings  :h cmp-mapping
+	local function next(fallback)
+		if cmp.visible() then
+			cmp.select_next_item()
+		else
+			fallback()
+		end
+	end
+	local function prev(fallback)
+		if cmp.visible() then
+			cmp.select_prev_item()
+		else
+			fallback()
+		end
+	end
+	local function confirm_first(fallback)
+		if cmp.visible() then
+			cmp.confirm({ select = true })
+		else
+			fallback()
+		end
+	end
 
 	cmp.setup({
 		snippet = {
@@ -329,49 +351,12 @@ function M.cmp()
 			["<C-e>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
 			["<C-y>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
 			["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-			-- fallback to be safe in case of plugins mappings  :h cmp-mapping
-			["<CR>"] = function(fallback)
-				if cmp.visible() then
-					cmp.confirm({ select = true })
-				else
-					fallback()
-				end
-			end,
-			["<tab>"] = function(fallback)
-				if cmp.visible() then
-					cmp.confirm({ select = true })
-				else
-					fallback()
-				end
-			end,
-			["<C-n>"] = function(fallback)
-				if cmp.visible() then
-					cmp.select_next_item()
-				else
-					fallback()
-				end
-			end,
-			["<down>"] = function(fallback)
-				if cmp.visible() then
-					cmp.select_next_item()
-				else
-					fallback()
-				end
-			end,
-			["<C-p>"] = function(fallback)
-				if cmp.visible() then
-					cmp.select_prev_item()
-				else
-					fallback()
-				end
-			end,
-			["<up>"] = function(fallback)
-				if cmp.visible() then
-					cmp.select_prev_item()
-				else
-					fallback()
-				end
-			end,
+			["<CR>"] = confirm_first,
+			["<tab>"] = confirm_first,
+			["<C-n>"] = next,
+			["<down>"] = next,
+			["<C-p>"] = prev,
+			["<up>"] = prev,
 		},
 		sources = cmp.config.sources({
 			{ name = "nvim_lsp" },
@@ -385,6 +370,7 @@ function M.cmp()
 
 	-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 	cmp.setup.cmdline("/", {
+    mapping = cmp.mapping.preset.cmdline(),
 		sources = {
 			{ name = "buffer" },
 		},
@@ -392,6 +378,7 @@ function M.cmp()
 
 	-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 	cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
 		sources = cmp.config.sources({
 			{ name = "path" },
 		}, {
