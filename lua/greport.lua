@@ -55,6 +55,8 @@ local function add_mappings_to_buffer(buf)
 	vim.api.nvim_buf_set_keymap(buf, "n", "<up>", ":lua require'greport'.next()<cr>", opts)
 	vim.api.nvim_buf_set_keymap(buf, "n", "<down>", ":lua require'greport'.prev()<cr>", opts)
 	vim.api.nvim_buf_set_keymap(buf, "n", "<esc>", ":bd<cr>", opts)
+	vim.api.nvim_buf_set_keymap(buf, "n", "o", ":lua require'greport'.openModified()<cr>", opts)
+	vim.api.nvim_buf_set_keymap(buf, "n", "d", ":lua require'greport'.openDifftool()<cr>", opts)
 end
 
 function M.prev()
@@ -67,6 +69,31 @@ function M.next()
 		vim.b.greport_number = vim.b.greport_number - 1
 		add_log_to_buffer(0) -- 0 is current buffer
 	end
+end
+
+-- open modified files in buffer
+function M.openModified()
+	-- close popup
+	vim.cmd("quit")
+
+	-- greport_number is the index we're navigating
+	local index = vim.b.greport_number or 0
+	local modified_files = vim.fn.systemlist("git diff HEAD~" .. index + 1 .. " HEAD~" .. index .. "  --name-only")
+
+	-- open one by one
+	for _, value in ipairs(modified_files) do
+		vim.cmd("edit " .. value)
+	end
+end
+
+-- open modified files using fugitive difftool
+function M.openDifftool()
+	-- close popup
+	vim.cmd("quit")
+
+	-- :help Git_difftool
+	local index = vim.b.greport_number or 0
+	vim.cmd("G difftool HEAD~" .. index + 1 .. " HEAD~" .. index .. "  -y")
 end
 
 function M.greport()
