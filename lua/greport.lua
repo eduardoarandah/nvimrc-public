@@ -91,7 +91,7 @@ function M.openDifftool()
 	-- close popup
 	vim.cmd("quit")
 	-- :help Git_difftool
-	vim.cmd("G difftool HEAD~" .. index + 1 .. " HEAD~" .. index .. "  -y")
+	vim.cmd("G difftool HEAD~" .. index + 1 .. " HEAD~" .. index)
 end
 
 function M.greport()

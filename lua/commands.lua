@@ -17,6 +17,11 @@ end, args)
 
 cmd("Greport", require("greport").greport, args)
 
+-- copy file path and line name
+cmd("CopyPathAndLineNumber", function()
+	vim.fn.setreg("*", vim.fn.expand("%") .. " +" .. vim.api.nvim_win_get_cursor(0)[1])
+end, args)
+
 -- Search on relevant directories
 
 local tfind = require("telescope.builtin").find_files

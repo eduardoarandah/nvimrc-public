@@ -26,6 +26,7 @@ set.splitright = true
 set.undofile = true -- saves undo history to an undo file, so it persists
 set.virtualedit = "block" -- If you need to define a block in visual block mode with bounds outside the actual text (that is, past the end of lines), you can allow this with:
 set.wrap = false -- Don't wrap long lines
+set.formatoptions:remove("j") -- Don't delete comments when joining lines, this creates weird behaviour: https://github.com/neovim/neovim/issues/19729
 
 -- lua-highlight
 cmd("TextYankPost", {

@@ -1,29 +1,21 @@
 extends html, javascript
 
 snippet vuecomponent Vue Component
-  <template>
-  <div class="wrapper">
-  $0
-  </div>
-  </template>
   <script>
   export default {
-    props: {},
     components: {},
+    props: {},
     data() {
       return {
         ready: false,
-      };
+      }
     },
-    computed(){},
-    mounted(){},
-    methods: {
-      update(){},
-    },
-  };
+    computed: {},
+    mounted() {},
+    methods: {},
+  }
   </script>
-  <style scoped></style>
-
+  <template> </template>
 snippet for v-for
   <div v-for="$1 in $2" :key="$1.id">
   {{ $1.$0 }}
@@ -37,11 +29,8 @@ snippet script script
 snippet importcomponent Import vue component
   import $1 from '../components/$1'
 
-snippet vprop Vue prop i
-  $1: {
-    type: ${2:String},
-    default: ${3:null},
-  },
+snippet prop Vue prop i
+  $1: { type: ${2:String}, default: ${3:null} },
 
 snippet try trycatch
   try{
