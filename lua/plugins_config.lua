@@ -370,7 +370,7 @@ function M.cmp()
 
 	-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 	cmp.setup.cmdline("/", {
-    mapping = cmp.mapping.preset.cmdline(),
+		mapping = cmp.mapping.preset.cmdline(),
 		sources = {
 			{ name = "buffer" },
 		},
@@ -378,7 +378,7 @@ function M.cmp()
 
 	-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 	cmp.setup.cmdline(":", {
-    mapping = cmp.mapping.preset.cmdline(),
+		mapping = cmp.mapping.preset.cmdline(),
 		sources = cmp.config.sources({
 			{ name = "path" },
 		}, {
@@ -406,31 +406,10 @@ end
 --------------------------------------------------------------------------
 
 function M.lsp_installer()
-	require("nvim-lsp-installer").setup({
-		ensure_installed = {
-			"cssls",
-			"eslint",
-			"intelephense",
-			"jsonls",
-			"tailwindcss",
-			"tsserver",
-			"vimls",
-			"vuels",
-			"yamlls",
-			"sumneko_lua",
-			"html",
-		},
-	})
-end
+	-- In order for nvim-lsp-installer to register the necessary hooks at the right moment, make sure you call the require("nvim-lsp-installer").setup() function before you set up any servers
+	require("nvim-lsp-installer").setup()
 
---------------------------------------------------------------------------------------
--- LSP config
--- A collection of common configurations for Neovim's built-in language server client.
--- https://github.com/neovim/nvim-lspconfig
--- See also :help lspconfig.
---------------------------------------------------------------------------------------
-
-function M.lsp_config()
+	-- now configure lspconfig https://github.com/neovim/nvim-lspconfig
 	local on_attach = function(_, bufnr)
 		vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 		local map = vim.keymap.set
@@ -467,7 +446,7 @@ function M.lsp_config()
 	lsp.tailwindcss.setup({ on_attach = on_attach })
 	lsp.tsserver.setup({ on_attach = on_attach })
 	lsp.vimls.setup({ on_attach = on_attach })
-	lsp.vuels.setup({ on_attach = on_attach })
+	lsp.volar.setup({ on_attach = on_attach })
 	lsp.yamlls.setup({ on_attach = on_attach })
 	lsp.sumneko_lua.setup({
 		on_attach = on_attach,

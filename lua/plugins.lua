@@ -84,11 +84,10 @@ return require("packer").startup(function(use)
 	use({ "tpope/vim-fugitive", config = conf.vim_fugitive })
 
 	-- lsp
-	use({ "neovim/nvim-lspconfig", config = conf.lsp_config }) -- A collection of common configurations for Neovim's built-in language server client.
 	use({
 		"williamboman/nvim-lsp-installer",
 		requires = {
-			"neovim/nvim-lspconfig",
+			"neovim/nvim-lspconfig", -- A collection of common configurations for Neovim's built-in language server client.
 			"nvim-treesitter/nvim-treesitter",
 		},
 		config = conf.lsp_installer,
