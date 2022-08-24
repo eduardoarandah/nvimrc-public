@@ -179,6 +179,9 @@ map("c", "^^", '<C-R>=fnameescape(expand("%:p"))<CR>')
 -- Expand && to only file name (tail)
 map("c", "&&", '<C-R>=fnameescape(expand("%:t"))<CR>')
 
+-- Change dir to current file
+map("n", "<leader>cd", ":cd %:p:h<cr>")
+
 -------------------------
 -- Commands
 -------------------------

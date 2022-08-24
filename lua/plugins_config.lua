@@ -43,6 +43,8 @@ function M.nvim_tree()
 	cmd("NvimTreeDefaultMappings", function()
 		vim.cmd("help nvim-tree-default-mappings")
 	end, { bang = true })
+
+	map("n", "<leader>cd", ":cd %:p:h | NvimTreeOpen<cr>")
 end
 
 ------------
@@ -136,18 +138,6 @@ function M.vim_ripgrep()
 	vim.g.rg_command = 'rg --vimgrep --pcre2 --type-add="scss:*.scss"'
 end
 
----------------
--- auto-session
----------------
-
-function M.auto_session()
-	require("auto-session").setup({
-		log_level = "info",
-		auto_session_suppress_dirs = { "~/" },
-		auto_session_enabled = false,
-	})
-end
-
 ----------
 -- HowMuch
 ----------
@@ -234,7 +224,7 @@ function M.vim_slime()
 	-- %pane_id get it with echo $TMUX_PANE
 	vim.g.slime_no_mappings = 1
 	map("x", "<F9>", "<Plug>SlimeRegionSend")
-	map("n", "<F9>", "<Plug>SlimeParagraphSend")
+	map("n", "<F9>", "<Plug>SlimeSend")
 end
 
 ----------
@@ -361,10 +351,15 @@ function M.cmp()
 		sources = cmp.config.sources({
 			{ name = "nvim_lsp" },
 			{ name = "nvim_lua" },
-			{ name = "buffer" },
 			{ name = "path" },
 			{ name = "dictionary", keyword_length = 2 },
 			{ name = "luasnip" },
+			{
+				name = "buffer",
+				option = {
+					max_indexed_line_length = 50, -- prevent super long line to be indexed
+				},
+			},
 		}),
 	})
 
@@ -448,6 +443,7 @@ function M.lsp_installer()
 	lsp.vimls.setup({ on_attach = on_attach })
 	lsp.volar.setup({ on_attach = on_attach })
 	lsp.yamlls.setup({ on_attach = on_attach })
+	lsp.bashls.setup({ on_attach = on_attach })
 	lsp.sumneko_lua.setup({
 		on_attach = on_attach,
 		settings = {

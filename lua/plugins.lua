@@ -1,3 +1,6 @@
+-- Run in command line to update packages without opening nvim
+-- nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+
 -- Automatically install packer if not found on disk then set a local variable to show it's just installed
 local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -15,11 +18,11 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 -- Automatically resource and compile when this file is saved
-vim.api.nvim_create_autocmd( "BufWritePost", {
-  group=vim.api.nvim_create_augroup('AutoCompilePlugins', { clear = true }),
-  pattern = "lua/plugins.lua,lua/plugins_config.lua",
-  command = "echo 'compiling...' | source % | PackerCompile"
-})
+-- vim.api.nvim_create_autocmd( "BufWritePost", {
+--   group=vim.api.nvim_create_augroup('AutoCompilePlugins', { clear = true }),
+--   pattern = "lua/plugins.lua,lua/plugins_config.lua",
+--   command = "echo 'compiling...' | source % | PackerCompile"
+-- })
 
 return require("packer").startup(function(use)
 	local conf = require("plugins_config")
@@ -89,6 +92,7 @@ return require("packer").startup(function(use)
 		requires = {
 			"neovim/nvim-lspconfig", -- A collection of common configurations for Neovim's built-in language server client.
 			"nvim-treesitter/nvim-treesitter",
+			"jose-elias-alvarez/typescript.nvim",
 		},
 		config = conf.lsp_installer,
 	}) -- Allows you to seamlessly install LSP servers locally
@@ -116,7 +120,12 @@ return require("packer").startup(function(use)
 	use("editorconfig/editorconfig-vim")
 
 	-- emmet
-	use({ "mattn/emmet-vim", config = conf.emmet })
+	use({
+		"mattn/emmet-vim",
+		opt = true, -- lazy load
+		ft = { "html", "php", "blade", "jsx", "tsx", "vue", "css", "scss" },
+		config = conf.emmet,
+	})
 
 	----------
 	-- Actions
@@ -125,6 +134,9 @@ return require("packer").startup(function(use)
 	-- prettify
 	use({
 		"prettier/vim-prettier",
+		opt = true, -- lazy load
+		ft = { "html", "php", "blade", "jsx", "vue", "css", "scss", "typescript", "json", "markdown", "yaml" },
+		cmd = { "Prettier", "PrettierAsync" },
 		run = "yarn install",
 	})
 
@@ -162,7 +174,12 @@ return require("packer").startup(function(use)
 	})
 
 	-- Search with ripgrep :Rg
-	use({ "jremmen/vim-ripgrep", config = conf.vim_ripgrep })
+	use({
+		"jremmen/vim-ripgrep",
+		opt = true, -- lazy load
+		cmd = { "Rg", "RgRoot" },
+		config = conf.vim_ripgrep,
+	})
 
 	-----------
 	-- snippets
@@ -185,11 +202,12 @@ return require("packer").startup(function(use)
 	-- lang specific
 	----------------
 
-	-- typescript
-	use("jose-elias-alvarez/typescript.nvim")
-
 	-- lua format
-	use("andrejlevkovitch/vim-lua-format")
+	use({
+		"andrejlevkovitch/vim-lua-format",
+		opt = true, -- lazy load
+		ft = { "lua" },
+	})
 
 	-- Css Color
 	use({
@@ -200,7 +218,12 @@ return require("packer").startup(function(use)
 	-- Markdown
 	use({
 		"iamcco/markdown-preview.nvim",
-		run = "cd app & yarn install",
+		run = "cd app && npm install",
+		setup = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
+		opt = true,
+		ft = { "markdown" },
 	})
 
 	--------
@@ -214,16 +237,27 @@ return require("packer").startup(function(use)
 	use("stefandtw/quickfix-reflector.vim")
 
 	-- align in | with :Tabularize /|
-	use("godlygeek/tabular")
-
-	-- session https://github.com/rmagatti/auto-session
-	use({ "rmagatti/auto-session", config = conf.auto_session })
+	use({
+		"godlygeek/tabular",
+		opt = true, -- lazy load
+		cmd = { "Tabularize" },
+	})
 
 	-- REPL, send commands to another window
-	use({ "jpalardy/vim-slime", config = conf.vim_slime })
+	use({
+		"jpalardy/vim-slime",
+		opt = true, -- lazy load
+		cmd = { "SlimeConfig", "SlimeSend" },
+		config = conf.vim_slime,
+	})
 
 	-- calculate
-	use({ "sk1418/HowMuch", config = conf.how_much })
+	use({
+		"sk1418/HowMuch",
+		opt = true, -- lazy load
+		ft = { "markdown", "txt", "" },
+		config = conf.how_much,
+	})
 
 	-- sql client
 	use({
@@ -234,6 +268,8 @@ return require("packer").startup(function(use)
 			"tpope/vim-dotenv",
 		},
 		config = conf.dadbodui,
+		opt = true, -- lazy load
+		cmd = { "DBUI" },
 	})
 
 	-- Automatically set up your configuration after cloning packer.nvim
