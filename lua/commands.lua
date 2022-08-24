@@ -24,30 +24,28 @@ end, args)
 
 -- Search on relevant directories
 
-local tfind = require("telescope.builtin").find_files
-
 cmd("Clientes", function()
-	tfind({ cwd = "~/clientes" })
+	require("telescope.builtin").find_files({ cwd = "~/clientes" })
 end, args)
 
 cmd("Colegas", function()
-	tfind({ cwd = "~/colegas" })
+	require("telescope.builtin").find_files({ cwd = "~/colegas" })
 end, args)
 
 cmd("Conocimiento", function()
-	tfind({ cwd = "~/conocimiento" })
+	require("telescope.builtin").find_files({ cwd = "~/conocimiento" })
 end, args)
 
 cmd("Proyectos", function()
-	tfind({ cwd = "~/proyectos" })
+	require("telescope.builtin").find_files({ cwd = "~/proyectos" })
 end, args)
 
 cmd("Repos", function()
-	tfind({ cwd = "~/repos" })
+	require("telescope.builtin").find_files({ cwd = "~/repos" })
 end, args)
 
 cmd("Scripts", function()
-	tfind({ cwd = "~/scripts" })
+	require("telescope.builtin").find_files({ cwd = "~/scripts" })
 end, args)
 
 -- custom dictionaries
