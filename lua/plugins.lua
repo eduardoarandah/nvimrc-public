@@ -4,10 +4,9 @@
 -- Automatically install packer if not found on disk then set a local variable to show it's just installed
 local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-local do_packer_sync = nil
-
+local packer_just_installed = nil
 if fn.empty(fn.glob(install_path)) > 0 then
-	do_packer_sync = fn.system({
+	packer_just_installed = fn.system({
 		"git",
 		"clone",
 		"--depth",
@@ -15,6 +14,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 		"https://github.com/wbthomason/packer.nvim",
 		install_path,
 	})
+	vim.cmd([[packadd packer.nvim]])
 end
 
 -- Automatically resource and compile when this file is saved
@@ -271,9 +271,9 @@ return require("packer").startup(function(use)
 		opt = true, -- lazy load
 		cmd = { "DBUI" },
 	})
-
 	-- Automatically set up your configuration after cloning packer.nvim
-	if do_packer_sync then
+	-- Put this at the end after all plugins
+	if packer_just_installed then
 		require("packer").sync()
 	end
 end)
