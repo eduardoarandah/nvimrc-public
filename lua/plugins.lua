@@ -357,7 +357,7 @@ return require("packer").startup(function(use)
 		opt = true, -- lazy load
 		ft = { "html", "php", "blade", "jsx", "vue", "css", "scss", "typescript", "json", "markdown", "yaml" },
 		cmd = { "Prettier", "PrettierAsync" },
-		run = "yarn install",
+		run = "npm install",
 	})
 
 	-- comment
