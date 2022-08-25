@@ -25,8 +25,6 @@ end
 -- })
 
 return require("packer").startup(function(use)
-	local conf = require("plugins_config")
-
 	-- packer
 	use("wbthomason/packer.nvim")
 
@@ -35,13 +33,32 @@ return require("packer").startup(function(use)
 	------------
 
 	-- Theme
-	use({ "Mofiqul/dracula.nvim", config = conf.dracula })
+	use({
+		"Mofiqul/dracula.nvim",
+		config = function()
+			vim.cmd("colorscheme dracula")
+			vim.g.rehash256 = 1
+		end,
+	})
 
 	-- status line / tabs
 	use({
 		"nvim-lualine/lualine.nvim",
 		requires = { "kyazdani42/nvim-web-devicons", opt = true },
-		config = conf.lualine,
+		config = function()
+			require("lualine").setup({
+				tabline = {
+					lualine_a = { "buffers" },
+					lualine_z = {
+						{
+							"tabs",
+							mode = 2,
+							max_length = vim.o.columns, -- full width
+						},
+					},
+				},
+			})
+		end,
 	})
 
 	-- file explorer
@@ -51,7 +68,9 @@ return require("packer").startup(function(use)
 			"kyazdani42/nvim-web-devicons", -- optional, for file icons
 		},
 		tag = "nightly", -- optional, updated every week.
-		config = conf.nvim_tree,
+		config = function()
+			require("nvim-tree").setup({})
+		end,
 	})
 
 	-- show markers
@@ -73,7 +92,14 @@ return require("packer").startup(function(use)
 	-- zoom in / out
 	use({
 		"nyngwang/NeoZoom.lua",
-		config = conf.neozoom,
+		opt = true, -- lazy load
+		cmd = { "NeoZoomToggle" },
+		config = function()
+			require("neo-zoom").setup({
+				width_ratio = 1,
+				height_ratio = 1,
+			})
+		end,
 	})
 
 	------------
@@ -81,12 +107,50 @@ return require("packer").startup(function(use)
 	------------
 
 	-- Syntax
-	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", config = conf.treesitter })
+	use({
+		"nvim-treesitter/nvim-treesitter",
+		run = ":TSUpdate",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = {
+					"bash",
+					"css",
+					"html",
+					"javascript",
+					"json",
+					"jsonc",
+					"lua",
+					"php",
+					"python",
+					"regex",
+					"ruby",
+					"tsx",
+					"vue",
+					"yaml",
+				}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+				highlight = {
+					enable = true,
+				},
+				indent = {
+					enable = true,
+				},
+				context_commentstring = {
+					enable = true,
+				},
+			})
+		end,
+	})
 
 	-- Git
-	use({ "tpope/vim-fugitive", config = conf.vim_fugitive })
+	use("tpope/vim-fugitive")
 
-	-- lsp
+	--------------------------------------------------------------------------
+	-- LSP installer
+	-- Neovim plugin that allows you to seamlessly install LSP servers locally
+	-- :LspInstallInfo - opens a graphical overview of your language servers
+	-- https://github.com/williamboman/nvim-lsp-installer
+	--------------------------------------------------------------------------
+
 	use({
 		"williamboman/nvim-lsp-installer",
 		requires = {
@@ -94,11 +158,168 @@ return require("packer").startup(function(use)
 			"nvim-treesitter/nvim-treesitter",
 			"jose-elias-alvarez/typescript.nvim",
 		},
-		config = conf.lsp_installer,
-	}) -- Allows you to seamlessly install LSP servers locally
+		config = function()
+			-- In order for nvim-lsp-installer to register the necessary hooks at the right moment, make sure you call the require("nvim-lsp-installer").setup() function before you set up any servers
+			require("nvim-lsp-installer").setup()
 
-	-- Completion
-	use({ "hrsh7th/nvim-cmp", config = conf.cmp }) -- A completion engine plugin for neovim written in Lua.
+			-- now configure lspconfig https://github.com/neovim/nvim-lspconfig
+			local on_attach = function(_, bufnr)
+				vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+				local map = vim.keymap.set
+				local cmd = vim.api.nvim_create_user_command
+				local b = vim.lsp.buf
+				local d = vim.diagnostic
+				map("n", "<localleader>D", b.declaration)
+				map("n", "<localleader>d", b.definition)
+				map("n", "K", b.hover)
+				map("n", "<localleader>i", b.implementation)
+				map("n", "<localleader>k", b.signature_help)
+				map("n", "<localleader>D", b.type_definition)
+				map("n", "<localleader>r", b.rename)
+				map("n", "<localleader>a", b.code_action)
+				map("n", "<localleader>o", d.open_float)
+				map("n", "[d", d.goto_prev)
+				map("n", "]d", d.goto_next)
+				cmd("LspFormat", b.formatting, { bang = true })
+				cmd("LspReferences", b.references, { bang = true })
+				cmd("LspSetqflist", d.setqflist, { bang = true })
+				cmd("LspWorkspaceAdd", b.add_workspace_folder, { bang = true })
+				cmd("LspWorkspaceRemove", b.remove_workspace_folder, { bang = true })
+				cmd("LspWorkspaceList", function()
+					print(vim.inspect(b.list_workspace_folders()))
+				end, { bang = true })
+			end
+
+			local lsp = require("lspconfig")
+			lsp.cssls.setup({ on_attach = on_attach })
+			lsp.eslint.setup({ on_attach = on_attach })
+			lsp.html.setup({ on_attach = on_attach })
+			lsp.intelephense.setup({ on_attach = on_attach })
+			lsp.jsonls.setup({ on_attach = on_attach })
+			lsp.tailwindcss.setup({ on_attach = on_attach })
+			lsp.tsserver.setup({ on_attach = on_attach })
+			lsp.vimls.setup({ on_attach = on_attach })
+			lsp.volar.setup({ on_attach = on_attach })
+			lsp.yamlls.setup({ on_attach = on_attach })
+			lsp.bashls.setup({ on_attach = on_attach })
+			lsp.sumneko_lua.setup({
+				on_attach = on_attach,
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" }, -- Get the language server to recognize the `vim` global
+						},
+					},
+				},
+			})
+
+			-- typescript
+			-- https://github.com/jose-elias-alvarez/typescript.nvim
+			require("typescript").setup({
+				server = { -- pass options to lspconfig's setup method
+					on_attach = on_attach,
+				},
+			})
+		end,
+	})
+
+	-----------------------------------------------------------------------------
+	-- nvim-cmp
+	-- A completion engine plugin for neovim written in Lua.
+	-- Completion sources are installed from external repositories and "sourced".
+	-- https://github.com/hrsh7th/nvim-cmp
+	-----------------------------------------------------------------------------
+
+	use({
+		"hrsh7th/nvim-cmp",
+		config = function()
+			local cmp = require("cmp")
+
+			-- fallback to be safe in case of plugins mappings  :h cmp-mapping
+			local function next(fallback)
+				if cmp.visible() then
+					cmp.select_next_item()
+				else
+					fallback()
+				end
+			end
+			local function prev(fallback)
+				if cmp.visible() then
+					cmp.select_prev_item()
+				else
+					fallback()
+				end
+			end
+			local function confirm_first(fallback)
+				if cmp.visible() then
+					cmp.confirm({ select = true })
+				else
+					fallback()
+				end
+			end
+
+			cmp.setup({
+				snippet = {
+					expand = function(args)
+						require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+					end,
+				},
+				mapping = {
+					["<C-e>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+					["<C-y>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+					["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+					["<CR>"] = confirm_first,
+					["<tab>"] = confirm_first,
+					["<C-n>"] = next,
+					["<down>"] = next,
+					["<C-p>"] = prev,
+					["<up>"] = prev,
+				},
+				sources = cmp.config.sources({
+					{ name = "nvim_lsp" },
+					{ name = "nvim_lua" },
+					{ name = "path" },
+					{ name = "dictionary", keyword_length = 2 },
+					{ name = "luasnip" },
+					{
+						name = "buffer",
+						option = {
+							max_indexed_line_length = 50, -- prevent super long line to be indexed
+						},
+					},
+				}),
+			})
+
+			-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+			cmp.setup.cmdline("/", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = {
+					{ name = "buffer" },
+				},
+			})
+
+			-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+			cmp.setup.cmdline(":", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = cmp.config.sources({
+					{ name = "path" },
+				}, {
+					{ name = "cmdline" },
+				}),
+			})
+
+			---------------------------------------------
+			-- dictionary
+			-- https://github.com/uga-rosa/cmp-dictionary
+			---------------------------------------------
+
+			require("cmp_dictionary").setup({
+				dic = {},
+				async = true,
+				debug = false,
+			})
+		end,
+	}) -- A completion engine plugin for neovim written in Lua.
 
 	-- Completion sources
 	local completion_sources = {
@@ -124,7 +345,6 @@ return require("packer").startup(function(use)
 		"mattn/emmet-vim",
 		opt = true, -- lazy load
 		ft = { "html", "php", "blade", "jsx", "tsx", "vue", "css", "scss" },
-		config = conf.emmet,
 	})
 
 	----------
@@ -160,7 +380,15 @@ return require("packer").startup(function(use)
 	})
 
 	-- change case https://github.com/johmsalas/text-case.nvim
-	use({ "johmsalas/text-case.nvim", config = conf.text_case })
+	use({
+		"johmsalas/text-case.nvim",
+		config = function()
+			require("textcase").setup({})
+			require("telescope").load_extension("textcase")
+			vim.api.nvim_set_keymap("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+			vim.api.nvim_set_keymap("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+		end,
+	})
 
 	--------------
 	-- Find things
@@ -170,7 +398,6 @@ return require("packer").startup(function(use)
 	use({
 		"nvim-telescope/telescope.nvim",
 		requires = { "nvim-lua/plenary.nvim" },
-		config = conf.telescope,
 	})
 
 	-- Search with ripgrep :Rg
@@ -178,7 +405,9 @@ return require("packer").startup(function(use)
 		"jremmen/vim-ripgrep",
 		opt = true, -- lazy load
 		cmd = { "Rg", "RgRoot" },
-		config = conf.vim_ripgrep,
+		config = function()
+			vim.g.rg_command = 'rg --vimgrep --pcre2 --type-add="scss:*.scss"'
+		end,
 	})
 
 	-----------
@@ -188,7 +417,15 @@ return require("packer").startup(function(use)
 	-- Snippets luasnip
 	use({
 		"L3MON4D3/LuaSnip",
-		config = conf.lua_snip,
+		config = function()
+			require("luasnip").config.setup({
+				update_events = "TextChanged,TextChangedI", -- change on every keystroke
+			})
+			-- https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md#loaders
+			require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "./snippets/snipmate" } })
+			-- https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md#lua
+			require("luasnip.loaders.from_lua").lazy_load({ paths = { "./snippets/luasnip" } })
+		end,
 	})
 	use({
 		"saadparwaiz1/cmp_luasnip",
@@ -248,7 +485,16 @@ return require("packer").startup(function(use)
 		"jpalardy/vim-slime",
 		opt = true, -- lazy load
 		cmd = { "SlimeConfig", "SlimeSend" },
-		config = conf.vim_slime,
+		config = function()
+			vim.g.slime_target = "tmux"
+			vim.cmd('let g:slime_default_config = {"socket_name": "default", "target_pane": "{last}"}')
+
+			-- target_pane
+			-- {last} current window, last pane,
+			-- :.2 current window, second pane
+			-- %pane_id get it with echo $TMUX_PANE
+			vim.g.slime_no_mappings = 1
+		end,
 	})
 
 	-- calculate
@@ -256,7 +502,9 @@ return require("packer").startup(function(use)
 		"sk1418/HowMuch",
 		opt = true, -- lazy load
 		ft = { "markdown", "txt", "" },
-		config = conf.how_much,
+		config = function()
+			vim.g.HowMuch_scale = 8
+		end,
 	})
 
 	-- sql client
@@ -267,9 +515,25 @@ return require("packer").startup(function(use)
 			"kristijanhusak/vim-dadbod-completion",
 			"tpope/vim-dotenv",
 		},
-		config = conf.dadbodui,
 		opt = true, -- lazy load
 		cmd = { "DBUI" },
+		config = function()
+			vim.g.db_ui_use_nerd_fonts = 1
+			vim.g.db_ui_show_database_icon = 1
+
+			-- add autocompletion to cmp
+			vim.cmd(
+				[[autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })]]
+			)
+			-- use tpope/vim-dotenv to leverage .env variables like this:
+			-- DB_CONNECTION=mysql
+			-- DB_HOST=127.0.0.1
+			-- DB_PORT=3306
+			-- DB_DATABASE=mydbname
+			-- DB_USERNAME=root
+			-- DB_PASSWORD=asdf
+			-- DB_UI_DEV="${DB_CONNECTION}://${DB_USERNAME}:${DB_PASSWORD}@127.0.0.1:${DB_PORT}/${DB_DATABASE}"
+		end,
 	})
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
