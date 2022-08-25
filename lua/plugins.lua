@@ -85,7 +85,7 @@ return require("packer").startup(function(use)
 	use({
 		"lewis6991/gitsigns.nvim",
 		config = function()
-			require("gitsigns").setup()
+			require("gitsigns").setup({})
 		end,
 	})
 
@@ -160,7 +160,7 @@ return require("packer").startup(function(use)
 		},
 		config = function()
 			-- In order for nvim-lsp-installer to register the necessary hooks at the right moment, make sure you call the require("nvim-lsp-installer").setup() function before you set up any servers
-			require("nvim-lsp-installer").setup()
+			require("nvim-lsp-installer").setup({})
 
 			-- now configure lspconfig https://github.com/neovim/nvim-lspconfig
 			local on_attach = function(_, bufnr)
@@ -364,7 +364,7 @@ return require("packer").startup(function(use)
 	use({
 		"numToStr/Comment.nvim",
 		config = function()
-			require("Comment").setup()
+			require("Comment").setup({})
 		end,
 	})
 
