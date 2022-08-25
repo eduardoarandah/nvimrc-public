@@ -77,7 +77,7 @@ cmd("Ghistoryfile", ":0Gclog!", { bang = true })
 -- NeoZoom
 ----------
 
-map("n", "<leader>z", "NeoZoomToggle")
+map("n", "<leader>z", ":NeoZoomToggle<cr>")
 
 ----------
 -- HowMuch

@@ -1,6 +1,20 @@
 -- Run in command line to update packages without opening nvim
 -- nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
+-- Check requirements
+local all_requirements = 1
+for _, requirement in ipairs({ "git", "rg", "node", "npm" }) do
+	if vim.fn.executable(requirement) == 0 then
+		print("plugins require " .. requirement)
+		all_requirements = 0
+	end
+end
+
+if all_requirements == 0 then
+	print("can't install plugins")
+	return
+end
+
 -- Automatically install packer if not found on disk then set a local variable to show it's just installed
 local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
