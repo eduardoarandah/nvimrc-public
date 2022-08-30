@@ -439,15 +439,15 @@ snippet migradropforeign Migration drop foreign key
 	\$table->dropForeign('${2:table_name}_${1:column_name}_foreign');
 
 snippet routeresource Route::resource
-	Route::resource('$1', '$2Controller')->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+	Route::resource('$1', [ $2Controller::class ])->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
 
-	Route::get('$1', '$2Controller@index')->name('$1.index');
-	Route::get('$1/create', '$2Controller@create')->name('$1.create');
-	Route::post('$1', '$2Controller@store')->name('$1.store');
-	Route::get('$1/{$1}', '$2Controller@show')->name('$1.show');
-	Route::get('$1/{$1}/edit', '$2Controller@edit')->name('$1.edit');
-	Route::put('$1/{$1}', '$2Controller@update')->name('$1.update');
-	Route::delete('$1/{$1}', '$2Controller@destroy')->name('$1.destroy');
+	Route::get('$1',[$2Controller::class,  'index'])->name('$1.index');
+	Route::get('$1/create',[$2Controller::class,  'create'])->name('$1.create');
+	Route::post('$1',[$2Controller::class,  'store'])->name('$1.store');
+	Route::get('$1/{$1}',[$2Controller::class,  'show'])->name('$1.show');
+	Route::get('$1/{$1}/edit',[$2Controller::class,  'edit'])->name('$1.edit');
+	Route::put('$1/{$1}',[$2Controller::class,  'update'])->name('$1.update');
+	Route::delete('$1/{$1}',[$2Controller::class,  'destroy'])->name('$1.destroy');
 
 snippet lartransaction DB transaction
 	DB::transaction(function () {

@@ -27,25 +27,23 @@ map("n", "<leader>j", ":Telescope live_grep<CR>")
 map("n", "<leader><leader>", ":Telescope commands<CR>")
 map("n", "<localleader>s", ":Telescope lsp_document_symbols<CR>")
 map("n", "<localleader>g", ":Telescope live_grep<CR>")
-cmd("Options", ":Telescope vim_options<CR>", { bang = true })
-cmd("LiveGrep", ":Telescope live_grep<CR>", { bang = true })
-cmd("HelpTags", ":Telescope help_tags<CR>", { bang = true })
-cmd("ManPages", ":Telescope man_pages<CR>", { bang = true })
-cmd("Marks", ":Telescope marks<CR>", { bang = true })
+cmd("Options", ":Telescope vim_options", { bang = true })
+cmd("LiveGrep", ":Telescope live_grep", { bang = true })
+cmd("HelpTags", ":Telescope help_tags", { bang = true })
+cmd("ManPages", ":Telescope man_pages", { bang = true })
+cmd("Marks", ":Telescope marks", { bang = true })
 
 -- git
-cmd("Branch", ":Telescope git_branches<CR>", { bang = true }) -- Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>
-cmd("Commits", ":Telescope git_commits<CR>", { bang = true }) -- Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h
-cmd("BufferCommits", ":Telescope git_bcommits<CR>", { bang = true }) -- Lists buffer's git commits with diff preview and checks them out on <cr>
-cmd("Diff", ":Telescope git_status<CR>", { bang = true }) -- Lists buffer's git commits with diff preview and checks them out on <cr>
+cmd("GBranch", ":Telescope git_branches", { bang = true }) -- Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>
+cmd("GBufferCommits", ":Telescope git_bcommits", { bang = true }) -- Lists buffer's git commits with diff preview and checks them out on <cr>
 
 -- lsp https://github.com/nvim-telescope/telescope.nvim#neovim-lsp-pickers
-cmd("References", ":Telescope lsp_references<CR>", { bang = true })
-cmd("Diagnostics", ":Telescope diagnostics<CR>", { bang = true })
-cmd("IncomingCalls", ":Telescope lsp_incoming_calls<CR>", { bang = true })
-cmd("OutgoingCalls", ":Telescope lsp_outgoing_calls<CR>", { bang = true })
-cmd("DocumentSymbols", ":Telescope lsp_document_symbols<CR>", { bang = true })
-cmd("WorkspaceSymbols", ":Telescope lsp_workspace_symbols<CR>", { bang = true })
+cmd("References", ":Telescope lsp_references", { bang = true })
+cmd("Diagnostics", ":Telescope diagnostics", { bang = true })
+cmd("IncomingCalls", ":Telescope lsp_incoming_calls", { bang = true })
+cmd("OutgoingCalls", ":Telescope lsp_outgoing_calls", { bang = true })
+cmd("DocumentSymbols", ":Telescope lsp_document_symbols", { bang = true })
+cmd("WorkspaceSymbols", ":Telescope lsp_workspace_symbols", { bang = true })
 
 ---------------
 -- vim-fugitive

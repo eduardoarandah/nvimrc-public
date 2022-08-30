@@ -1,16 +1,19 @@
 local cmd = vim.api.nvim_create_user_command
 local args = { bang = true }
 local home = vim.fn.stdpath("config")
-local vimscript = vim.cmd
 
 -- vimrc
 
 cmd("Init", function()
-	vimscript("edit " .. home .. "/init.lua")
+	vim.cmd("edit " .. home .. "/init.lua")
 end, args)
 
 cmd("Reload", function()
-	vimscript("luafile " .. home .. "/init.lua")
+	vim.cmd("luafile " .. home .. "/init.lua")
+end, args)
+
+cmd("ReloadCompile", function()
+	vim.cmd("source " .. home .. "/init.lua | PackerCompile")
 end, args)
 
 -- git report
