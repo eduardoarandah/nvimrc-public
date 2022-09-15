@@ -151,6 +151,10 @@ map("x", "<leader>r", "*Ncgn", { remap = true }) -- first execute VSetSearch
 map("n", "<leader>R", 'yiw:%s/\\V<C-r>"/<C-r>"')
 map("x", "<leader>R", 'y:%s/\\V<C-r>"/<C-r>"')
 
+-- <leader>gg g command on selection
+map("n", "<leader>gg", 'yiw:g/\\V<C-r>"/norm n')
+map("x", "<leader>gg", 'y:g/\\V<C-r>"/norm n')
+
 -----------------------------------
 -- Appereance / GUI
 -----------------------------------

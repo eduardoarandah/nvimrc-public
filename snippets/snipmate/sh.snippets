@@ -19,6 +19,12 @@ snippet forin for ... in ... done (forin)
 		echo $$1;
 	done
 
+snippet for_sequence_padded for sequence with padding
+  for i in \$(seq -f "%02g" ${1:1} ${2:10})
+  do
+    echo \$i
+  done
+
 snippet if if ... then (if)
 	if ${2:[[ ${1:condition} ]]}; then
 		${0:#statements}
@@ -40,7 +46,7 @@ snippet while while ... (done)
 # Custom
 ####################################################################################
 
-snippet bash Bash Init
+snippet binbash Bash Init
 	#!/bin/bash
 	# safer settings https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
 	set u # Exit if var doesn't exist
@@ -57,7 +63,10 @@ snippet conf confirm
 		$2
 	fi
 
-snippet sed Sed
+snippet sed sed basico
+  sed 's|$1|$2|g' ${3:file}
+
+snippet sed_ejemplos Sed
 	# -i guardar mismo archivo
 	# -r regex
 	# mac os: sed -i'' -e 'expresion'
@@ -76,6 +85,9 @@ snippet eol agregar texto varias líneas
 	cat > $1 << 'EOL'
 	# 'EOL' ignora variables con \$ $0
 	EOL
+
+snippet awk_lines_after_two_matches
+  awk -v GO=1 '/first_match/{next;}/second_match/{if (GO) print "XX";GO=0}1' fileName.ext
 
 snippet timestamp Description
 	TIMESTAMP=`date +%Y-%m-%d-%H-%M-%S`
@@ -132,7 +144,24 @@ snippet wpsearchreplace WP search replace
 	wp option get home
 
 snippet wpusercreate WP user create
-	wp user create ${1:dev} ${2:dev@example.com} --user_pass=${3:asdf} --role=administrator
+	wp user create ${1:dev} ${2:dev@dev.com} --user_pass=${3:asdf} --role=administrator
 
 snippet wpuserupdate WP user update
 	wp user update ${1:dev} --user_pass=${3:asdf}
+
+
+# Filament
+
+snippet filamentresource filament resource
+	php artisan make:filament-resource ${1:ModelName} --generate --view
+
+snippet filamentview filament view record
+  php artisan make:filament-page View${1:ModelName} --resource=$1Resource --type=ViewRecord
+  'view' => Pages\View$1::route('/{record}'),
+
+# Laravel
+
+snippet dbui_connection_string
+  DB_UI_DEV="\${DB_CONNECTION}://\${DB_USERNAME}:\${DB_PASSWORD}@127.0.0.1:\${DB_PORT}/\${DB_DATABASE}" # mysql
+  DB_UI_DEV="sqlite:database/database.sqlite"
+

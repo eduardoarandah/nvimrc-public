@@ -3,3 +3,11 @@ snippet link Link to something
 
 snippet img Image ib
     ![${2:titulo}](${1:url})
+
+# filament
+snippet filament_make_page_custom
+    php artisan make:filament-page View${1:Model} --resource=$1Resource --type=custom
+    'view' => Pages\View$1::route('/{record}'),
+
+snippet filament_make_widget
+    pa make:filament-widget ${1:Mode}Cobros --table

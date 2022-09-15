@@ -3,10 +3,19 @@ extends html
 snippet ph PHP <?php ?> i
 	<?php $0 ?>
 
-snippet fun PHP Function i
+snippet fu PHP Function i
 	function $1($2){
 		$0
 	}
+
+snippet pfu public function
+	public function $1($2){
+		$0
+	}
+
+
+snippet thi $this->
+  \$this->
 
 snippet ddd Dump and die
 	echo "<pre>";
@@ -22,6 +31,63 @@ snippet st Strip Tags
 
 snippet pad String padding i
 	str_pad($1, 2, '0', STR_PAD_LEFT);
+
+snippet model_init Initialize model common configurations
+    protected \$table = '$1';
+    protected \$guarded = ['id'];
+    // https://laravel.com/docs/9.x/eloquent-mutators#attribute-casting
+    protected \$casts = [
+        'fecha' => 'immutable_datetime:Y-m-d',
+        'is_algo' => 'boolean',
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+     */
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+     */
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+     */
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESORS
+    |--------------------------------------------------------------------------
+     */
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+     */
+
+
+snippet fake_model
+    '$1' => ${2:ModelName}::factory(),
+
+snippet fake_boolean
+    '$1' => fake()->boolean(80), // probability of true
+
+snippet fake_date
+    '$1' => fake()->dateTimeThisMonth(),
+
+snippet fake_array
+    '$1' => fake()->randomElement([10, 15, 20, 30]),
+
+snippet fake_text
+    '$1' => fake()->text(10),
+
+#  /laravel  #
 
 ###############
 #  Wordpress  #
@@ -402,6 +468,9 @@ snippet migraupdate Migration table update
 		$0
 	});
 
+snippet migrarenamecolumn Migration rename column
+	\$table->renameColumn('$1', '$2');
+
 snippet migradropcolumn Migration drop column
 	\$table->dropColumn(['$1']);
 
@@ -479,8 +548,8 @@ snippet routegroup Route Group
 	);
 
 snippet scope Laravel scope
-	public function scopeActive($query){
-		return $query->where('status', '1');
+	public function scopeActive(\$query){
+		return \$query->where('status', '1');
 	}
 
 snippet validationcustom Custom validation rule
@@ -661,8 +730,8 @@ snippet putest PHPUnit class
 snippet debug-shell Psy Debug shell
 	eval(\Psy\sh());
 
-snippet fn arrow function i
-	fn($1)=>$2
+snippet af arrow function i
+	fn($1)=>$1$0
 
 snippet psf Public static function
 	public static function $1(){
@@ -711,6 +780,19 @@ snippet phclass PHP Class
 	{
 	$0
 	}
+
+snippet laravel_action
+  <?php
+
+  namespace App\\Actions\\${1:Namespace};
+
+  class $2
+  {
+      public function handle()
+      {
+        $0
+      }
+  }
 
 ###########
 # wordpress
@@ -1197,3 +1279,44 @@ snippet wpactiondebug debug do_action
 snippet wpterms get first taxonomy term
 	\$terms = get_the_terms(\$post, "taxonomy");
 	\$first_term = \$terms && !is_wp_error(\$terms) ? \$terms[0]->name : '';
+
+
+# Filament
+snippet filamentTableText Filament table text
+  TextColumn::make('$1_id')
+      ->label('Ad'),
+      ->formatStateUsing(fn (string \$state) => number_format(\$state, 2)),
+      ->formatStateUsing(fn (ModelName \$record) => \$record->id)
+      ->sortable(),
+
+snippet filamentTableUrlLink Filament table url
+      TextColumn::make('${1:column_name}')
+      TextColumn::make('${1:user.name}')
+          ->url(fn (${2:Model} $record): string => route('filament.resources.${3:users}.view', $record->${4:user_id}))
+          ->sortable()
+          ->searchable(),
+          ->openUrlInNewTab(),
+
+snippet filamentFormSelect Filament form select
+      Select::make('$1_id')
+          ->relationship('$1', 'name')
+          // ->options(City::pluck('name','id'))
+          ->required(),
+
+snippet filamentFormSearchable Filament form select
+      Select::make('${1:field_name}')
+          ->searchable()
+          ->getSearchResultsUsing(fn (string \$search) => ${2:ModelName}::where('name', 'like', "%{\$search}%")->limit(50)->pluck('name', 'id'))
+          ->getOptionLabelUsing(fn (\$value): ?string => $2::find(\$value)?->name)
+          ->required(),
+
+snippet time execution time
+      \$start = hrtime(true);
+      $0
+      \$time = (hrtime(true) - \$start) / 1e+6;
+      echo "\nTime in milliseconds: " . \$time . "\n";
+
+
+snippet filament_icon
+  :!open vendor/blade-ui-kit/blade-heroicons/resources/svg/
+

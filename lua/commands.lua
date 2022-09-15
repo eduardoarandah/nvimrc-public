@@ -13,16 +13,26 @@ cmd("Reload", function()
 end, args)
 
 cmd("ReloadCompile", function()
-	vim.cmd("source " .. home .. "/init.lua | PackerCompile")
+	vim.cmd("source % | PackerCompile")
 end, args)
 
 -- git report
-
 cmd("Greport", require("greport").greport, args)
 
--- copy file path and line name
-cmd("CopyPathAndLineNumber", function()
-	vim.fn.setreg("*", vim.fn.expand("%") .. " +" .. vim.api.nvim_win_get_cursor(0)[1])
+-- Copy filename path
+vim.api.nvim_create_user_command("CopyPath", function()
+	vim.fn.setreg("*", vim.fn.expand("%"))
+end, args)
+
+-- Copy filename, line number and branch
+-- example: src/filename.js +123 # branch master
+vim.api.nvim_create_user_command("CopyPathLineNumberBranch", function()
+	local branch = vim.fn.systemlist("git branch --show-current")
+	local comment = ""
+	if not string.find(branch[1], "not a git repository") then
+		comment = " # branch " .. branch[1]
+	end
+	vim.fn.setreg("*", vim.fn.expand("%") .. " +" .. vim.api.nvim_win_get_cursor(0)[1] .. comment)
 end, args)
 
 -- Search on relevant directories
@@ -70,3 +80,7 @@ cmd("DictTailwind", function()
 	dic.setup({ dic = { ["php,html,blade"] = { "~/.nvim/dict/tailwind" } } })
 	dic.update()
 end, args)
+
+-- json
+cmd("JsonDecodeFormat", "%!jq -r | jq", args)
+

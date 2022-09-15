@@ -94,22 +94,29 @@ command! CopyMatches let hits = [] | %substitute//\=add(hits, submatch(0))/gne |
 """""""""""""""""""""""""
 
 function! FormatDocument()
-  if(&ft == 'blade')
+  if(&ft == 'blade') " npm i -D blade-formatter
     SpacesClean
     % !npx blade-formatter --stdin --indent-size=2 --wrap=999
   elseif(&ft == 'sql' || &ft == 'mysql')
-    %!sqlformat --reindent --keywords upper --identifiers lower '%'
+    " npm i --global sql-formatter
+    %!sql-formatter
   elseif( &ft == 'css' || &ft == 'scss')
     " % !npx stylelint --fix --stdin-filename %
     DeleteBlankLines
     PrettierAsync
-  elseif( &ft == 'markdown' || &ft  == 'vue')
+  elseif( &ft == 'markdown')
     PrettierAsync
   elseif(&ft == 'lua')
     write
     " download https://github.com/JohnnyMorganz/StyLua/releases
     silent !stylua %
     edit
+  elseif(&ft == 'php' && filereadable("./vendor/bin/pint")) " laravel
+     silent !./vendor/bin/pint %
+  elseif((&ft == 'javascript' || &ft == 'typescript' ) && exists(':PrettierAsync')) " prettier
+    PrettierAsync
+  elseif((&ft == 'javascript' || &ft == 'typescript' ) && isdirectory('node_modules/prettier')) " prettier
+     %!npx prettier --stdin-filepath %
   else
     lua vim.lsp.buf.formatting()
   endif

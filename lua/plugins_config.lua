@@ -1,11 +1,52 @@
 local map = vim.keymap.set
 local cmd = vim.api.nvim_create_user_command
 
+--------
+-- theme
+--------
+
+-- dracula
+vim.g.rehash256 = 1
+vim.cmd("colorscheme dracula")
+
+-- monokaipro
+-- default the default Monokai Pro look
+-- machine a variant with a bluish background
+-- ristretto a variant with a red/brown background
+-- octogon a variant with a purple/indigo background
+-- spectrum a variant with a flat gray background
+-- classic a variant based on original Monokai colors
+-- vim.g.monokaipro_filter = "machine"
+-- vim.cmd("colorscheme monokaipro")
+
 --------------
 -- lualine
 --------------
 
+local function git_username()
+	local ssh_identity = vim.fn.systemlist('if [[ "$(ssh-add -l)" == "The agent has no identities." ]]  then; echo "(no ssh identity)"; else; echo "(ssh identity: $(ssh-add -l | cut -f3 -d \' \'))"; fi')
+	local name = vim.fn.systemlist("git config user.name")
+	local email = vim.fn.systemlist("git config user.email")
+	return ssh_identity[1] .. " " .. name[1] .. " " .. email[1]
+end
+
+-- https://github.com/nvim-lualine/lualine.nvim#default-configuration
+require("lualine").setup({
+	sections = {
+		lualine_x = { git_username, "encoding", "fileformat", "filetype" },
+	},
+})
+
 map("n", "<leader>tr", ":LualineRenameTab ")
+
+-- add/remove buffers from tabline
+cmd("RemoveBuffersFromTabline", function()
+	require("lualine").setup({ tabline = { lualine_a = {} } })
+end, { bang = true })
+
+cmd("AddBuffersFromTabline", function()
+	require("lualine").setup({ tabline = { lualine_a = { "buffers" } } })
+end, { bang = true })
 
 -----------
 -- tree
@@ -24,6 +65,7 @@ map("n", "<C-f>", ":Telescope buffers<CR>")
 map("n", "<leader>hi", ":Telescope oldfiles<CR>")
 map("n", "<leader>:", ":Telescope command_history<CR>")
 map("n", "<leader>j", ":Telescope live_grep<CR>")
+map("n", "<leader>p", ":Telescope registers<CR>")
 map("n", "<leader><leader>", ":Telescope commands<CR>")
 map("n", "<localleader>s", ":Telescope lsp_document_symbols<CR>")
 map("n", "<localleader>g", ":Telescope live_grep<CR>")
@@ -32,6 +74,7 @@ cmd("LiveGrep", ":Telescope live_grep", { bang = true })
 cmd("HelpTags", ":Telescope help_tags", { bang = true })
 cmd("ManPages", ":Telescope man_pages", { bang = true })
 cmd("Marks", ":Telescope marks", { bang = true })
+cmd("Registers", ":Telescope registers", { bang = true })
 
 -- git
 cmd("GBranch", ":Telescope git_branches", { bang = true }) -- Lists all branches with log preview, checkout action <cr>, track action <C-t> and rebase action<C-r>
@@ -49,7 +92,7 @@ cmd("WorkspaceSymbols", ":Telescope lsp_workspace_symbols", { bang = true })
 -- vim-fugitive
 ---------------
 
-map("n", "<leader>gs", ":tabnew | Git | only<cr>")
+map("n", "<leader>gs", ":tabnew<cr>:Git<cr>:only<cr>")
 map("n", "<leader>ga", ":Git add %<cr>")
 map("n", "<leader>gr", ":Gread<cr>")
 map("n", "<leader>gl", ":Git log --name-only<cr>")
@@ -85,6 +128,13 @@ map("n", "<leader>hm", "V<Plug>AutoCalcAppendWithEq")
 map("x", "<leader>hm", "<Plug>AutoCalcAppendWithEq")
 map("x", "<leader>hms", "<Plug>AutoCalcAppendWithEqAndSum")
 map("x", "<leader>hmr", "<Plug>AutoCalcReplace")
+
+-------------
+-- Table mode
+-- https://github.com/dhruvasagar/vim-table-mode
+-------------
+
+vim.g.table_mode_map_prefix = "<localleader>t"
 
 ------------
 -- text-case
@@ -193,12 +243,16 @@ map("n", "gef", function()
 	require("textcase").operator("to_path_case")
 end)
 
+require("telescope").load_extension("textcase")
+map("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+map("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+
 ------------
 -- vim-slime
 ------------
 
-map("x", "<F9>", ":SlimeSend<CR>")
-map("n", "<F9>", ":SlimeSend<CR>")
+map("x", "<F1>", ":SlimeSend<CR>")
+map("n", "<F1>", ":SlimeSend<CR>")
 
 ----------
 -- LuaSnip
@@ -229,3 +283,19 @@ end)
 --------
 
 map("i", ",,", "<C-y>,", { remap = true })
+
+------------
+-- syntax
+------------
+
+-- https://github.com/jwalton512/vim-blade
+
+-- Define some single Blade directives. This variable is used for highlighting only.
+vim.g.blade_custom_directives = { "datetime", "javascript", "error" }
+
+-- Define pairs of Blade directives. This variable is used for highlighting and indentation.
+vim.g.blade_custom_directives_pairs = {
+	markdown = "endmarkdown",
+	cache = "endcache",
+	error = "enderror",
+}

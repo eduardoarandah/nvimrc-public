@@ -14,6 +14,18 @@ snippet tmuxinatornew tmuxinator
   pre_window:
     - nvm use 16
     - source init.sh
+    - alias php74=/opt/homebrew/opt/php@7.4/bin/php
+    - alias php80=/opt/homebrew/opt/php@8.0/bin/php
+    - alias php81=/opt/homebrew/opt/php@8.1/bin/php
+    - alias composer74='/opt/homebrew/opt/php@7.4/bin/php /usr/local/bin/composer'
+    - alias composer80='/opt/homebrew/opt/php@8.0/bin/php /usr/local/bin/composer'
+    - alias composer81='/opt/homebrew/opt/php@8.1/bin/php /usr/local/bin/composer'
+    - alias wp74='/opt/homebrew/opt/php@7.4/bin/php /usr/local/bin/wp'
+    - alias wp80='/opt/homebrew/opt/php@8.0/bin/php /usr/local/bin/wp'
+    - alias wp81='/opt/homebrew/opt/php@8.1/bin/php /usr/local/bin/wp'
+    - alias pa74='/opt/homebrew/opt/php@7.4/bin/php artisan'
+    - alias pa80='/opt/homebrew/opt/php@8.0/bin/php artisan'
+    - alias pa81='/opt/homebrew/opt/php@8.1/bin/php artisan'
 
   # Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
   startup_window: editor
@@ -27,7 +39,10 @@ snippet tmuxinatornew tmuxinator
             - wp core version
           - pane2:
             - open http://xxxx.localhost/
-            - open http://localhost:3000
+            - open http://localhost:3000 # npm run dev
+            - open http://localhost:8000 # site
+            - open http://localhost:8080 # site
+            - open http://localhost:8025 # mailhog
     - watchers:
         layout: tiled # even-horizontal, even-vertical, main-horizontal, main-vertical, or tiled
         panes:

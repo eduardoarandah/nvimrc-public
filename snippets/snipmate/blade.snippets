@@ -467,31 +467,6 @@ snippet laraerrorsummary Laravel error summary
 		</ul>
 	@endif
 
-snippet livewireform Livewire Form
-
-	<form wire:submit.prevent="submit">
-
-		<label for="name" class="block text-gray-700 text-sm font-bold">
-			{{ \$label }}
-		</label>
-
-		<input wire:model="settingValue" class="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mt-2 w-full" type="text">
-		@error('settingValue')
-		<p class="text-red-500 text-xs italic mt-1">
-			{{ \$message }}
-		</p>
-		@enderror
-
-		<button type="submit" class="text-white text-xs bg-teal-500 border-0 py-2 px-4 focus:outline-none hover:bg-teal-600 rounded text-lg mt-4">
-			@if (\$saved)
-				Saved!
-			@else
-				Save
-			@endif
-		</button>
-
-	</form>
-
 snippet bladeview Blade View
 	@extends(backpack_view('blank'))
 	@section('content')
@@ -562,36 +537,36 @@ snippet tailbutton Tailwind Button
 		update
 	</button>
 
-snippet tailinputtext Tailwind input Text (custom forms)
+snippet twtext Tailwind input Text (custom forms)
 	<label class="block mt-5 w-full">
 		<span class="text-gray-700">$2</span>
 		<input name="$1" type="text" class="form-input mt-3 block w-full" placeholder="$2">
-		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ $message }} </p> @enderror
+		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ \$message }} </p> @enderror
 	</label>
 
 	$0
 
-snippet tailinputtextarea Tailwind input Textarea (custom forms)
+snippet twtextarea Tailwind input Textarea (custom forms)
 	<label class="block mt-5 w-full">
 		<span class="text-gray-700">$2</span>
 		<textarea name="$1" class="form-textarea mt-3 block w-full" rows="3" placeholder="$2"></textarea>
-		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ $message }} </p> @enderror
+		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ \$message }} </p> @enderror
 	</label>
 
 	$0
 
-snippet tailinputselect Tailwind input Select (custom forms)
+snippet twselect Tailwind input Select (custom forms)
 	<label class="block mt-5 w-full">
 		<span class="text-gray-700">Select</span>
 		<select name="$1" class="form-select block w-full mt-3">
 			<option>Option 1</option>
 		</select>
-		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ $message }} </p> @enderror
+		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ \$message }} </p> @enderror
 	</label>
 
 	$0
 
-snippet tailinputcheckbox Tailwind input Checkbox (custom forms)
+snippet twcheckbox Tailwind input Checkbox (custom forms)
 	<div class="block mt-5 w-full">
 		<span class="text-gray-700">Checkboxes</span>
 		<div class="mt-2">
@@ -604,12 +579,12 @@ snippet tailinputcheckbox Tailwind input Checkbox (custom forms)
 			</div>
 
 		</div>
-		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ $message }} </p> @enderror
+		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ \$message }} </p> @enderror
 	</div>
 
 	$0
 
-snippet tailinputradio Tailwind input Radio (custom forms)
+snippet twradio Tailwind input Radio (custom forms)
 	<div class="block mt-5 w-full">
 		<span class="text-gray-700">Radio Buttons</span>
 		<div class="mt-2">
@@ -620,7 +595,7 @@ snippet tailinputradio Tailwind input Radio (custom forms)
 				</label>
 			</div>
 		</div>
-		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ $message }} </p> @enderror
+		@error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ \$message }} </p> @enderror
 	</div>
 
 	$0
@@ -784,3 +759,34 @@ snippet wordpresswidgetform Wordpress widget form
 	<input type="text" class="widefat" id="{{ \$$1['id'] }}" name="{{ \$$1['name'] }}" value="{{ \$$1['value'] }}">
 	</label>
 	</p>
+
+
+
+##########
+# livewire
+##########
+
+snippet lwform Livewire Form
+	<form wire:submit.prevent="submit">
+		$1
+		<button type="submit">Save</button>
+	</form>
+
+snippet lw_input_text
+  <div class="grid gap-2">
+    <label>$2</label>
+    <input type="text" wire:model="${1:field_name}">
+    @error('$1') <span class="error">{{ \$message }}</span> @enderror
+  </div>
+
+snippet lw_select
+  <div class="grid gap-2">
+    <label>$2</label>
+    <select wire:model="${1:field_name}">
+      <option value="">Choose...</option>
+      @foreach (\$${3:options} as \$option)
+        <option value="{{ \$option->id }}">{{ \$option->name }}</option>
+      @endforeach
+    </select>
+    @error('$1') <p class="text-red-500 text-xs italic mt-1"> {{ \$message }} </p> @enderror
+  </div>

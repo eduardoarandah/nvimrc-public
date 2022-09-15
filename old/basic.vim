@@ -1,5 +1,5 @@
 " Update:
-" PlugUpgrade 
+" PlugUpgrade
 " PlugUpdate
 " TSUpdate
 
@@ -210,7 +210,7 @@ nnoremap Y y$
 " Fix issues when pasting a lot of code
 nnoremap F2 :set pastetoggle<CR>
 
-" ALWAYS use the clipboard for ALL operations 
+" ALWAYS use the clipboard for ALL operations
 set clipboard+=unnamedplus,unnamed
 
 " Don't lose clipboard when pasting
@@ -225,7 +225,7 @@ nnoremap <leader>c "_c
 command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
 
 " Fixes copying special chars (only nvim)
-lang en_US 
+lang en_US
 
 """"""""""""""""
 " Search replace
@@ -320,7 +320,7 @@ command! SaveAsNative :call SaveAsNative()
 if (has('win32') || has('win64'))
   nnoremap <leader>e :!start explorer /e,%:p:h<CR>
   nnoremap <leader>E :execute "!start explorer /e," . shellescape(getcwd(),1)<CR>
-endif 
+endif
 
 if(has('unix'))
   if(has('macunix'))
@@ -394,8 +394,8 @@ nnoremap == gg=G
 augroup filetypes
   autocmd!
 
-  " PHP 
-  autocmd BufReadPost *.php setlocal iskeyword-=- 
+  " PHP
+  autocmd BufReadPost *.php setlocal iskeyword-=-
 
   " Blade filetype
   autocmd BufRead,BufNewFile *.blade.php set filetype=blade

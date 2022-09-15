@@ -16,6 +16,7 @@ if all_requirements == 0 then
 end
 
 -- Automatically install packer if not found on disk then set a local variable to show it's just installed
+-- install path: print(vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim")
 local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 local packer_just_installed = nil
@@ -47,13 +48,8 @@ return require("packer").startup(function(use)
 	------------
 
 	-- Theme
-	use({
-		"Mofiqul/dracula.nvim",
-		config = function()
-			vim.cmd("colorscheme dracula")
-			vim.g.rehash256 = 1
-		end,
-	})
+	use("Mofiqul/dracula.nvim")
+	use("Dre-Bk201/monokai-pro.nvim")
 
 	-- status line / tabs
 	use({
@@ -86,6 +82,9 @@ return require("packer").startup(function(use)
 			require("nvim-tree").setup({})
 		end,
 	})
+
+	-- Automatically create any non-existent directories before writing the buffer.
+	use("pbrisbin/vim-mkdir")
 
 	-- show markers
 	use({
@@ -139,6 +138,7 @@ return require("packer").startup(function(use)
 					"regex",
 					"ruby",
 					"tsx",
+					"typescript",
 					"vue",
 					"yaml",
 				}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -155,8 +155,34 @@ return require("packer").startup(function(use)
 		end,
 	})
 
+	-- syntax: blade https://github.com/jwalton512/vim-blade
+	use("jwalton512/vim-blade")
+
 	-- Git
 	use("tpope/vim-fugitive")
+
+	-- Neogen Your Annotation Toolkit
+	-- https://github.com/danymat/neogen
+	-- Alternative: https://github.com/heavenshell/vim-jsdoc
+	-- Alternative: https://github.com/kkoomen/vim-doge#supported-languages-and-doc-standards
+	use({
+		"danymat/neogen",
+		config = function()
+			require("neogen").setup({})
+		end,
+		requires = "nvim-treesitter/nvim-treesitter",
+		-- Uncomment next line if you want to follow only stable versions
+		-- tag = "*"
+	})
+
+	-- JSDoc
+  -- https://github.com/heavenshell/vim-jsdoc
+  -- Alternative: https://github.com/kkoomen/vim-doge#supported-languages-and-doc-standards
+	use({
+		"heavenshell/vim-jsdoc",
+		ft = { "javascript", "javascript.jsx", "typescript" },
+		run = "npm install",
+	})
 
 	--------------------------------------------------------------------------
 	-- LSP installer
@@ -213,9 +239,11 @@ return require("packer").startup(function(use)
 			lsp.tailwindcss.setup({ on_attach = on_attach })
 			lsp.tsserver.setup({ on_attach = on_attach })
 			lsp.vimls.setup({ on_attach = on_attach })
-			lsp.volar.setup({ on_attach = on_attach })
+			lsp.vuels.setup({ on_attach = on_attach })
+			-- lsp.volar.setup({ on_attach = on_attach })
 			lsp.yamlls.setup({ on_attach = on_attach })
 			lsp.bashls.setup({ on_attach = on_attach })
+			lsp.pylsp.setup({ on_attach = on_attach })
 			lsp.sumneko_lua.setup({
 				on_attach = on_attach,
 				settings = {
@@ -404,6 +432,11 @@ return require("packer").startup(function(use)
 		end,
 	})
 
+	-- docker remote
+	-- This plugin aims to give you the functionality of VSCode's remote container development plugin. It will allow you to spawn and develop in docker containers and pulls config information from a devcontainer.json file.
+	-- https://github.com/jamestthompson3/nvim-remote-containers
+	use("jamestthompson3/nvim-remote-containers")
+
 	--------------
 	-- Find things
 	--------------
@@ -480,6 +513,7 @@ return require("packer").startup(function(use)
 		run = "cd app && npm install",
 		setup = function()
 			vim.g.mkdp_filetypes = { "markdown" }
+			vim.g.mkdp_markdown_css = vim.fn.stdpath("config") .. "/assets/markdown.css"
 		end,
 		opt = true,
 		ft = { "markdown" },
@@ -505,8 +539,6 @@ return require("packer").startup(function(use)
 	-- REPL, send commands to another window
 	use({
 		"jpalardy/vim-slime",
-		opt = true, -- lazy load
-		cmd = { "SlimeConfig", "SlimeSend" },
 		config = function()
 			vim.g.slime_target = "tmux"
 			vim.cmd('let g:slime_default_config = {"socket_name": "default", "target_pane": "{last}"}')
@@ -522,12 +554,13 @@ return require("packer").startup(function(use)
 	-- calculate
 	use({
 		"sk1418/HowMuch",
-		opt = true, -- lazy load
-		ft = { "markdown", "txt", "" },
 		config = function()
 			vim.g.HowMuch_scale = 8
 		end,
 	})
+
+	-- table mode
+	use({ "dhruvasagar/vim-table-mode" })
 
 	-- sql client
 	use({
