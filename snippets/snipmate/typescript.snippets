@@ -5,6 +5,11 @@ snippet ifa interface
 		$0
 	}
 
+snippet eifa interface
+	export interface $1 {
+		$0
+	}
+
 snippet af arrow function
 	($1) => { $0 }
 
@@ -13,3 +18,27 @@ snippet afc arrow function as a constant
 
 snippet eslintignorenextline eslint ignore next line
   // eslint-disable-next-line $1
+
+
+snippet ava_throws_async
+  const error = await t.throwsAsync(
+    async () => {
+      await ${1:someFunction}()
+    },
+    {
+      instanceOf: AppError,
+    },
+  );
+
+  t.is(error?.name, 'message');
+  t.is((error as AppError)?.type, AppErrors.NotFoundError);
+  t.true(error?.message.startsWith('Url for destination'));
+
+
+snippet ava_test
+  test('$1', async (t) => {
+    const { var } = t.context;
+
+    t.is(response.status, expectedStatusCode);
+    t.true(true);
+  });

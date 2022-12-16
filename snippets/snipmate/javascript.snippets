@@ -225,3 +225,39 @@ snippet datetimezone Description
 	});
 	let time = formatter.format(new Date())
 	console.log(time);
+
+snippet DateNow Simple date string
+  const firstRequestedAt = new Date();
+  console.log(firstRequestedAt.toISOString());
+
+
+snippet pattern_singleton Singleton pattern
+    // https://refactoring.guru/design-patterns/singleton/typescript/example
+    class SingletonClass {
+        static _instance;
+
+        constructor() {
+            console.log("SingletonClass created!");
+            this.now = new Date().toISOString();
+        }
+
+        static getInstance() {
+            // create instance if not exists
+            if (!this._instance) this._instance = new SingletonClass();
+            return this._instance;
+        }
+    }
+
+    export default SingletonClass;
+
+snippet expressapp
+  let express = require("express");
+  //as module import express from "express";
+  const app = express();
+  const port = 3000;
+
+  app.get("/", (req, res) => { res.send('hello world'); });
+  app.listen(port, () => { console.log('Running on http://localhost:3000/'); });
+
+snippet mode module exports
+  module.exports = $0

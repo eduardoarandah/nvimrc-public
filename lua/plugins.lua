@@ -155,6 +155,32 @@ return require("packer").startup(function(use)
 		end,
 	})
 
+	use({
+		"nvim-treesitter/playground",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				playground = {
+					enable = true,
+					disable = {},
+					updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+					persist_queries = false, -- Whether the query persists across vim sessions
+					keybindings = {
+						toggle_query_editor = "o",
+						toggle_hl_groups = "i",
+						toggle_injected_languages = "t",
+						toggle_anonymous_nodes = "a",
+						toggle_language_display = "I",
+						focus_language = "f",
+						unfocus_language = "F",
+						update = "R",
+						goto_node = "<cr>",
+						show_help = "?",
+					},
+				},
+			})
+		end,
+	})
+
 	-- syntax: blade https://github.com/jwalton512/vim-blade
 	use("jwalton512/vim-blade")
 
@@ -176,8 +202,8 @@ return require("packer").startup(function(use)
 	})
 
 	-- JSDoc
-  -- https://github.com/heavenshell/vim-jsdoc
-  -- Alternative: https://github.com/kkoomen/vim-doge#supported-languages-and-doc-standards
+	-- https://github.com/heavenshell/vim-jsdoc
+	-- Alternative: https://github.com/kkoomen/vim-doge#supported-languages-and-doc-standards
 	use({
 		"heavenshell/vim-jsdoc",
 		ft = { "javascript", "javascript.jsx", "typescript" },

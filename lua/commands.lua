@@ -19,6 +19,9 @@ end, args)
 -- git report
 cmd("Greport", require("greport").greport, args)
 
+-- github prs
+cmd("Gprfiles", function() vim.cmd("argadd `gh pr diff --name-only`") end, args)
+
 -- Copy filename path
 vim.api.nvim_create_user_command("CopyPath", function()
 	vim.fn.setreg("*", vim.fn.expand("%"))
@@ -83,4 +86,3 @@ end, args)
 
 -- json
 cmd("JsonDecodeFormat", "%!jq -r | jq", args)
-

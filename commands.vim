@@ -18,8 +18,7 @@ command! DeleteBlankLines g/^\s*$/d
 " Replace multiple blank lines for single line
 function! DoubleBlankLinesRemove(...)
   let save_pos = getpos(".")
-  silent! %s/\(\n\n\)\n\+/\1/e
-  nohlsearch
+  silent! %! cat -s
   call setpos('.', save_pos)
 endfunction
 command! DoubleBlankLinesRemove :call DoubleBlankLinesRemove()
@@ -237,3 +236,11 @@ function! CloseEmptyBuffers()
     endif
 endfunction
 command! CloseEmptyBuffers :call CloseEmptyBuffers()
+
+" hours report from a format like this:
+" 2022-12-15
+" ----------
+"
+" total: 6h
+
+command! HoursReportAwk :r!awk '/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/{count++;date=$0}/----------/{count++}/^[Tt]otal/{if(count=2){print date,$0;count=0}}' %
