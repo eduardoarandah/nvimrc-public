@@ -24,7 +24,9 @@ vim.cmd("colorscheme dracula")
 --------------
 
 local function git_username()
-	local ssh_identity = vim.fn.systemlist('if [[ "$(ssh-add -l)" == "The agent has no identities." ]]  then; echo "(no ssh identity)"; else; echo "(ssh identity: $(ssh-add -l | cut -f3 -d \' \'))"; fi')
+	local ssh_identity = vim.fn.systemlist(
+		'if [[ "$(ssh-add -l)" == "The agent has no identities." ]]  then; echo "(no ssh identity)"; else; echo "(ssh identity: $(ssh-add -l | cut -f3 -d \' \'))"; fi'
+	)
 	local name = vim.fn.systemlist("git config user.name")
 	local email = vim.fn.systemlist("git config user.email")
 	return ssh_identity[1] .. " " .. name[1] .. " " .. email[1]
@@ -33,7 +35,7 @@ end
 -- https://github.com/nvim-lualine/lualine.nvim#default-configuration
 require("lualine").setup({
 	sections = {
-		lualine_x = { git_username, "encoding", "fileformat", "filetype" },
+		lualine_x = { "encoding", "fileformat", "filetype" },
 	},
 })
 
@@ -87,6 +89,21 @@ cmd("IncomingCalls", ":Telescope lsp_incoming_calls", { bang = true })
 cmd("OutgoingCalls", ":Telescope lsp_outgoing_calls", { bang = true })
 cmd("DocumentSymbols", ":Telescope lsp_document_symbols", { bang = true })
 cmd("WorkspaceSymbols", ":Telescope lsp_workspace_symbols", { bang = true })
+
+-- Focus on current dir for fuzzy finding
+local cmd = vim.api.nvim_create_user_command
+cmd("FocusHere", function()
+	-- get dir
+	local current_dir = vim.fn.expand("%:h")
+
+	-- remap fuzzy find
+	vim.keymap.set("n", "<C-p>", function()
+		require("telescope.builtin").find_files({
+			cwd = current_dir,
+		})
+	end)
+
+end, { bang = true })
 
 ---------------
 -- vim-fugitive

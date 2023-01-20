@@ -1,4 +1,5 @@
 local cmd = vim.api.nvim_create_user_command
+
 local args = { bang = true }
 local home = vim.fn.stdpath("config")
 

@@ -124,6 +124,18 @@ snippet wpenqueuescripts Wordpress enqueue scripts/styles
 
 	add_action('wp_enqueue_scripts', '$1_register_scripts');
 
+snippet wp_register_style_admin
+  function $1_register_scripts(\$hook)
+  {
+      // die(\$hook);
+      if ('the_page_here' != \$hook) {
+          return;
+      }
+      \$script_url = plugin_dir_url(__FILE__) . 'assets/$1.css';
+      wp_enqueue_style('$1_style', \$script_url, array(), '1.0');
+  }
+  add_action('admin_enqueue_scripts', '$1_register_scripts');
+
 snippet wplocalizescript Wordpress localize scripts
 	function ${1:namespace}_register_scripts()
 	{
@@ -409,6 +421,9 @@ snippet funpar Function partial
 snippet __ Translation
 	__('$1', 'sage9')
 
+snippet ph_ echo translation
+  <?php echo __('$1', 'metadata_cleaner') ?>
+
 snippet log PHP log to file
 	file_put_contents(__DIR__."/log.txt", print_r($1, true), FILE_APPEND);
 
@@ -417,10 +432,10 @@ snippet log PHP log to file
 ###############
 
 snippet wpaction wordpress action hook
-	function ${1:action}_${2:filter}(){
+	add_action( '${1:action}', '${2:custom_}$1', 10); // priority: lower first
+	function $2_$1(){
 			$0
 	}
-	add_action( '$1', '$1_$2', 10); // priority: lower first
 
 snippet wpfilter wordpress filter
 	// https://developer.wordpress.org/reference/functions/add_filter/
@@ -1062,7 +1077,7 @@ snippet wpajax ajax request
 	// https://codex.wordpress.org/AJAX_in_Plugins
 	function $1()
 	{
-		$name = $_POST["name"] ?? "????";
+		\$name = \$_POST["name"] ?? "????";
 		// wp_send_json_error([ "hello" => $name ]);
 		ob_clean(); // clear any debug messages
 		wp_send_json_success([ "hello" => $name ]);

@@ -14,8 +14,8 @@ filetype indent on " Enable loading the indent file for specific file types
 " syntax enable " Enable syntax highlighting
 
 set nocompatible " basic
-" set redrawtime=5000 " After this milliseconds, stop processing syntax
-" set maxmempattern=1000000 " Max memory for syntax in Kb
+set redrawtime=5000 " After this milliseconds, stop processing syntax
+set maxmempattern=1000000 " Max memory for syntax in Kb
 set encoding=utf-8 " Encoding (needed in youcompleteme)
 set fileencoding=utf-8 " The encoding written to file.
 set noerrorbells " No annoying sound on errors
