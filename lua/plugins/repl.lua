@@ -9,7 +9,7 @@ return {
 			-- {last} current window, last pane,
 			-- :.2 current window, second pane
 			-- %pane_id get it with echo $TMUX_PANE
-			vim.g.slime_default_config = '{"socket_name": "default", "target_pane": "{last}"}'
+			-- vim.g.slime_default_config = '{"socket_name": "default", "target_pane": "{last}"}'
 			vim.g.slime_no_mappings = 1
 		end,
 	},
