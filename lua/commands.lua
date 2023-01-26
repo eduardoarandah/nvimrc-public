@@ -87,3 +87,10 @@ end, args)
 
 -- json
 cmd("JsonDecodeFormat", "%!jq -r | jq", args)
+
+-- inspect tables easily
+-- https://vonheikemen.github.io/devlog/es/tools/configuring-neovim-using-lua/
+-- vim.keymap.set("n", "<F1>", 'yW:lua require"utils".wat(")<CR>') -- explore settings with F1
+function Wat(key)
+	print(vim.inspect(key))
+end

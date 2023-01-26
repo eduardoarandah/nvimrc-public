@@ -1,36 +1,18 @@
 local map = vim.keymap.set
 local cmd = vim.api.nvim_create_user_command
 
---------
--- theme
---------
-
--- dracula
-vim.g.rehash256 = 1
-vim.cmd("colorscheme dracula")
-
--- monokaipro
--- default the default Monokai Pro look
--- machine a variant with a bluish background
--- ristretto a variant with a red/brown background
--- octogon a variant with a purple/indigo background
--- spectrum a variant with a flat gray background
--- classic a variant based on original Monokai colors
--- vim.g.monokaipro_filter = "machine"
--- vim.cmd("colorscheme monokaipro")
-
 --------------
 -- lualine
 --------------
 
-local function git_username()
-	local ssh_identity = vim.fn.systemlist(
-		'if [[ "$(ssh-add -l)" == "The agent has no identities." ]]  then; echo "(no ssh identity)"; else; echo "(ssh identity: $(ssh-add -l | cut -f3 -d \' \'))"; fi'
-	)
-	local name = vim.fn.systemlist("git config user.name")
-	local email = vim.fn.systemlist("git config user.email")
-	return ssh_identity[1] .. " " .. name[1] .. " " .. email[1]
-end
+-- local function git_username()
+-- 	local ssh_identity = vim.fn.systemlist(
+-- 		'if [[ "$(ssh-add -l)" == "The agent has no identities." ]]  then; echo "(no ssh identity)"; else; echo "(ssh identity: $(ssh-add -l | cut -f3 -d \' \'))"; fi'
+-- 	)
+-- 	local name = vim.fn.systemlist("git config user.name")
+-- 	local email = vim.fn.systemlist("git config user.email")
+-- 	return ssh_identity[1] .. " " .. name[1] .. " " .. email[1]
+-- end
 
 -- https://github.com/nvim-lualine/lualine.nvim#default-configuration
 require("lualine").setup({
@@ -259,10 +241,6 @@ end)
 map("n", "gef", function()
 	require("textcase").operator("to_path_case")
 end)
-
-require("telescope").load_extension("textcase")
-map("n", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
-map("v", "ga.", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
 
 ------------
 -- vim-slime
