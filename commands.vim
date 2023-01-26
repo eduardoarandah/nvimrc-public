@@ -117,7 +117,7 @@ function! FormatDocument()
   elseif((&ft == 'javascript' || &ft == 'typescript' ) && isdirectory('node_modules/prettier')) " prettier
      %!npx prettier --stdin-filepath %
   else
-    lua vim.lsp.buf.formatting()
+    lua vim.lsp.buf.format({async = true})
   endif
 endfunction
 
