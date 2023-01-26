@@ -11,5 +11,11 @@ return {
 	},
 
 	-- Table mode
-	"dhruvasagar/vim-table-mode",
+	-- https://github.com/dhruvasagar/vim-table-mode
+	{
+		"dhruvasagar/vim-table-mode",
+		config = function()
+			vim.g.table_mode_map_prefix = "<localleader>t"
+		end,
+	},
 }

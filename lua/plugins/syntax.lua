@@ -35,5 +35,18 @@ return {
 	},
 
 	-- syntax: blade https://github.com/jwalton512/vim-blade
-	"jwalton512/vim-blade",
+	{
+		"jwalton512/vim-blade",
+		config = function()
+			-- Define some single Blade directives. This variable is used for highlighting only.
+			vim.g.blade_custom_directives = { "datetime", "javascript", "error" }
+
+			-- Define pairs of Blade directives. This variable is used for highlighting and indentation.
+			vim.g.blade_custom_directives_pairs = {
+				markdown = "endmarkdown",
+				cache = "endcache",
+				error = "enderror",
+			}
+		end,
+	},
 }
