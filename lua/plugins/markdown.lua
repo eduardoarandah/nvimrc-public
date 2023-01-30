@@ -14,8 +14,16 @@ return {
 	-- https://github.com/dhruvasagar/vim-table-mode
 	{
 		"dhruvasagar/vim-table-mode",
+		ft = { "markdown" },
 		config = function()
+      -- :h table-mode-mappings
 			vim.g.table_mode_map_prefix = "<localleader>t"
+			-- vim.cmd("let g:table_mode_map_prefix = '<localleader>t'")
+			-- vim.g.toggle_mode_options_toggle_map = "<localleader>tm"
+			-- vim.g.table_mode_commands_tableize = "<localleader>tt"
+
+			-- For Markdown-compatible tables use
+			vim.g.table_mode_corner = "|"
 		end,
 	},
 }

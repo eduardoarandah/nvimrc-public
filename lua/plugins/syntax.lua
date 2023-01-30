@@ -4,13 +4,17 @@ return {
 		build = ":TSUpdate",
 		config = function()
 			require("nvim-treesitter.configs").setup({
+				-- A list of parser names, or "all" (always install "c", "lua", "vim", "help")
 				ensure_installed = {
 					"bash",
+					"c",
 					"css",
+					"help",
 					"html",
 					"javascript",
 					"json",
 					"jsonc",
+					"lua",
 					"lua",
 					"php",
 					"python",
@@ -18,9 +22,10 @@ return {
 					"ruby",
 					"tsx",
 					"typescript",
+					"vim",
 					"vue",
 					"yaml",
-				}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+				},
 				highlight = {
 					enable = true,
 				},

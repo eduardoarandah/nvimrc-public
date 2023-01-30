@@ -5,7 +5,6 @@ return {
 		"mattn/emmet-vim",
 		ft = { "html", "php", "blade", "jsx", "tsx", "vue", "css", "scss" },
 		config = function()
-			require("emmet-vim").setup({})
 			map("i", ",,", "<C-y>,", { remap = true })
 		end,
 	},

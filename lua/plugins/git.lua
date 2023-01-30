@@ -30,5 +30,5 @@ return {
 	},
 
 	-- Git diffs
-	"lewis6991/gitsigns.nvim",
+	{ "lewis6991/gitsigns.nvim", config = true },
 }

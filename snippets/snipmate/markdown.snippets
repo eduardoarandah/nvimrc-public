@@ -2,7 +2,11 @@ snippet link Link to something
     [${1:label}]($2)
 
 snippet img Image ib
-    ![${1:titulo}](${2:url})
+    ![${1:name}](img/$1.jpg)
+
+snippet imghtml image in html
+
+    <img src="img/$1.jpg" width="400px"/>
 
 # filament
 snippet filament_make_page_custom
