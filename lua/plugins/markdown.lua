@@ -16,6 +16,7 @@ return {
 		"dhruvasagar/vim-table-mode",
 		ft = { "markdown" },
 		config = function()
+      -- Bug: changing prefix doesn't work https://github.com/dhruvasagar/vim-table-mode/issues/222
       -- :h table-mode-mappings
 			vim.g.table_mode_map_prefix = "<localleader>t"
 			-- vim.cmd("let g:table_mode_map_prefix = '<localleader>t'")
