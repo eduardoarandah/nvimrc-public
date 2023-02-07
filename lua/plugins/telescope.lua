@@ -6,7 +6,13 @@ return {
 		"nvim-telescope/telescope.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
-			require("telescope").setup({})
+			require("telescope").setup({
+				defaults = {
+					preview = {
+						treesitter = false, -- treesitter freezes on big files
+					},
+				},
+			})
 
 			map("n", "<C-p>", ":Telescope find_files<CR>")
 			map("n", "<C-f>", ":Telescope buffers<CR>")

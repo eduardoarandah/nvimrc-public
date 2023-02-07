@@ -16,4 +16,5 @@ return {
 		cmd = { "Prettier", "PrettierAsync" },
 		build = "npm install",
 	},
+
 }
