@@ -14,7 +14,7 @@ local function config()
 	map("n", "<leader>tr", ":LualineRenameTab ")
 
 	-- add/remove buffers from tabline
-	cmd("RemoveBuffersFromTabline", function()
+	cmd("RmBuffersFromTabline", function()
 		require("lualine").setup({ tabline = { lualine_a = {} } })
 	end, { bang = true })
 

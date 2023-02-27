@@ -74,7 +74,7 @@ return {
 			lsp.yamlls.setup({ on_attach = on_attach })
 			lsp.bashls.setup({ on_attach = on_attach })
 			lsp.pylsp.setup({ on_attach = on_attach })
-			lsp.sumneko_lua.setup({
+			lsp.lua_ls.setup({
 				on_attach = on_attach,
 				settings = {
 					Lua = {

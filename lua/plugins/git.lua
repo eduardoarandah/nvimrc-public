@@ -25,7 +25,7 @@ return {
 			cmd("Ghistory", ":Gclog", { bang = true })
 
 			-- Commits for current file
-			cmd("Ghistoryfile", ":0Gclog!", { bang = true })
+			cmd("Ghfilehistory", ":0Gclog!", { bang = true })
 		end,
 	},
 

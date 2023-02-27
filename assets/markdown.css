@@ -54,9 +54,6 @@
   word-wrap: break-word;
   padding: 45px;
   background: var(--color-bg-primary);
-  border: 1px solid var(--color-border-primary);
-  -webkit-border-radius: 0 0 3px 3px;
-  border-radius: 0 0 3px 3px;
 }
 .markdown-body > *:first-child {
   margin-top: 0 !important;
@@ -275,6 +272,7 @@
 .markdown-body img {
   max-width: 100%;
   max-height: 100%;
+  padding: 1rem;
 }
 .markdown-body strong {
   font-weight: bold;
@@ -308,4 +306,14 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 0;
+}
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h4 {
+  clear: both;
+}
+#page-header {
+  display: none;
 }

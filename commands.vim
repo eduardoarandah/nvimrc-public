@@ -112,9 +112,9 @@ function! FormatDocument()
     edit
   elseif(&ft == 'php' && filereadable("./vendor/bin/pint")) " laravel
      silent !./vendor/bin/pint %
-  elseif((&ft == 'javascript' || &ft == 'typescript' ) && exists(':PrettierAsync')) " prettier
-    PrettierAsync
-  elseif((&ft == 'javascript' || &ft == 'typescript' ) && isdirectory('node_modules/prettier')) " prettier
+  " elseif((&ft == 'javascript' || &ft == 'typescript' ) && exists(':PrettierAsync')) " prettier
+  "   PrettierAsync
+  elseif((&ft == 'javascript' || &ft == 'typescript' || &ft == 'vue') && isdirectory('node_modules/prettier')) " prettier
      %!npx prettier --stdin-filepath %
   else
     lua vim.lsp.buf.format({async = true})
@@ -123,17 +123,11 @@ endfunction
 
 nnoremap <leader>f :call FormatDocument()<Cr>
 
-"""""""""""""""""""""""""
-" Fix
-"""""""""""""""""""""""""
+command! EslintFix :silent !npx eslint --fix %
 
-function! Fix()
-  if(&ft == 'javascript')
-    silent !npx eslint --fix %
-  endif
-endfunction
+" format with eslint and prettier:
+" :nnoremap <leader>f :silent !npx eslint --fix % ; npx prettier --stdin-filepath %<CR>
 
-command! Fix :call Fix()
 
 """""""""""""""""""
 " CSS

@@ -49,8 +49,8 @@ cmd("Colegas", function()
 	require("telescope.builtin").find_files({ cwd = "~/colegas" })
 end, args)
 
-cmd("Conocimiento", function()
-	require("telescope.builtin").find_files({ cwd = "~/conocimiento" })
+cmd("Kb", function()
+	require("telescope.builtin").find_files({ cwd = "~/kb" })
 end, args)
 
 cmd("Proyectos", function()
