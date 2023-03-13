@@ -1,32 +1,34 @@
-local cmd = vim.api.nvim_create_user_command
-
-local args = { bang = true }
-local home = vim.fn.stdpath("config")
-
 -- vimrc
+vim.api.nvim_create_user_command("Editrc", function()
+	vim.cmd("edit " .. vim.fn.stdpath("config") .. "/init.lua")
+end, { bang = true })
 
-cmd("Init", function()
-	vim.cmd("edit " .. home .. "/init.lua")
-end, args)
-
-cmd("Reload", function()
-	vim.cmd("luafile " .. home .. "/init.lua")
-end, args)
-
-cmd("ReloadCompile", function()
-	vim.cmd("source % | PackerCompile")
-end, args)
+vim.api.nvim_create_user_command("Reload", function()
+	-- force reload
+	package.loaded["settings"] = false
+	package.loaded["mappings"] = false
+	package.loaded["commands"] = false
+	vim.cmd("source " .. vim.fn.stdpath("config") .. "/init.lua")
+end, { bang = true })
 
 -- git report
-cmd("Greport", require("greport").greport, args)
+vim.api.nvim_create_user_command("Greport", require("greport").greport, { bang = true })
 
 -- github prs
-cmd("Gprfiles", function() vim.cmd("argadd `gh pr diff --name-only`") end, args)
+vim.api.nvim_create_user_command("Gprfiles", function()
+	vim.cmd("argadd `gh pr diff --name-only`")
+end, { bang = true })
 
 -- Copy filename path
-vim.api.nvim_create_user_command("CopyPath", function()
-	vim.fn.setreg("*", vim.fn.expand("%"))
-end, args)
+vim.api.nvim_create_user_command("CopyFullPath", function()
+	vim.fn.setreg("*", vim.fn.expand("%:p"))
+end, { bang = true })
+vim.api.nvim_create_user_command("CopyRelativePath", function()
+	vim.fn.setreg("*", vim.fn.expand("%:."))
+end, { bang = true })
+vim.api.nvim_create_user_command("CopyFileName", function()
+	vim.fn.setreg("*", vim.fn.expand("%:t"))
+end, { bang = true })
 
 -- Copy filename, line number and branch
 -- example: src/filename.js +123 # branch master
@@ -37,45 +39,45 @@ vim.api.nvim_create_user_command("CopyPathLineNumberBranch", function()
 		comment = " # branch " .. branch[1]
 	end
 	vim.fn.setreg("*", vim.fn.expand("%") .. " +" .. vim.api.nvim_win_get_cursor(0)[1] .. comment)
-end, args)
+end, { bang = true })
 
 -- Search on relevant directories
 
-cmd("Clientes", function()
+vim.api.nvim_create_user_command("Clientes", function()
 	require("telescope.builtin").find_files({ cwd = "~/clientes" })
-end, args)
+end, { bang = true })
 
-cmd("Colegas", function()
+vim.api.nvim_create_user_command("Colegas", function()
 	require("telescope.builtin").find_files({ cwd = "~/colegas" })
-end, args)
+end, { bang = true })
 
-cmd("Kb", function()
+vim.api.nvim_create_user_command("Kb", function()
 	require("telescope.builtin").find_files({ cwd = "~/kb" })
-end, args)
+end, { bang = true })
 
-cmd("Proyectos", function()
+vim.api.nvim_create_user_command("Proyectos", function()
 	require("telescope.builtin").find_files({ cwd = "~/proyectos" })
-end, args)
+end, { bang = true })
 
-cmd("Repos", function()
+vim.api.nvim_create_user_command("Repos", function()
 	require("telescope.builtin").find_files({ cwd = "~/repos" })
-end, args)
+end, { bang = true })
 
-cmd("Scripts", function()
+vim.api.nvim_create_user_command("Scripts", function()
 	require("telescope.builtin").find_files({ cwd = "~/scripts" })
-end, args)
+end, { bang = true })
 
 -- custom dictionaries
 
-cmd("DictBoostrap4", function()
+vim.api.nvim_create_user_command("DictBoostrap4", function()
 	local dic = require("cmp_dictionary")
 	-- Download boostrap and generate classes:
 	-- curl -s https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/bootstrap4
 	dic.setup({ dic = { ["php,html,blade"] = { "~/.nvim/dict/bootstrap4" } } })
 	dic.update()
-end, args)
+end, { bang = true })
 
-cmd("DictTailwind", function()
+vim.api.nvim_create_user_command("DictTailwind", function()
 	local dic = require("cmp_dictionary")
 	-- mkdir -p ~/.nvim/dict
 	-- https://tailwindcss.com/docs/installation#using-tailwind-without-post-css
@@ -83,10 +85,10 @@ cmd("DictTailwind", function()
 	-- cat ~/.nvim/dict/tailwind.css | egrep '{' | egrep -o '\.[a-z0-9:-]+' | sed 's/\.//g' | sort -u > ~/.nvim/dict/tailwind
 	dic.setup({ dic = { ["php,html,blade"] = { "~/.nvim/dict/tailwind" } } })
 	dic.update()
-end, args)
+end, { bang = true })
 
 -- json
-cmd("JsonDecodeFormat", "%!jq -r | jq", args)
+vim.api.nvim_create_user_command("JsonDecodeFormat", "%!jq -r | jq", { bang = true })
 
 -- inspect tables easily
 -- https://vonheikemen.github.io/devlog/es/tools/configuring-neovim-using-lua/
@@ -94,3 +96,39 @@ cmd("JsonDecodeFormat", "%!jq -r | jq", args)
 function Wat(key)
 	print(vim.inspect(key))
 end
+
+-------------------------------------------
+-- capture work days using frontmatter spec
+-------------------------------------------
+
+-- New work document
+vim.api.nvim_create_user_command("AddWorkLog", function()
+	local today = os.date("%Y-%m-%d")
+	-- Create folder if not exists
+	vim.fn.mkdir("logs", "p")
+	vim.cmd(":edit logs/" .. today .. ".md")
+	-- Add template
+	vim.api.nvim_buf_set_lines(0, 0, 0, false, {
+		"---",
+		"date: " .. today,
+		"from: eduardo",
+		"hours:",
+		"summary:",
+		"---",
+		"",
+	})
+end, { bang = true })
+
+-- Copy hours
+vim.api.nvim_create_user_command("GetWorkLogInCurrentFile", function()
+	-- clean register z
+	vim.cmd("let @z=''")
+	vim.cmd("g/\\C^date:\\|^hours:\\|^from:/y Z")
+	vim.cmd("norm G")
+	vim.cmd("put z")
+end, { bang = true })
+
+-- Get hours using repo https://github.com/eduardoarandah/worklog-extractor
+vim.api.nvim_create_user_command("GetWorkLogInLogFolder", function()
+	vim.cmd("read!node ~/repos/worklog-extractor/run.js")
+end, { bang = true })

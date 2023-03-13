@@ -69,7 +69,8 @@ return {
 			lsp.tailwindcss.setup({ on_attach = on_attach })
 			lsp.tsserver.setup({ on_attach = on_attach })
 			lsp.vimls.setup({ on_attach = on_attach })
-			-- lsp.vuels.setup({ on_attach = on_attach })
+      -- vue
+			-- lsp.vuels.setup({ on_attach = on_attach }) -- vetur https://github.com/vuejs/vetur
 			lsp.volar.setup({ on_attach = on_attach })
 			lsp.yamlls.setup({ on_attach = on_attach })
 			lsp.bashls.setup({ on_attach = on_attach })

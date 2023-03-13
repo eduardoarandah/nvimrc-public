@@ -87,6 +87,9 @@ map("x", "<c-p>", ":m '<-2<CR>gv=gv")
 map("x", "J", "j")
 map("x", "K", "k")
 
+-- sort selection
+map("x", "<leader>s", ":sort<CR>")
+
 ------------
 -- Quick fix
 ------------
@@ -151,10 +154,6 @@ map("x", "<leader>r", "*Ncgn", { remap = true }) -- first execute VSetSearch
 map("n", "<leader>R", 'yiw:%s/\\V<C-r>"/<C-r>"')
 map("x", "<leader>R", 'y:%s/\\V<C-r>"/<C-r>"')
 
--- <leader>gg g command on selection
-map("n", "<leader>gg", 'yiw:g/\\V<C-r>"/norm n')
-map("x", "<leader>gg", 'y:g/\\V<C-r>"/norm n')
-
 -----------------------------------
 -- Appereance / GUI
 -----------------------------------
@@ -174,17 +173,21 @@ map("n", "<leader>e", ":!open -R '%:p'<CR>")
 map("n", "<leader>E", ":!open .<CR>")
 map("n", "<F4>", ":Explore<CR>")
 
--- Expand %% to current dir in command line
-map("c", "%%", '<C-R>=fnameescape(expand("%:p:h")."/")<CR>')
-
--- Expand ^^ to current file path in command line
-map("c", "^^", '<C-R>=fnameescape(expand("%:p"))<CR>')
-
--- Expand && to only file name (tail)
-map("c", "&&", '<C-R>=fnameescape(expand("%:t"))<CR>')
-
 -- Change dir to current file
 map("n", "<leader>cd", ":cd %:p:h<cr>")
+
+-------------------------
+-- Command line mappings
+-------------------------
+
+-- Expand to current file path in command line
+map("c", "<localleader>%", '<C-R>=fnameescape(expand("%:p"))<CR>')
+
+-- Expand && to only file name (tail)
+map("c", "<localleader>t", '<C-R>=fnameescape(expand("%:t"))<CR>')
+
+-- Expand to current date
+map("c", "<localleader>d", '<C-R>=strftime("%Y-%m-%d")<CR>')
 
 -------------------------
 -- Commands

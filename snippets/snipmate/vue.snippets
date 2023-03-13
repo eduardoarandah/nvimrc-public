@@ -1,10 +1,15 @@
 extends html, javascript
 
 snippet vuecomponent Vue Component
+  <template>
+      $0
+  </template>
   <script>
   export default {
+    name: '$1',
     components: {},
     props: {},
+    emits: [],
     data() {
       return {
         ready: false,
@@ -15,7 +20,6 @@ snippet vuecomponent Vue Component
     methods: {},
   }
   </script>
-  <template> </template>
 snippet for v-for
   <div v-for="$1 in $2" :key="$1.id">
   {{ $1.$0 }}
@@ -30,7 +34,12 @@ snippet importcomponent Import vue component
   import $1 from '../components/$1'
 
 snippet prop Vue prop i
-  $1: { type: ${2:String}, default: ${3:null} },
+  $1: {
+    type: ${2:String},
+    default: ${3:null},
+    required: true,
+    default: () => [],
+    },
 
 snippet try trycatch
   try{

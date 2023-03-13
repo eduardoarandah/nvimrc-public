@@ -2,7 +2,7 @@ return {
 	-- AI completion
 	{
 		"Exafunction/codeium.vim",
-		ft = { "javascript", "typescript", "php", "vue" },
+		ft = { "javascript", "typescript", "php", "vue", "sh"},
 		config = function()
 			-- A global boolean flag that controls whether codeium completions are enabled or disabled by default.
 			-- enable with :Codeium Enable
