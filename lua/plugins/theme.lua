@@ -10,11 +10,18 @@ return {
 	-- 		vim.g.rehash256 = 1
 	-- 		vim.cmd([[
 	--      colorscheme dracula
-	--      " Missing highlight from theme on diffs
-	--      " highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=green
-	--      " highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=red
-	--      highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=gray
-	--      highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=orange
+	--  		-- Missing highlight from theme on diffs
+	--      -- colors: https://github.com/loctvl842/monokai-pro.nvim/blob/master/lua/monokai-pro/colorscheme/palette/pro.lua
+	--      -- https://lawlesscreation.github.io/hex-color-visualiser/
+	--  		vim.cmd([[
+	--      " Added line
+	--      highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=#a9dc76
+	--      " Changed line
+	--      highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=#78dce8
+	--      " Deleted line
+	--      highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=#ff6188
+	--      " Changed text within a changed line
+	--      highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=#fc9867
 	--      ]])
 	-- 	end,
 	-- },
@@ -41,18 +48,18 @@ return {
 			vim.cmd("colorscheme monokai-pro")
 
 			-- Missing highlight from theme on diffs
-      -- colors: https://github.com/loctvl842/monokai-pro.nvim/blob/master/lua/monokai-pro/colorscheme/palette/pro.lua
-      -- https://lawlesscreation.github.io/hex-color-visualiser/
+			-- colors: https://github.com/loctvl842/monokai-pro.nvim/blob/master/lua/monokai-pro/colorscheme/palette/pro.lua
+			-- https://lawlesscreation.github.io/hex-color-visualiser/
 			vim.cmd([[
-      " Added line
-      highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=#a9dc76
-      " Changed line
-      highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=#78dce8
-      " Deleted line
-      highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=#ff6188
-      " Changed text within a changed line
-      highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=#fc9867
-      ]])
+	     " Added line
+	     highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=#a9dc76
+	     " Changed line
+	     highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=#78dce8
+	     " Deleted line
+	     highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=#ff6188
+	     " Changed text within a changed line
+	     highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=#fc9867
+	     ]])
 		end,
 	},
 }

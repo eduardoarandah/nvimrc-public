@@ -32,7 +32,7 @@ return {
 			-- https://github.com/nvim-lualine/lualine.nvim#default-configuration
 			require("lualine").setup({
 				tabline = {
-					lualine_a = { "buffers" },
+					lualine_a = {}, -- "buffers"
 					lualine_z = {
 						{
 							"tabs",
