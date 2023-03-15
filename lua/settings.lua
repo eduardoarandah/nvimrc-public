@@ -1,39 +1,26 @@
-local set = vim.opt
-local g = vim.g
-local cmd = vim.api.nvim_create_autocmd
-
-g.mapleader = " "
-g.maplocalleader = "\\"
-set.clipboard = "unnamedplus,unnamed" -- ALWAYS use the clipboard for ALL operations
-set.expandtab = true -- Tabs are spaces, not tabs
-set.ff = "unix" -- Use Unix as the standard file type
-set.gdefault = true -- Add g (global) to substitute operations, :s/pattern/replacement/
-set.history = 10000 -- Sets how many lines of history VIM has to remember
-set.lazyredraw = true -- Don't redraw while executing macros (good performance config)
-set.mouse = "a" -- Mouse support in all modes
-set.number = true -- Line numbers on
-set.relativenumber = true -- Use relative numbers instead of absolute
-set.scrolloff = 5 -- Minimal number of screen lines to keep above and below the cursor.
-set.shiftwidth = 2 -- Use indents of x spaces
-set.showmatch = true -- Show matching brackets/parenthesis
-set.signcolumn = "yes" -- Fixed space on the left for git and linting signs, otherwise it 'jumps'
-set.smartindent = false -- Smart indent
-set.ignorecase = true -- ignore casing on search
-set.smartcase = true -- if search has uppercase, don't ignore case
-set.softtabstop = 2 -- Number of spaces that a <Tab> counts for while performing editing
-set.splitbelow = true
-set.splitright = true
-set.undofile = true -- saves undo history to an undo file, so it persists
-set.virtualedit = "block" -- If you need to define a block in visual block mode with bounds outside the actual text (that is, past the end of lines), you can allow this with:
-set.wrap = false -- Don't wrap long lines
-set.formatoptions:remove("j") -- Don't delete comments when joining lines, this creates weird behaviour: https://github.com/neovim/neovim/issues/19729
-set.redrawtime = 1000 -- After this milliseconds, stop processing syntax
-
--- lua-highlight
-cmd("TextYankPost", {
-	pattern = "*",
-	callback = function()
-		vim.highlight.on_yank({ higroup = "Visual", timeout = 120 })
-	end,
-	desc = "Highlight yank",
-})
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+vim.opt.clipboard = "unnamedplus,unnamed" -- ALWAYS use the clipboard for ALL operations
+vim.opt.expandtab = true -- Tabs are spaces, not tabs
+vim.opt.ff = "unix" -- Use Unix as the standard file type
+vim.opt.gdefault = true -- Add g (global) to substitute operations, :s/pattern/replacement/
+vim.opt.history = 10000 -- Sets how many lines of history VIM has to remember
+vim.opt.lazyredraw = true -- Don't redraw while executing macros (good performance config)
+vim.opt.mouse = "a" -- Mouse support in all modes
+vim.opt.number = true -- Line numbers on
+vim.opt.relativenumber = true -- Use relative numbers instead of absolute
+vim.opt.scrolloff = 5 -- Minimal number of screen lines to keep above and below the cursor.
+vim.opt.shiftwidth = 2 -- Use indents of x spaces
+vim.opt.showmatch = true -- Show matching brackets/parenthesis
+vim.opt.signcolumn = "yes" -- Fixed space on the left for git and linting signs, otherwise it 'jumps'
+vim.opt.smartindent = false -- Smart indent
+vim.opt.ignorecase = true -- ignore casing on search
+vim.opt.smartcase = true -- if search has uppercase, don't ignore case
+vim.opt.softtabstop = 2 -- Number of spaces that a <Tab> counts for while performing editing
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.undofile = true -- saves undo history to an undo file, so it persists
+vim.opt.virtualedit = "block" -- If you need to define a block in visual block mode with bounds outside the actual text (that is, past the end of lines), you can allow this with:
+vim.opt.wrap = false -- Don't wrap long lines
+vim.opt.formatoptions:remove("j") -- Don't delete comments when joining lines, this creates weird behaviour: https://github.com/neovim/neovim/issues/19729
+vim.opt.redrawtime = 1000 -- After this milliseconds, stop processing syntax

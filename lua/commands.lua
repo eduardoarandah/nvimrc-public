@@ -1,3 +1,20 @@
+---------------
+-- Autocommands
+---------------
+
+-- highlight on yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+	pattern = "*",
+	callback = function()
+		vim.highlight.on_yank({ higroup = "Visual", timeout = 120 })
+	end,
+	desc = "Highlight yank",
+})
+
+------------------
+-- Custom commands
+------------------
+
 -- vimrc
 vim.api.nvim_create_user_command("Editrc", function()
 	vim.cmd("edit " .. vim.fn.stdpath("config") .. "/init.lua")

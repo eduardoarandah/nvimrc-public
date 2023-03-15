@@ -1,11 +1,10 @@
-local map = vim.keymap.set
 return {
 	-- emmet
 	{
 		"mattn/emmet-vim",
 		ft = { "html", "php", "blade", "jsx", "tsx", "vue", "css", "scss" },
 		config = function()
-			map("i", ",,", "<C-y>,", { remap = true })
+			vim.keymap.set("i", ",,", "<plug>(emmet-expand-abbr)", { remap = true })
 		end,
 	},
 
