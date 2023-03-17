@@ -5,8 +5,8 @@ command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | 
 command! ChangeDir :cd %:p:h<CR>
 
 " Insert filename
-command! Fname normal i <c-r>=expand('%:t:r')<cr> <esc>
-command! Fnameext normal i <c-r>=expand('%:t ')<cr>
+command! Fname normal i<c-r>=expand('%:t:r')<cr><esc>
+command! Fnameext normal i<c-r>=expand('%:t ')<cr>
 
 """""""""""""""""""""""""""""""""""
 " Spaces

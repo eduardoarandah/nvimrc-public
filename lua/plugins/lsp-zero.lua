@@ -32,7 +32,7 @@ return {
 
     -- Snippets
     { "L3MON4D3/LuaSnip" }, -- Required
-    { "rafamadriz/friendly-snippets" }, -- Optional
+    -- { "rafamadriz/friendly-snippets" }, -- Optional
 
     -- Additional typescript support
     "jose-elias-alvarez/typescript.nvim",
@@ -46,6 +46,23 @@ return {
       set_lsp_keymaps = true,
       manage_nvim_cmp = true,
       suggest_lsp_servers = true,
+    })
+
+    -- custom: mappings
+    -- https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/autocomplete.md#override-keybindings
+    local cmp = require("cmp")
+    local function confirm_first(fallback)
+      if cmp.visible() then
+        cmp.confirm({ select = true })
+      else
+        fallback()
+      end
+    end
+    lsp.setup_nvim_cmp({
+      mapping = cmp.mapping.preset.insert({
+        ["<CR>"] = confirm_first,
+        ["<tab>"] = confirm_first,
+      }),
     })
 
     -- (Optional) Configure lua language server for neovim

@@ -71,4 +71,15 @@ Snake: {4}
 			return os.date("%Y-%m-%d")
 		end),
 	}),
+	-- filename
+	s("fname", {
+		f(function()
+			return vim.fn.expand('%:t:r')
+		end),
+	}),
+	s("fnameext", {
+		f(function()
+			return vim.fn.expand('%:t')
+		end),
+	}),
 }
