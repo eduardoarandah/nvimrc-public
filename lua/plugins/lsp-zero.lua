@@ -10,7 +10,7 @@
 -- gr: Lists all the references to the symbol under the cursor in the quickfix window. See :help vim.lsp.buf.references().
 -- <Ctrl-k>: Displays signature information about the symbol under the cursor in a floating window. See :help vim.lsp.buf.signature_help(). If a mapping already exists for this key this function is not bound.
 -- <F2>: Renames all references to the symbol under the cursor. See :help vim.lsp.buf.rename().
--- <F4>: Selects a code action available at the current cursor position. See :help vim.lsp.buf.code_action().
+-- ga: Selects a code action available at the current cursor position. See :help vim.lsp.buf.code_action().
 -- gl: Show diagnostics in a floating window. See :help vim.diagnostic.open_float().
 -- [d: Move to the previous diagnostic in the current buffer. See :help vim.diagnostic.goto_prev().
 -- ]d: Move to the next diagnostic. See :help vim.diagnostic.goto_next().
@@ -73,5 +73,8 @@ return {
     -- Additional typescript support
     -- https://github.com/jose-elias-alvarez/typescript.nvim
     require("typescript").setup({})
+
+    -- keymaps
+    vim.keymap.set("n", "ga", vim.lsp.buf.code_action)
   end,
 }

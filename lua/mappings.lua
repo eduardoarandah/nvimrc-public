@@ -171,7 +171,6 @@ map("n", "<F5>", ":e<CR>")
 
 map("n", "<leader>e", ":!open -R '%:p'<CR>")
 map("n", "<leader>E", ":!open .<CR>")
-map("n", "<F4>", ":Explore<CR>")
 
 -- Change dir to current file
 map("n", "<leader>cd", ":cd %:p:h<cr>")
@@ -216,9 +215,3 @@ map("n", "==", "gg=G")
 -------------------------
 
 map("n", "<F12>", require("greport").greport)
-
--------------------------
--- markdown
--------------------------
-
-map("n", "<leader>`", "S```<cr>```<esc>P")

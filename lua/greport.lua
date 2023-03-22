@@ -101,4 +101,6 @@ function M.greport()
 	add_mappings_to_buffer(buf)
 end
 
+vim.cmd('nnoremap <F12> :lua require("greport").greport()<cr>')
+
 return M
