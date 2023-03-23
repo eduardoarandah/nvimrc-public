@@ -6,10 +6,10 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Settings and mappings, this file is compatible with old vim installations
-source basic.vim
+source ~/.config/nvim/basic.vim
 
 " Add some custom commands
-source commands.vim
+source ~/.config/nvim/commands.vim
 
 " Now move to lua. Add custom commands in lua
 lua require("commands")
