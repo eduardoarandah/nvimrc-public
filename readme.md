@@ -1,10 +1,12 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Progressive strategy:
-"
-" Start backwards compatible. Something to copy/paste in old vim
-" Then add layers of modern stuff on top
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+# Progressive vim
 
+The strategy is: start with backwards/vim-compatible settings, then progress into neovim modernity
+
+## How it works
+
+Check `init.vim`
+
+```vimscript
 " Settings and mappings, this file is compatible with old vim installations
 source basic.vim
 
@@ -28,7 +30,4 @@ let &rtp = lazypath . ',' . &rtp
 
 " Load plugins in plugins folder
 lua require("lazy").setup("plugins")
-
-" temporary commands
-lua require("per_project")
-
+```
